@@ -1,18 +1,6 @@
 import mongoose from 'mongoose';
 import validator from 'validator';
-
-interface UserDocument extends mongoose.Document {
-  name: string;
-  email: string;
-  role: string;
-  image: string;
-  password: string;
-  passwordConfirm: string;
-  passwordChangedAt?: Date;
-  passwordResetToken?: string;
-  passwordResetExpires?: Date;
-  active: boolean;
-}
+import { UserDocument } from '../types';
 
 const userSchema = new mongoose.Schema<UserDocument>(
   {

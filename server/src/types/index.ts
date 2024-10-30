@@ -1,0 +1,15 @@
+import mongoose from 'mongoose';
+
+export interface UserDocument extends mongoose.Document {
+  _id: mongoose.Types.ObjectId;
+  name: string;
+  email: string;
+  role: string;
+  image: string;
+  password?: string;
+  passwordConfirm: string;
+  passwordChangedAt?: Date;
+  passwordResetToken?: string;
+  passwordResetExpires?: Date;
+  active: boolean;
+}
