@@ -18,6 +18,7 @@
   "description": "",
   "dependencies": {
     "@types/jsdom": "^21.1.7",
+    "argon2": "^0.41.1",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dompurify": "^3.1.7",

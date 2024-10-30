@@ -7,11 +7,12 @@ export interface UserDocument extends mongoose.Document {
   role: string;
   image: string;
   password?: string;
-  passwordConfirm: string;
+  passwordConfirm?: string;
   passwordChangedAt?: Date;
   passwordResetToken?: string;
   passwordResetExpires?: Date;
   active: boolean;
+  correctPassword(candidatePassword: string): Promise<boolean>;
 }
 
 export interface ErrorType {
