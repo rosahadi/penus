@@ -2,7 +2,7 @@ import { Model as MongooseModel, Document } from 'mongoose';
 import AppError from '../utils/appError';
 import catchAsync from '../utils/catchAsync';
 
-exports.deleteOne = (Model: MongooseModel<Document>) =>
+export const deleteOne = <T extends Document>(Model: MongooseModel<T>) =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.findByIdAndDelete(req.params.id);
 
@@ -16,7 +16,7 @@ exports.deleteOne = (Model: MongooseModel<Document>) =>
     });
   });
 
-exports.updateOne = (Model: MongooseModel<Document>) =>
+export const updateOne = <T extends Document>(Model: MongooseModel<T>) =>
   catchAsync(async (req, res, next) => {
     const existingDoc = await Model.findById(req.params.id);
 
@@ -37,7 +37,7 @@ exports.updateOne = (Model: MongooseModel<Document>) =>
     });
   });
 
-exports.createOne = (Model: MongooseModel<Document>) =>
+export const createOne = (Model: MongooseModel<Document>) =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.create(req.body);
 
@@ -49,9 +49,9 @@ exports.createOne = (Model: MongooseModel<Document>) =>
     });
   });
 
-exports.getOne = (
-  Model: MongooseModel<Document>,
-  popOptions: { path: string },
+export const getOne = <T extends Document>(
+  Model: MongooseModel<T>,
+  popOptions: { path: string } | null = null,
 ) =>
   catchAsync(async (req, res, next) => {
     let doc;
@@ -76,7 +76,7 @@ exports.getOne = (
     });
   });
 
-exports.getAll = (Model: MongooseModel<Document>) =>
+export const getAll = <T extends Document>(Model: MongooseModel<T>) =>
   catchAsync(async (req, res, next) => {
     // To allow for nested GET reviews on a blog
     let filter = {};

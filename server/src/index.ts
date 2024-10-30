@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import path from 'path';
 import morgan from 'morgan';
+import userRouter from './routes/userRouter';
 
 const app = express();
 
@@ -15,8 +16,6 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // Test route
-app.get('/test', (req, res) => {
-  res.status(200).json({ message: 'Test route working' });
-});
+app.use('/api/users', userRouter);
 
 export default app;
