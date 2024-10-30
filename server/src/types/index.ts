@@ -13,3 +13,10 @@ export interface UserDocument extends mongoose.Document {
   passwordResetExpires?: Date;
   active: boolean;
 }
+
+export interface ErrorType {
+  name?: string;
+  email?: string;
+  password?: string;
+  passwordConfirm?: string;
+}

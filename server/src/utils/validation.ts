@@ -5,7 +5,7 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 type UserModel = Model<UserDocument>;
 
-exports.validateEmail = async (
+export const validateEmail = async (
   email: string,
   User: UserModel,
   isSignup = true,
@@ -24,7 +24,7 @@ exports.validateEmail = async (
   return error;
 };
 
-exports.validatePassword = (password: string, passwordConfirm: string) => {
+export const validatePassword = (password: string, passwordConfirm: string) => {
   const errors: { password?: string; passwordConfirm?: string } = {};
 
   if (!password) {
@@ -42,7 +42,7 @@ exports.validatePassword = (password: string, passwordConfirm: string) => {
   return errors;
 };
 
-exports.validateName = (name: string) => {
+export const validateName = (name: string) => {
   if (!name) {
     return 'Please provide your name.';
   }
