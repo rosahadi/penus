@@ -1,21 +1,22 @@
-import express, { Request, Response } from 'express';
-import dotenv from 'dotenv';
+import { PORT } from './config';
+import { connectToDatabase } from './db/dbconn';
+import app from './index';
 
-// configures dotenv to work in your application
-dotenv.config();
-const app = express();
-
-const PORT = process.env.PORT;
-
-app.get('/', (request: Request, response: Response) => {
-  response.status(200).send('Hello World');
+process.on('uncaughtException', (err) => {
+  console.log(err.name, err.message);
+  console.log('UNCAUGHT EXCEPTION! 💥 shutting down');
+  process.exit(1);
 });
 
-app
-  .listen(PORT, () => {
-    console.log('Server running at PORT: ', PORT);
-  })
-  .on('error', (error) => {
-    // gracefully handle error
-    throw new Error(error.message);
-  });
+connectToDatabase();
+
+const port = PORT || 8000;
+
+const server = app.listen(port, () => {
+  console.log(`App listening on port ${port}`);
+});
+
+process.on('unhandledRejection', () => {
+  console.log('Unhandled rejection! 💥 shutting down');
+  server.close(() => process.exit(1));
+});

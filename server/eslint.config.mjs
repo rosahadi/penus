@@ -1,46 +1,22 @@
 import globals from 'globals';
 import pluginJs from '@eslint/js';
-import tseslint from '@typescript-eslint/eslint-plugin';
-import prettierPlugin from 'eslint-plugin-prettier';
-import jestPlugin from 'eslint-plugin-jest';
+import tseslint from 'typescript-eslint';
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import jest from 'eslint-plugin-jest';
 
 export default [
+  { ignores: ['build/'] },
+  { files: ['**/*.{js,mjs,cjs,ts}'] },
+  { languageOptions: { globals: globals.browser } },
+  pluginJs.configs.recommended,
+  ...tseslint.configs.recommended,
   {
-    files: ['**/*.{js,mjs,cjs,ts}'],
-    languageOptions: {
-      ecmaVersion: 2018,
-      sourceType: 'module',
-      globals: {
-        ...globals.node,
-        Atomics: 'readonly',
-        SharedArrayBuffer: 'readonly',
-        ...globals.browser,
-      },
-    },
-    plugins: {
-      prettier: prettierPlugin,
-      jest: jestPlugin,
-      '@typescript-eslint': tseslint,
-    },
+    files: ['tests/**/*.{js,ts,jsx,tsx}'],
+    ...jest.configs['flat/recommended'],
     rules: {
-      // General rules
-      'prettier/prettier': 'error',
-      'class-methods-use-this': 'off',
-      'no-param-reassign': 'off',
-      camelcase: 'off',
-      'no-unused-vars': ['error', { argsIgnorePattern: 'next' }],
-      quotes: ['error', 'single'],
-      semi: ['error', 'always'],
-      'no-console': ['warn', { allow: ['warn', 'error'] }],
-
-      // TypeScript-specific rules
-      '@typescript-eslint/no-unused-vars': 'warn',
-      '@typescript-eslint/explicit-function-return-type': 'off',
-    },
-    env: {
-      'jest/globals': true,
+      ...jest.configs['flat/recommended'].rules,
+      'jest/prefer-expect-assertions': 'off',
     },
   },
-  pluginJs.configs.recommended,
-  tseslint.configs.recommended,
+  eslintPluginPrettierRecommended,
 ];
