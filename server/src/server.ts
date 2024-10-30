@@ -16,7 +16,12 @@ const server = app.listen(port, () => {
   console.log(`App listening on port ${port}`);
 });
 
-process.on('unhandledRejection', () => {
+process.on('unhandledRejection', (err: unknown) => {
+  if (err instanceof Error) {
+    console.log(err.name, err.message);
+  } else {
+    console.log('Unhandled rejection received non-error type:', err);
+  }
   console.log('Unhandled rejection! 💥 shutting down');
   server.close(() => process.exit(1));
 });
