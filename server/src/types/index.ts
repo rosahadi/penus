@@ -22,4 +22,6 @@ export interface ErrorType {
   email?: string;
   password?: string;
   passwordConfirm?: string;
+  token?: string;
+  passwordCurrent?: string;
 }
