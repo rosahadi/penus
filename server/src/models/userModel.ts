@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import validator from 'validator';
 import argon2 from 'argon2';
+import crypto from 'crypto';
 import { UserDocument } from '../types';
 
 const userSchema = new mongoose.Schema<UserDocument>(
@@ -68,9 +69,14 @@ userSchema.pre('save', async function (next) {
   if (this.password) {
     this.password = await argon2.hash(this.password);
   }
-
   this.passwordConfirm = undefined;
+  next();
+});
 
+// Update passwordChangedAt if the password has changed
+userSchema.pre('save', function (next) {
+  if (!this.isModified('password') || this.isNew) return next();
+  this.passwordChangedAt = new Date(Date.now() - 1000);
   next();
 });
 
@@ -79,6 +85,34 @@ userSchema.methods.correctPassword = async function (
   candidatePassword: string,
 ) {
   return await argon2.verify(this.password, candidatePassword);
+};
+
+// Check if the password was changed after the token was issued
+userSchema.methods.changedPasswordAfter = function (JWTTimestamp: number) {
+  if (this.passwordChangedAt) {
+    const changedTimestamp = Math.floor(
+      this.passwordChangedAt.getTime() / 1000,
+    );
+
+    // Return true if password was changed after token issued
+    return JWTTimestamp < changedTimestamp;
+  }
+  return false;
+};
+
+// Create a reset token for password reset
+userSchema.methods.createPasswordResetToken = function () {
+  const resetToken = crypto.randomBytes(32).toString('hex');
+
+  this.passwordResetToken = crypto
+    .createHash('sha256')
+    .update(resetToken)
+    .digest('hex');
+
+  // Token expires in 10 minutes
+  this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+
+  return resetToken;
 };
 
 const User = mongoose.model('User', userSchema);

@@ -1,5 +1,6 @@
+import { Request, Response } from 'express';
 import User from '../models/userModel';
-import { ErrorType } from '../types';
+import { ErrorType, UserDocument } from '../types';
 import AppError from '../utils/appError';
 import catchAsync from '../utils/catchAsync';
 import createSendToken from '../utils/createSendToken';
@@ -8,6 +9,10 @@ import {
   validateName,
   validatePassword,
 } from '../utils/validation';
+import { Email } from '../utils/email';
+import currentUser from '../utils/currentUser';
+
+const clientUrl = process.env.CLIENT_URL || 'http://localhost:3000';
 
 export const signup = catchAsync(async (req, res, next) => {
   let errors: ErrorType = {};
@@ -72,3 +77,65 @@ export const login = catchAsync(async (req, res, next) => {
   // Send token and response to the user
   createSendToken(user, 200, res);
 });
+
+// Controller for logging out a user
+export const logout = (req: Request, res: Response) => {
+  // Clear the JWT token by setting it to 'loggedout'
+  res.cookie('jwt', 'loggedout', {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true,
+  });
+
+  res.status(200).json({ status: 'success' });
+};
+
+// Controller for handling forgotten passwords
+export const forgotPassword = catchAsync(async (req, res, next) => {
+  const user = await User.findOne({ email: req.body.email });
+
+  if (!user) {
+    return next(new AppError('There is no user with email address.', 404));
+  }
+
+  const resetToken = user.createPasswordResetToken();
+
+  await user.save({ validateBeforeSave: false });
+
+  try {
+    // Create a reset URL and email the user with the reset instructions
+    const resetURL = `${clientUrl}/reset-password/${resetToken}`;
+
+    await new Email(user, resetURL).sendPasswordReset();
+
+    res.status(200).json({
+      status: 'success',
+      message: 'Token sent to email!',
+    });
+  } catch (error) {
+    console.error('Failed to send email:', error);
+    // If email fails, reset the token and expiration fields
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save({ validateBeforeSave: false });
+
+    return next(
+      new AppError(
+        'There was an error sending the email. Try again later!',
+        500,
+      ),
+    );
+  }
+});
+
+// Middleware to protect routes and restrict access to logged-in users
+export const protect = catchAsync(
+  async (req: Request & { user?: UserDocument }, res, next) => {
+    // Get current user
+    const user = await currentUser(req);
+
+    // Attach user to the request and response objects
+    req.user = user;
+    res.locals.user = user;
+    next();
+  },
+);

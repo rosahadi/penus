@@ -13,6 +13,8 @@ export interface UserDocument extends mongoose.Document {
   passwordResetExpires?: Date;
   active: boolean;
   correctPassword(candidatePassword: string): Promise<boolean>;
+  createPasswordResetToken(): string;
+  changedPasswordAfter(JWTTimestamp: number): boolean;
 }
 
 export interface ErrorType {
