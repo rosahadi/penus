@@ -37,7 +37,7 @@ export const updateOne = <T extends Document>(Model: MongooseModel<T>) =>
     });
   });
 
-export const createOne = (Model: MongooseModel<Document>) =>
+export const createOne = <T extends Document>(Model: MongooseModel<T>) =>
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   catchAsync(async (req, res, next) => {
     const doc = await Model.create(req.body);

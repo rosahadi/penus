@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import validator from 'validator';
 import argon2 from 'argon2';
 import crypto from 'crypto';
@@ -115,6 +115,9 @@ userSchema.methods.createPasswordResetToken = function () {
   return resetToken;
 };
 
-const User = mongoose.model('User', userSchema);
+const User: Model<UserDocument> = mongoose.model<UserDocument>(
+  'User',
+  userSchema,
+);
 
 export default User;

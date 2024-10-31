@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 
 export interface UserDocument extends mongoose.Document {
   _id: mongoose.Types.ObjectId;
@@ -15,6 +15,17 @@ export interface UserDocument extends mongoose.Document {
   correctPassword(candidatePassword: string): Promise<boolean>;
   createPasswordResetToken(): string;
   changedPasswordAfter(JWTTimestamp: number): boolean;
+}
+export interface BlogDocument extends mongoose.Document {
+  _id: mongoose.Types.ObjectId;
+  createdAt: Date;
+  updatedAt: Date;
+  title: string;
+  content: string;
+  status: 'publish' | 'hide';
+  slug?: string | null;
+  image?: string | null;
+  user?: Types.ObjectId;
 }
 
 export interface ErrorType {
