@@ -1,6 +1,7 @@
-import mongoose from 'mongoose';
+import mongoose, { Model } from 'mongoose';
+import { ReviewDocument, UserDocument } from '../types';
 
-const reviewSchema = new mongoose.Schema(
+const reviewSchema = new mongoose.Schema<ReviewDocument>(
   {
     review: {
       type: String,
@@ -12,12 +13,12 @@ const reviewSchema = new mongoose.Schema(
       max: 5,
     },
     blog: {
-      type: mongoose.Schema.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'Blog',
       required: [true, 'Review must belong to a blog.'],
     },
     user: {
-      type: mongoose.Schema.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: [true, 'Review must belong to a user'],
     },
@@ -29,6 +30,23 @@ const reviewSchema = new mongoose.Schema(
   },
 );
 
-const Review = mongoose.model('Review', reviewSchema);
+reviewSchema.pre(
+  /^find/,
+  function (
+    this: mongoose.Query<UserDocument[] | UserDocument | null, UserDocument>,
+    next,
+  ) {
+    this.populate({
+      path: 'user',
+      select: 'name role image',
+    });
+    next();
+  },
+);
+
+const Review: Model<ReviewDocument> = mongoose.model<ReviewDocument>(
+  'Review',
+  reviewSchema,
+);
 
 export default Review;

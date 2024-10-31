@@ -9,6 +9,8 @@ import cookieParser from 'cookie-parser';
 import hpp from 'hpp';
 import { JSDOM } from 'jsdom';
 import DOMPurify from 'dompurify';
+import blogRouter from './routes/blogRouter';
+import reviewRouter from './routes/reviewRouter';
 
 const app = express();
 
@@ -57,7 +59,9 @@ app.use(
   }),
 );
 
-// Test route
+// Define API routes
 app.use('/api/users', userRouter);
+app.use('/api/blogs', blogRouter);
+app.use('/api/reviews', reviewRouter);
 
 export default app;

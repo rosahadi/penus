@@ -1,5 +1,6 @@
 import mongoose, { Model } from 'mongoose';
-import { BlogDocument } from '../types';
+import { BlogDocument, UserDocument } from '../types';
+import slugify from 'slugify';
 
 const BlogSchema = new mongoose.Schema<BlogDocument>(
   {
@@ -32,6 +33,31 @@ const BlogSchema = new mongoose.Schema<BlogDocument>(
     timestamps: true,
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
+  },
+);
+
+BlogSchema.virtual('reviews', {
+  ref: 'Review',
+  foreignField: 'blog',
+  localField: '_id',
+});
+
+BlogSchema.pre('save', function (next) {
+  this.slug = slugify(this.title, { lower: true });
+  next();
+});
+
+BlogSchema.pre(
+  /^find/,
+  function (
+    this: mongoose.Query<BlogDocument[] | BlogDocument | null, BlogDocument>,
+    next,
+  ) {
+    this.populate<{ user: UserDocument }>({
+      path: 'user',
+      select: '-__v -passwordChangedAt',
+    });
+    next();
   },
 );
 

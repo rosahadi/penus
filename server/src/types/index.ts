@@ -16,6 +16,7 @@ export interface UserDocument extends mongoose.Document {
   createPasswordResetToken(): string;
   changedPasswordAfter(JWTTimestamp: number): boolean;
 }
+
 export interface BlogDocument extends mongoose.Document {
   _id: mongoose.Types.ObjectId;
   createdAt: Date;
@@ -25,7 +26,18 @@ export interface BlogDocument extends mongoose.Document {
   status: 'publish' | 'hide';
   slug?: string | null;
   image?: string | null;
-  user?: Types.ObjectId;
+  user?: Types.ObjectId | UserDocument;
+  reviews?: ReviewDocument[];
+}
+
+export interface ReviewDocument extends mongoose.Document {
+  _id: mongoose.Types.ObjectId;
+  review: string;
+  rating: number;
+  blog: mongoose.Types.ObjectId;
+  user: mongoose.Types.ObjectId;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface ErrorType {
