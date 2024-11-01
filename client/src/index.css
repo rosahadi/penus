@@ -2,6 +2,57 @@
 @tailwind components;
 @tailwind utilities;
 
+root {
+  --primary: #9cbea7; /* Main mint - buttons, active states */
+  --primary-light: #b8d0c4; /* Lighter mint - hover states, highlights */
+  --primary-dark: #7a9b85; /* Darker mint - pressed states, accents */
+
+  /* Background Colors */
+  --bg-main: #f5f8f6; /* Main background */
+  --bg-card: #ffffff; /* Card/container background */
+  --bg-secondary: #ebf1ed; /* Secondary background, subtle contrast areas */
+  --bg-tertiary: #dfe9e4; /* Tertiary background, more contrast needed */
+
+  /* Text Colors */
+  --text-primary: #262626; /* Main text color */
+  --text-secondary: #616161; /* Secondary text, subtitles */
+  --text-tertiary: #787878; /* Tertiary text, captions */
+  --text-on-primary: #ffffff; /* Text on primary colored backgrounds */
+
+  /* Input Colors */
+  --input-bg: #ffffff; /* Input background */
+  --input-border: #dfe9e4; /* Input border */
+  --input-focus: #9cbea7; /* Input focus border */
+  --input-placeholder: #a8b3af; /* Placeholder text */
+
+  /* Button Colors */
+  --button-primary: #9cbea7; /* Primary button */
+  --button-hover: #b8d0c4; /* Button hover state */
+  --button-pressed: #7a9b85; /* Button pressed state */
+  --button-disabled: #d1e2dc; /* Disabled button */
+
+  /* Status Colors */
+  --success: #6bb98a; /* Success messages */
+  --error: #e57373; /* Error messages */
+  --warning: #ffb74d; /* Warning messages */
+  --info: #64b5f6; /* Info messages */
+
+  /* Border Colors */
+  --border-light: #e8f0eb; /* Light borders */
+  --border-medium: #d1e2dc; /* Medium borders */
+  --border-dark: #9cbea7; /* Dark borders */
+
+  /* Shadow Colors */
+  --shadow-light: rgba(156, 190, 167, 0.1); /* Light shadow */
+  --shadow-medium: rgba(156, 190, 167, 0.15); /* Medium shadow */
+  --shadow-dark: rgba(156, 190, 167, 0.2); /* Dark shadow */
+
+  /* Overlay Colors */
+  --overlay-light: rgba(156, 190, 167, 0.05); /* Light overlay */
+  --overlay-medium: rgba(156, 190, 167, 0.1); /* Medium overlay */
+  --overlay-dark: rgba(156, 190, 167, 0.15); /* Dark overlay */
+}
+
 *,
 *::before,
 *::after {

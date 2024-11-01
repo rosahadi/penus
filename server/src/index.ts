@@ -11,6 +11,8 @@ import { JSDOM } from 'jsdom';
 import DOMPurify from 'dompurify';
 import blogRouter from './routes/blogRouter';
 import reviewRouter from './routes/reviewRouter';
+import AppError from './utils/appError';
+import globalErrorHandler from './controllers/errorController';
 
 const app = express();
 
@@ -63,5 +65,12 @@ app.use(
 app.use('/api/users', userRouter);
 app.use('/api/blogs', blogRouter);
 app.use('/api/reviews', reviewRouter);
+
+// Handle undefined routes for API
+app.all('/api/*', (req, res, next) => {
+  next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
+});
+
+app.use(globalErrorHandler);
 
 export default app;

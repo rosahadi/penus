@@ -8,6 +8,7 @@ const BlogSchema = new mongoose.Schema<BlogDocument>(
       type: String,
       required: [true, 'Title is required'],
       trim: true,
+      minlength: [3, 'A Blog name must more or equal than 3 characters'],
     },
     slug: String,
     content: {

@@ -10,3 +10,5 @@ node_modules/
 !.vscode/extensions.json
 .DS_Store
 .prettierrc
+
+build/

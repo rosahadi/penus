@@ -1,11 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { NextFunction, Request, Response } from 'express';
 import AppError from '../utils/appError';
+import mongoose from 'mongoose';
 
-const handleCastErroDB = (err) => {
+const handleCastErroDB = (err: mongoose.Error.CastError) => {
   const message = `Invalid ${err.path}: ${err.value}.`;
   return new AppError(message, 400);
 };
 
-const handleDublicateFieldsDB = (err) => {
+const handleDublicateFieldsDB = (err: any) => {
   const value = err.errorResponse.errmsg.match(/(["'])(\\?.)*?\1/)[0];
 
   const message = `The value '${value}' is already in use. Please choose a different value.`;
@@ -13,9 +16,9 @@ const handleDublicateFieldsDB = (err) => {
   return new AppError(message, 400);
 };
 
-const handleValidationErrorDB = (err: unknown) => {
+const handleValidationErrorDB = (err: mongoose.Error.ValidationError) => {
   const errors = Object.values(err.errors).map((el) => el.message);
-  console.log(errors);
+
   const message = `${errors.join(', ')}.`;
   return new AppError(message, 400);
 };
@@ -32,7 +35,7 @@ const handleJWTExpiredError = () =>
     401,
   );
 
-const sendErrorDev = (err, res) => {
+const sendErrorDev = (err: any, res: Response) => {
   res.status(err.statusCode).json({
     status: err.status,
     error: err,
@@ -41,7 +44,7 @@ const sendErrorDev = (err, res) => {
   });
 };
 
-const sendErrorProd = (err, res) => {
+const sendErrorProd = (err: any, res: Response) => {
   // Operational, trusted error : send message to the client
   if (err.isOperational) {
     res.status(err.statusCode).json({
@@ -60,7 +63,13 @@ const sendErrorProd = (err, res) => {
   }
 };
 
-module.exports = (err, req, res, next) => {
+const globalErrorHandler = (
+  err: any,
+  req: Request,
+  res: Response,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  next: NextFunction,
+) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
 
@@ -82,3 +91,5 @@ module.exports = (err, req, res, next) => {
     sendErrorProd(error, res);
   }
 };
+
+export default globalErrorHandler;
