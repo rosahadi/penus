@@ -2,106 +2,174 @@
 @tailwind components;
 @tailwind utilities;
 
-root {
-  --primary: #9cbea7; /* Main mint - buttons, active states */
-  --primary-light: #b8d0c4; /* Lighter mint - hover states, highlights */
-  --primary-dark: #7a9b85; /* Darker mint - pressed states, accents */
+@layer base {
+  :root {
+    --primary: #819d8a; /* Main mint - buttons, active states */
+    --primary-light: #b8d0c4; /* Lighter mint - hover states, highlights */
+    --primary-dark: #678571; /* Darker mint - pressed states, accents */
+    --primary-very-dark: #2a312c; /* Very Dark mint */
 
-  /* Background Colors */
-  --bg-main: #f5f8f6; /* Main background */
-  --bg-card: #ffffff; /* Card/container background */
-  --bg-secondary: #ebf1ed; /* Secondary background, subtle contrast areas */
-  --bg-tertiary: #dfe9e4; /* Tertiary background, more contrast needed */
+    /* Background Colors */
+    --bg-main: #f5f8f6; /* Main background */
+    --bg-card: #ffffff; /* Card/container background */
+    --bg-secondary: #ebf1ed; /* Secondary background, subtle contrast areas */
+    --bg-tertiary: #dfe9e4; /* Tertiary background, more contrast needed */
 
-  /* Text Colors */
-  --text-primary: #262626; /* Main text color */
-  --text-secondary: #616161; /* Secondary text, subtitles */
-  --text-tertiary: #787878; /* Tertiary text, captions */
-  --text-on-primary: #ffffff; /* Text on primary colored backgrounds */
+    /* Text Colors */
+    --text-primary: #262626; /* Main text color */
+    --text-secondary: #4e4e4e; /* Secondary text, subtitles */
+    --text-tertiary: #787878; /* Tertiary text, captions */
+    --text-on-primary: #ffffff; /* Text on primary colored backgrounds */
 
-  /* Input Colors */
-  --input-bg: #ffffff; /* Input background */
-  --input-border: #dfe9e4; /* Input border */
-  --input-focus: #9cbea7; /* Input focus border */
-  --input-placeholder: #a8b3af; /* Placeholder text */
+    /* Input Colors */
+    --input-bg: #ffffff; /* Input background */
+    --input-border: #dfe9e4; /* Input border */
+    --input-focus: #9cbea7; /* Input focus border */
+    --input-placeholder: #a8b3af; /* Placeholder text */
 
-  /* Button Colors */
-  --button-primary: #9cbea7; /* Primary button */
-  --button-hover: #b8d0c4; /* Button hover state */
-  --button-pressed: #7a9b85; /* Button pressed state */
-  --button-disabled: #d1e2dc; /* Disabled button */
+    /* Input Colors */
+    --input-bg: #ffffff; /* Input background */
+    --input-border: #dfe9e4; /* Input border */
+    --input-focus: #9cbea7; /* Input focus border */
+    --input-placeholder: #a8b3af; /* Placeholder text */
 
-  /* Status Colors */
-  --success: #6bb98a; /* Success messages */
-  --error: #e57373; /* Error messages */
-  --warning: #ffb74d; /* Warning messages */
-  --info: #64b5f6; /* Info messages */
+    /* Button Colors */
+    --button-primary: #9cbea7; /* Primary button */
+    --button-hover: #b8d0c4; /* Button hover state */
+    --button-pressed: #7a9b85; /* Button pressed state */
+    --button-disabled: #d1e2dc; /* Disabled button */
 
-  /* Border Colors */
-  --border-light: #e8f0eb; /* Light borders */
-  --border-medium: #d1e2dc; /* Medium borders */
-  --border-dark: #9cbea7; /* Dark borders */
+    /* Status Colors */
+    --success: #6bb98a; /* Success messages */
+    --error: #e57373; /* Error messages */
+    --warning: #ffb74d; /* Warning messages */
+    --info: #64b5f6; /* Info messages */
 
-  /* Shadow Colors */
-  --shadow-light: rgba(156, 190, 167, 0.1); /* Light shadow */
-  --shadow-medium: rgba(156, 190, 167, 0.15); /* Medium shadow */
-  --shadow-dark: rgba(156, 190, 167, 0.2); /* Dark shadow */
+    /* Border Colors */
+    --border-light: #e8f0eb; /* Light borders */
+    --border-medium: #d1e2dc; /* Medium borders */
+    --border-dark: #9cbea7; /* Dark borders */
 
-  /* Overlay Colors */
-  --overlay-light: rgba(156, 190, 167, 0.05); /* Light overlay */
-  --overlay-medium: rgba(156, 190, 167, 0.1); /* Medium overlay */
-  --overlay-dark: rgba(156, 190, 167, 0.15); /* Dark overlay */
+    /* Shadow Colors */
+    --shadow-light: rgba(156, 190, 167, 0.1); /* Light shadow */
+    --shadow-medium: rgba(156, 190, 167, 0.15); /* Medium shadow */
+    --shadow-dark: rgba(156, 190, 167, 0.2); /* Dark shadow */
+
+    /* Overlay Colors */
+    --overlay-light: rgba(156, 190, 167, 0.05); /* Light overlay */
+    --overlay-medium: rgba(156, 190, 167, 0.1); /* Medium overlay */
+    --overlay-dark: rgba(130, 138, 133, 0.4); /* Dark overlay */
+
+    /*  */
+    --background: #f5f8f6;
+    --foreground: 0 0% 3.9%;
+    --card: #ffffff;
+    --card-foreground: 0 0% 3.9%;
+    --popover: #ffffff;
+    --popover-foreground: 0 0% 3.9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: #e57373;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  border: 0;
-}
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
 
-html {
-  font-size: 62.5%;
-  scroll-behavior: smooth;
-}
+  html {
+    font-size: 62.5%;
+    scroll-behavior: smooth;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
 
-body {
-  line-height: 1.6;
-  overflow-x: hidden;
-  outline: none;
-}
+  body {
+    line-height: 1.6;
+    outline: none;
+    font-size: 1.8rem;
+    width: 100vw;
+    margin-inline: auto;
+    background-color: var(--bg-main);
+  }
 
-img {
-  max-width: 100%;
-  height: auto;
-}
+  img {
+    max-width: 100%;
+    height: auto;
+  }
 
-input,
-button,
-textarea,
-select {
-  background: none;
-  border: none;
-  font: inherit;
-  color: inherit;
-}
+  input,
+  button,
+  textarea,
+  select {
+    background: none;
+    border: none;
+    font: inherit;
+    color: inherit;
+  }
 
-button {
-  cursor: pointer;
-}
+  button {
+    cursor: pointer;
+  }
 
-ul {
-  list-style: none;
-}
+  ul {
+    list-style: none;
+  }
 
-a {
-  text-decoration: none;
-  color: inherit;
-}
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
 
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
 }
