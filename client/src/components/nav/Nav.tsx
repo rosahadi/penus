@@ -9,6 +9,9 @@ import {
 import { Button } from '../Button';
 import { buttonStyles } from '@/utils/buttonStyles';
 import { useEffect, useState } from 'react';
+import GetStartedForm from '../auth/GetStartedForm';
+import SignInForm from '../auth/SignInForm';
+import WriteForm from '../auth/WriteForm';
 
 function Nav() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -52,9 +55,10 @@ function Nav() {
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Create an account to start writing.</DialogTitle>
+                  <DialogTitle>Create an account to start writing</DialogTitle>
                 </DialogHeader>
-                <div className=""></div>
+                {/* Write form */}
+                <WriteForm />
               </DialogContent>
             </Dialog>
 
@@ -73,9 +77,10 @@ function Nav() {
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Welcome back.</DialogTitle>
+                  <DialogTitle>Welcome back</DialogTitle>
                 </DialogHeader>
-                <div className=""></div>
+                {/* Signin form */}
+                <SignInForm />
               </DialogContent>
             </Dialog>
 
@@ -97,9 +102,8 @@ function Nav() {
                 <DialogHeader>
                   <DialogTitle>Join Pênûs</DialogTitle>
                 </DialogHeader>
-                <div className="">
-                  <p>Get started</p>
-                </div>
+                {/* Get started form */}
+                <GetStartedForm />
               </DialogContent>
             </Dialog>
           </div>

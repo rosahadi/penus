@@ -23,7 +23,7 @@
 
     /* Input Colors */
     --input-bg: #ffffff;
-    --input-border: #e5e5e5;
+    --input-border: #c0c0c0;
     --input-focus: #9e9e9e; /* Pure gray focus */
     --input-placeholder: #b1b1b1; /* Gray placeholder */
 
@@ -46,7 +46,7 @@
 
     /* Shadow Colors */
     --shadow-light: rgba(158, 158, 158, 0.1);
-    --shadow-medium: rgba(158, 158, 158, 0.15);
+    --shadow-medium: rgba(158, 158, 158, 0.324);
     --shadow-dark: rgba(158, 158, 158, 0.2);
 
     /* Overlay Colors */
@@ -99,6 +99,7 @@
   }
 
   body {
+    font-family: 'Noto Sans Georgian', sans-serif;
     line-height: 1.6;
     outline: none;
     font-size: 1.8rem;
@@ -114,12 +115,17 @@
     height: auto;
   }
 
-  input,
   button,
   textarea,
   select {
     background: none;
     border: none;
+    font: inherit;
+    color: inherit;
+  }
+
+  input {
+    background: none;
     font: inherit;
     color: inherit;
   }

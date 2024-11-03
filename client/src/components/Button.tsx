@@ -9,7 +9,10 @@ const btnBase =
 // Variant classes
 const btnVariants = {
   // Button types
-  'btn-solid': 'bg-[var(--primary)] text-white hover:bg-[var(--primary-dark)]',
+  'btn-solid':
+    'bg-textPrimary text-white hover:bg-textSecondary shadow-shadowMedium',
+  'btn-primary':
+    'bg-[var(--primary)] text-white hover:bg-[var(--primary-dark)]',
   'btn-ghost': '',
   'btn-outline': 'border border-gray-200 hover:bg-gray-50',
   'btn-link': 'underline-offset-4 hover:underline',

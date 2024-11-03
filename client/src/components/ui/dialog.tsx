@@ -40,8 +40,8 @@ const DialogContent = React.forwardRef<
       <DialogPrimitive.Content
         ref={ref}
         className={cn(
-          'relative z-50 grid bg-bgCard text-center',
-          'p-20 max-[730px]:p-14',
+          'relative z-50 grid bg-bgMain text-center',
+          'p-20 max-[730px]:p-16 max-[650px]:p-14 max-[900px]:p-20',
           'shadow-[0_4px_12px_var(--shadow-medium)]',
           'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
           'max-[730px]:rounded-none rounded-md',
@@ -69,7 +69,7 @@ const DialogHeader = ({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
-    className={cn('flex flex-col items-center justify-end mb-28 ', className)}
+    className={cn('flex flex-col justify-end mb-28 ', className)}
     {...props}
   />
 );
@@ -96,7 +96,7 @@ const DialogTitle = React.forwardRef<
   <DialogPrimitive.Title
     ref={ref}
     className={cn(
-      'text-5xl font-semibold leading-none tracking-tight text-textPrimary',
+      'font-times text-5xl font-semibold leading-none tracking-tight text-textPrimary',
       className
     )}
     {...props}
