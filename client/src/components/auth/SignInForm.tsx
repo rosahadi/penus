@@ -12,8 +12,9 @@ import { Button } from '../Button';
 import { buttonStyles } from '@/utils/buttonStyles';
 import { useState } from 'react';
 import ForgotPasswordForm from './ForgotPasswordForm';
+import { CloseDialogType } from '@/types';
 
-function SignInForm() {
+function SignInForm({ closeDialog }: CloseDialogType) {
   const [forgotPasswordOpen, setForgotPasswordOpen] = useState(false);
 
   const form = useForm({

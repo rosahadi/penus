@@ -1,4 +1,5 @@
 import { useForm } from 'react-hook-form';
+import { useMutation } from '@tanstack/react-query';
 import {
   Form,
   FormControl,
@@ -10,21 +11,42 @@ import {
 import { Input } from '../ui/input';
 import { Button } from '../Button';
 import { buttonStyles } from '@/utils/buttonStyles';
+import { useState } from 'react';
+import { signup } from '@/api/auth';
+import { SignupError, SignupFormData } from '@/types/auth';
+import { CloseDialogType } from '@/types';
 
-function GetStartedForm() {
+function GetStartedForm({ closeDialog }: CloseDialogType) {
+  const [errors, setErrors] = useState<SignupError | null>(null);
+
   const form = useForm({
     defaultValues: {
       name: '',
       email: '',
       password: '',
-      confirmPassword: '',
+      passwordConfirm: '',
     },
   });
+
+  const mutation = useMutation({
+    mutationFn: signup,
+    onSuccess: () => {
+      closeDialog();
+    },
+    onError: (error: SignupError) => {
+      setErrors(error);
+    },
+  });
+
+  const onSubmit = (data: SignupFormData) => {
+    mutation.mutate(data);
+  };
 
   return (
     <Form {...form}>
       <div className="w-full flex justify-center">
         <form
+          onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col justify-center
         min-[900px]:max-w-[40rem] 
         space-y-12 w-full"
@@ -40,7 +62,7 @@ function GetStartedForm() {
                   <FormControl>
                     <Input {...field} placeholder="Enter your name" />
                   </FormControl>
-                  <FormMessage />
+                  {errors?.name && <FormMessage>{errors.name}</FormMessage>}
                 </FormItem>
               )}
             />
@@ -59,7 +81,7 @@ function GetStartedForm() {
                       placeholder="Enter your email"
                     />
                   </FormControl>
-                  <FormMessage />
+                  {errors?.email && <FormMessage>{errors.email}</FormMessage>}
                 </FormItem>
               )}
             />
@@ -78,7 +100,9 @@ function GetStartedForm() {
                       placeholder="Enter your password"
                     />
                   </FormControl>
-                  <FormMessage />
+                  {errors?.password && (
+                    <FormMessage>{errors.password}</FormMessage>
+                  )}
                 </FormItem>
               )}
             />
@@ -86,7 +110,7 @@ function GetStartedForm() {
             {/* Confirm Password Field */}
             <FormField
               control={form.control}
-              name="confirmPassword"
+              name="passwordConfirm"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Confirm Password</FormLabel>
@@ -97,7 +121,9 @@ function GetStartedForm() {
                       placeholder="Re-enter your password"
                     />
                   </FormControl>
-                  <FormMessage />
+                  {errors?.passwordConfirm && (
+                    <FormMessage>{errors.passwordConfirm}</FormMessage>
+                  )}
                 </FormItem>
               )}
             />
@@ -113,6 +139,7 @@ function GetStartedForm() {
               'btn-rounded-md'
             )}
             type="submit"
+            disabled={mutation.isPending}
           >
             Register
           </Button>

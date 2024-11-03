@@ -28,6 +28,9 @@ function Nav() {
     };
   }, []);
 
+  // Function to close the dialog
+  const closeDialog = () => setOpenDialog('');
+
   return (
     <>
       <div className="h-[86.2px]" />
@@ -63,7 +66,7 @@ function Nav() {
                 <DialogHeader>
                   <DialogTitle>Create an account to start writing</DialogTitle>
                 </DialogHeader>
-                <WriteForm />
+                <WriteForm closeDialog={closeDialog} />
                 <DialogFooter className="mt-8">
                   <p className="text-2xl">
                     Already have an account?
@@ -99,7 +102,7 @@ function Nav() {
                 <DialogHeader>
                   <DialogTitle>Welcome back</DialogTitle>
                 </DialogHeader>
-                <SignInForm />
+                <SignInForm closeDialog={closeDialog} />
                 <DialogFooter>
                   <p className="text-2xl">
                     No account?
@@ -136,7 +139,7 @@ function Nav() {
                 <DialogHeader>
                   <DialogTitle>Join Pênûs</DialogTitle>
                 </DialogHeader>
-                <GetStartedForm />
+                <GetStartedForm closeDialog={closeDialog} />
                 <DialogFooter className="mt-8">
                   <p className="text-2xl">
                     Already have an account?

@@ -10,21 +10,43 @@ import {
 import { Input } from '../ui/input';
 import { Button } from '../Button';
 import { buttonStyles } from '@/utils/buttonStyles';
+import { CloseDialogType } from '@/types';
+import { useState } from 'react';
+import { SignupError, SignupFormData } from '@/types/auth';
+import { useMutation } from '@tanstack/react-query';
+import { signup } from '@/api/auth';
 
-function WriteForm() {
+function WriteForm({ closeDialog }: CloseDialogType) {
+  const [errors, setErrors] = useState<SignupError | null>(null);
+
   const form = useForm({
     defaultValues: {
       name: '',
       email: '',
       password: '',
-      confirmPassword: '',
+      passwordConfirm: '',
     },
   });
+
+  const mutation = useMutation({
+    mutationFn: signup,
+    onSuccess: () => {
+      closeDialog();
+    },
+    onError: (error: SignupError) => {
+      setErrors(error);
+    },
+  });
+
+  const onSubmit = (data: SignupFormData) => {
+    mutation.mutate(data);
+  };
 
   return (
     <Form {...form}>
       <div className="w-full flex justify-center">
         <form
+          onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col justify-center
         min-[900px]:max-w-[40rem] 
         space-y-12 w-full"
@@ -40,7 +62,7 @@ function WriteForm() {
                   <FormControl>
                     <Input {...field} placeholder="Enter your name" />
                   </FormControl>
-                  <FormMessage />
+                  {errors?.name && <FormMessage>{errors.name}</FormMessage>}
                 </FormItem>
               )}
             />
@@ -59,7 +81,7 @@ function WriteForm() {
                       placeholder="Enter your email"
                     />
                   </FormControl>
-                  <FormMessage />
+                  {errors?.email && <FormMessage>{errors.email}</FormMessage>}
                 </FormItem>
               )}
             />
@@ -78,7 +100,9 @@ function WriteForm() {
                       placeholder="Enter your password"
                     />
                   </FormControl>
-                  <FormMessage />
+                  {errors?.password && (
+                    <FormMessage>{errors.password}</FormMessage>
+                  )}
                 </FormItem>
               )}
             />
@@ -86,7 +110,7 @@ function WriteForm() {
             {/* Confirm Password Field */}
             <FormField
               control={form.control}
-              name="confirmPassword"
+              name="passwordConfirm"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Confirm Password</FormLabel>
@@ -97,7 +121,9 @@ function WriteForm() {
                       placeholder="Re-enter your password"
                     />
                   </FormControl>
-                  <FormMessage />
+                  {errors?.passwordConfirm && (
+                    <FormMessage>{errors.passwordConfirm}</FormMessage>
+                  )}
                 </FormItem>
               )}
             />
