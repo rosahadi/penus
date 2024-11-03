@@ -52,11 +52,9 @@ function Nav() {
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Write</DialogTitle>
+                  <DialogTitle>Create an account to start writing.</DialogTitle>
                 </DialogHeader>
-                <div className="p-4">
-                  <p>write</p>
-                </div>
+                <div className=""></div>
               </DialogContent>
             </Dialog>
 
@@ -75,11 +73,9 @@ function Nav() {
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Sign In</DialogTitle>
+                  <DialogTitle>Welcome back.</DialogTitle>
                 </DialogHeader>
-                <div className="p-4">
-                  <p>Sign in</p>
-                </div>
+                <div className=""></div>
               </DialogContent>
             </Dialog>
 
@@ -99,9 +95,9 @@ function Nav() {
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Get Started</DialogTitle>
+                  <DialogTitle>Join Pênûs</DialogTitle>
                 </DialogHeader>
-                <div className="p-4">
+                <div className="">
                   <p>Get started</p>
                 </div>
               </DialogContent>

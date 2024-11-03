@@ -15,9 +15,7 @@ const DialogOverlay = React.forwardRef<
   <DialogPrimitive.Overlay
     ref={ref}
     className={cn(
-      'fixed inset-0 z-50 bg-[var(--overlay-dark)] data-[state=open]:animate-in data-[state=closed]:animate-out',
-      'w-[100vw]', // Ensure full viewport width
-      'left-0', // Align to viewport left
+      'fixed grid place-items-center overflow-y-auto inset-0 z-50 bg-overlayDark data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
       className
     )}
     {...props}
@@ -30,30 +28,30 @@ const DialogContent = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
 >(({ className, children, ...props }, ref) => (
   <DialogPortal>
-    <DialogOverlay />
-    <DialogPrimitive.Content
-      ref={ref}
-      className={cn(
-        'fixed z-50 grid w-full gap-6 border border-[var(--border-light)] bg-[var(--bg-card)] shadow-lg duration-200',
-        'text-center',
-        // Default styling (screens >= 900px)
-        'left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-lg p-12',
-        // Medium screens (< 900px)
-        'max-[900px]:h-full max-[900px]:max-w-[90%] max-[900px]:p-8',
-        // Small screens (< 730px)
-        'max-[730px]:h-full max-[730px]:w-full max-[730px]:max-w-full max-[730px]:p-6',
-        className
-      )}
-      {...props}
-    >
-      <div className="relative flex flex-col items-center justify-center w-full h-full">
+    <DialogOverlay>
+      <DialogPrimitive.Content
+        ref={ref}
+        className={cn(
+          'relative z-50 grid bg-bgCard text-center',
+          'p-20 max-[730px]:p-14',
+          'shadow-[0_4px_12px_var(--shadow-medium)]',
+          'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
+          'rounded-md',
+          // Responsive styles
+          'max-[730px]:w-full max-[730px]:h-full',
+          'max-[900px]:w-[600px] max-[900px]:h-full',
+          'min-[900px]:w-[680px] min-[900px]:h-[700px]',
+          className
+        )}
+        {...props}
+      >
         {children}
-      </div>
-      <DialogPrimitive.Close className="absolute right-6 top-6 text-[var(--text-primary)] transition-opacity hover:opacity-100 focus:outline-none">
-        <Cross2Icon className="h-9 w-9" />
-        <span className="sr-only">Close</span>
-      </DialogPrimitive.Close>
-    </DialogPrimitive.Content>
+        <DialogPrimitive.Close className="absolute right-8 top-8 text-textPrimary  hover:text-textSecondary transition-opacity">
+          <Cross2Icon className="h-[29px] w-[29px] " />
+          <span className="sr-only">Close</span>
+        </DialogPrimitive.Close>
+      </DialogPrimitive.Content>
+    </DialogOverlay>
   </DialogPortal>
 ));
 DialogContent.displayName = DialogPrimitive.Content.displayName;
@@ -63,10 +61,7 @@ const DialogHeader = ({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
-    className={cn(
-      'flex flex-col items-center space-y-3 text-center w-full',
-      className
-    )}
+    className={cn('flex flex-col items-center justify-end mb-28 ', className)}
     {...props}
   />
 );
@@ -78,7 +73,7 @@ const DialogFooter = ({
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
-      'flex flex-col items-center space-y-3 w-full mt-6',
+      'flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
       className
     )}
     {...props}
@@ -93,7 +88,7 @@ const DialogTitle = React.forwardRef<
   <DialogPrimitive.Title
     ref={ref}
     className={cn(
-      'text-5xl font-semibold leading-none tracking-tight text-[var(--text-primary)] text-center mt-5',
+      'text-5xl font-semibold leading-none tracking-tight text-textPrimary',
       className
     )}
     {...props}
@@ -107,10 +102,7 @@ const DialogDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Description
     ref={ref}
-    className={cn(
-      'text-3xl text-[var(--text-secondary)] text-center mt-4',
-      className
-    )}
+    className={cn('text-sm text-textSecondary mt-2  pb-20', className)}
     {...props}
   />
 ));
