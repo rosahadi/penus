@@ -13,9 +13,13 @@ import { buttonStyles } from '@/utils/buttonStyles';
 import { useState } from 'react';
 import ForgotPasswordForm from './ForgotPasswordForm';
 import { CloseDialogType } from '@/types';
+import { useMutation } from '@tanstack/react-query';
+import { signin } from '@/api/auth';
+import { SignInError, SignInFormData } from '@/types/auth';
 
 function SignInForm({ closeDialog }: CloseDialogType) {
   const [forgotPasswordOpen, setForgotPasswordOpen] = useState(false);
+  const [errors, setErrors] = useState<SignInError | null>(null);
 
   const form = useForm({
     defaultValues: {
@@ -25,6 +29,21 @@ function SignInForm({ closeDialog }: CloseDialogType) {
       confirmPassword: '',
     },
   });
+
+  const mutation = useMutation({
+    mutationFn: signin,
+    onSuccess: () => {
+      closeDialog();
+    },
+    onError: (error: SignInError) => {
+      console.log(error);
+      setErrors(error);
+    },
+  });
+
+  const onSubmit = (data: SignInFormData) => {
+    mutation.mutate(data);
+  };
 
   const handleForgotPassword = () => {
     setForgotPasswordOpen(false);
@@ -38,6 +57,7 @@ function SignInForm({ closeDialog }: CloseDialogType) {
     <Form {...form}>
       <div className="w-full flex justify-center">
         <form
+          onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col justify-center
         min-[900px]:max-w-[40rem] 
         space-y-12 w-full"
@@ -57,7 +77,7 @@ function SignInForm({ closeDialog }: CloseDialogType) {
                       placeholder="Enter your email"
                     />
                   </FormControl>
-                  <FormMessage />
+                  {errors?.email && <FormMessage>{errors.email}</FormMessage>}
                 </FormItem>
               )}
             />
@@ -75,7 +95,9 @@ function SignInForm({ closeDialog }: CloseDialogType) {
                       placeholder="Enter your password"
                     />
                   </FormControl>
-                  <FormMessage />
+                  {errors?.general && (
+                    <FormMessage className="pt-4">{errors.general}</FormMessage>
+                  )}
                 </FormItem>
               )}
             />
@@ -86,7 +108,7 @@ function SignInForm({ closeDialog }: CloseDialogType) {
               onClick={() => setForgotPasswordOpen(true)}
             >
               Forgot Password?
-            </button>{' '}
+            </button>
           </div>
 
           {/* Submit Button */}
@@ -99,6 +121,7 @@ function SignInForm({ closeDialog }: CloseDialogType) {
               'btn-rounded-md'
             )}
             type="submit"
+            disabled={mutation.isPending}
           >
             Sign In
           </Button>

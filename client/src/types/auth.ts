@@ -11,3 +11,13 @@ export interface SignupError {
   password?: string;
   passwordConfirm?: string;
 }
+
+export interface SignInFormData {
+  email: string;
+  password: string;
+}
+
+export interface SignInError {
+  email?: string;
+  general?: string;
+}
