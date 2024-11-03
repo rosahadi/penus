@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -15,6 +16,7 @@ import WriteForm from '../auth/WriteForm';
 
 function Nav() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [openDialog, setOpenDialog] = useState<string>('');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,7 +41,11 @@ function Nav() {
             Pênûs
           </Link>
           <div className="flex gap-9">
-            <Dialog>
+            {/* Write Dialog */}
+            <Dialog
+              open={openDialog === 'write'}
+              onOpenChange={(open) => setOpenDialog(open ? 'write' : '')}
+            >
               <DialogTrigger asChild>
                 <Button
                   className={buttonStyles(
@@ -57,12 +63,26 @@ function Nav() {
                 <DialogHeader>
                   <DialogTitle>Create an account to start writing</DialogTitle>
                 </DialogHeader>
-                {/* Write form */}
                 <WriteForm />
+                <DialogFooter className="mt-8">
+                  <p className="text-2xl">
+                    Already have an account?
+                    <button
+                      className="ml-2 text-info underline"
+                      onClick={() => setOpenDialog('signIn')}
+                    >
+                      Sign in
+                    </button>
+                  </p>
+                </DialogFooter>
               </DialogContent>
             </Dialog>
 
-            <Dialog>
+            {/* Sign In Dialog */}
+            <Dialog
+              open={openDialog === 'signIn'}
+              onOpenChange={(open) => setOpenDialog(open ? 'signIn' : '')}
+            >
               <DialogTrigger asChild>
                 <Button
                   className={buttonStyles(
@@ -75,16 +95,30 @@ function Nav() {
                   Sign In
                 </Button>
               </DialogTrigger>
-              <DialogContent>
+              <DialogContent className="mb-0">
                 <DialogHeader>
                   <DialogTitle>Welcome back</DialogTitle>
                 </DialogHeader>
-                {/* Signin form */}
                 <SignInForm />
+                <DialogFooter>
+                  <p className="text-2xl">
+                    No account?
+                    <button
+                      className="ml-2 text-info underline"
+                      onClick={() => setOpenDialog('getStarted')}
+                    >
+                      Create one
+                    </button>
+                  </p>
+                </DialogFooter>
               </DialogContent>
             </Dialog>
 
-            <Dialog>
+            {/* Get Started Dialog */}
+            <Dialog
+              open={openDialog === 'getStarted'}
+              onOpenChange={(open) => setOpenDialog(open ? 'getStarted' : '')}
+            >
               <DialogTrigger asChild>
                 <Button
                   className={buttonStyles(
@@ -102,8 +136,18 @@ function Nav() {
                 <DialogHeader>
                   <DialogTitle>Join Pênûs</DialogTitle>
                 </DialogHeader>
-                {/* Get started form */}
                 <GetStartedForm />
+                <DialogFooter className="mt-8">
+                  <p className="text-2xl">
+                    Already have an account?
+                    <button
+                      className="ml-2 text-info underline"
+                      onClick={() => setOpenDialog('signIn')}
+                    >
+                      Sign in
+                    </button>
+                  </p>
+                </DialogFooter>
               </DialogContent>
             </Dialog>
           </div>

@@ -25,7 +25,7 @@ function WriteForm() {
     <Form {...form}>
       <div className="w-full flex justify-center">
         <form
-          className="flex flex-col 
+          className="flex flex-col justify-center
         min-[900px]:max-w-[40rem] 
         space-y-12 w-full"
         >
