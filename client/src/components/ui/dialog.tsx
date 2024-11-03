@@ -16,6 +16,14 @@ const DialogOverlay = React.forwardRef<
     ref={ref}
     className={cn(
       'fixed grid place-items-center overflow-y-auto inset-0 z-50 bg-overlayDark data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
+      '[&::-webkit-scrollbar]:w-[8px] md:[&::-webkit-scrollbar]:w-[12px]',
+      '[&::-webkit-scrollbar-track]:bg-primary',
+      '[&::-webkit-scrollbar-thumb]:bg-primaryDark',
+      '[&::-webkit-scrollbar-thumb]:rounded-full',
+      '[&::-webkit-scrollbar-thumb]:border-2',
+      '[&::-webkit-scrollbar-thumb]:border-solid',
+      '[&::-webkit-scrollbar-thumb]:border-transparent',
+      'scrollbar-thin scrollbar-track-transparent scrollbar-thumb-primaryDark',
       className
     )}
     {...props}
@@ -36,7 +44,7 @@ const DialogContent = React.forwardRef<
           'p-20 max-[730px]:p-14',
           'shadow-[0_4px_12px_var(--shadow-medium)]',
           'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
-          'rounded-md',
+          'max-[730px]:rounded-none rounded-md',
           // Responsive styles
           'max-[730px]:w-full max-[730px]:h-full',
           'max-[900px]:w-[600px] max-[900px]:h-full',
