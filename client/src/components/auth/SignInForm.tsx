@@ -10,8 +10,12 @@ import {
 import { Input } from '../ui/input';
 import { Button } from '../Button';
 import { buttonStyles } from '@/utils/buttonStyles';
+import { useState } from 'react';
+import ForgotPasswordForm from './ForgotPasswordForm';
 
 function SignInForm() {
+  const [forgotPasswordOpen, setForgotPasswordOpen] = useState(false);
+
   const form = useForm({
     defaultValues: {
       name: '',
@@ -21,6 +25,14 @@ function SignInForm() {
     },
   });
 
+  const handleForgotPassword = () => {
+    setForgotPasswordOpen(false);
+  };
+
+  if (forgotPasswordOpen) {
+    return <ForgotPasswordForm onSubmit={handleForgotPassword} />;
+  }
+
   return (
     <Form {...form}>
       <div className="w-full flex justify-center">
@@ -29,7 +41,7 @@ function SignInForm() {
         min-[900px]:max-w-[40rem] 
         space-y-12 w-full"
         >
-          <div className="space-y-8 text-start">
+          <div className="text-start">
             {/* Email Field */}
             <FormField
               control={form.control}
@@ -48,13 +60,12 @@ function SignInForm() {
                 </FormItem>
               )}
             />
-
             {/* Password Field */}
             <FormField
               control={form.control}
               name="password"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="mt-8 mb-2">
                   <FormLabel>Password</FormLabel>
                   <FormControl>
                     <Input
@@ -67,6 +78,14 @@ function SignInForm() {
                 </FormItem>
               )}
             />
+            {/* Forgot Password Button */}
+            <button
+              type="button"
+              className="text-xl text-textTertiary pt-0 m0"
+              onClick={() => setForgotPasswordOpen(true)}
+            >
+              Forgot Password?
+            </button>{' '}
           </div>
 
           {/* Submit Button */}
