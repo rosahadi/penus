@@ -1,4 +1,8 @@
-import { SignInFormData, SignupFormData } from '@/types/auth';
+import {
+  ForgotPasswordFormData,
+  SignInFormData,
+  SignupFormData,
+} from '@/types/auth';
 import axios from 'axios';
 
 export const signup = async (userData: SignupFormData) => {
@@ -24,7 +28,6 @@ export const signin = async (userData: SignInFormData) => {
     return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.log(error);
       const errorData = error.response?.data?.message;
 
       let validationError;
@@ -37,6 +40,20 @@ export const signin = async (userData: SignInFormData) => {
       }
 
       throw validationError;
+    } else {
+      throw { message: 'An unexpected error occurred.' };
+    }
+  }
+};
+
+export const forgotPassword = async (userData: ForgotPasswordFormData) => {
+  try {
+    const res = await axios.post(`/api/users/forgotPassword`, userData, {});
+    return res.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorData = error.response?.data?.message;
+      throw errorData;
     } else {
       throw { message: 'An unexpected error occurred.' };
     }

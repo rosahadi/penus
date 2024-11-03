@@ -36,7 +36,6 @@ function SignInForm({ closeDialog }: CloseDialogType) {
       closeDialog();
     },
     onError: (error: SignInError) => {
-      console.log(error);
       setErrors(error);
     },
   });
@@ -50,7 +49,12 @@ function SignInForm({ closeDialog }: CloseDialogType) {
   };
 
   if (forgotPasswordOpen) {
-    return <ForgotPasswordForm onSubmit={handleForgotPassword} />;
+    return (
+      <ForgotPasswordForm
+        onSubmit={handleForgotPassword}
+        closeDialog={closeDialog}
+      />
+    );
   }
 
   return (

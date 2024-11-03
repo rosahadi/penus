@@ -40,8 +40,6 @@ export const Email = class Email {
             },
           };
 
-    console.log('Transport configuration:', transportConfig);
-
     return nodemailer.createTransport(transportConfig as SMTPTransport.Options);
   }
 
@@ -72,13 +70,11 @@ export const Email = class Email {
   }
 
   async sendPasswordReset() {
-    console.log('Sending password reset email...');
     try {
       await this.send(
         'passwordReset',
         'Your password reset token (valid for only 10 minutes)',
       );
-      console.log('Password reset email sent successfully');
     } catch (error) {
       console.error('Error sending password reset email:', error);
       throw error;
