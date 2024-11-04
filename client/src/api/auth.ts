@@ -47,6 +47,11 @@ export const signin = async (userData: SignInFormData) => {
   }
 };
 
+export const checkAuthAndGetUser = async () => {
+  const response = await axios.get('/api/users/checkAuthAndGetUser');
+  return response.data;
+};
+
 export const forgotPassword = async (userData: ForgotPasswordFormData) => {
   try {
     const res = await axios.post(`/api/users/forgotPassword`, userData, {});

@@ -36,3 +36,10 @@ export interface ResetPasswordError {
   passwordConfirm?: string;
   token?: string;
 }
+
+export interface UserType {
+  name: string;
+  email: string;
+  role: string;
+  image: string;
+}
