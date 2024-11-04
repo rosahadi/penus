@@ -14,14 +14,22 @@ interface AuthContextType {
 }
 
 interface UserContextType {
-  user: UserType;
+  user: UserType | null;
   isLoading: boolean;
   error: unknown;
   refetch: () => void;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-const UserContext = createContext<UserContextType | undefined>(undefined);
+const AuthContext = createContext<AuthContextType>({
+  isAuthenticated: false,
+});
+
+const UserContext = createContext<UserContextType>({
+  user: null,
+  isLoading: true,
+  error: null,
+  refetch: () => {},
+});
 
 interface AuthAndUserProviderProps {
   children: ReactNode;

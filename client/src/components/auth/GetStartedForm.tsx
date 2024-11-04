@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   Form,
   FormControl,
@@ -17,6 +17,8 @@ import { SignupError, SignupFormData } from '@/types/auth';
 import { CloseDialogType } from '@/types';
 
 function GetStartedForm({ closeDialog }: CloseDialogType) {
+  const queryClient = useQueryClient();
+
   const [errors, setErrors] = useState<SignupError | null>(null);
 
   const form = useForm({
@@ -31,6 +33,7 @@ function GetStartedForm({ closeDialog }: CloseDialogType) {
   const mutation = useMutation({
     mutationFn: signup,
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['authAndUser'] });
       setErrors(null);
       closeDialog();
     },

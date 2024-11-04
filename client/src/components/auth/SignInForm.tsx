@@ -13,11 +13,13 @@ import { buttonStyles } from '@/utils/buttonStyles';
 import { useState } from 'react';
 import ForgotPasswordForm from './ForgotPasswordForm';
 import { CloseDialogType } from '@/types';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { signin } from '@/api/auth';
 import { SignInError, SignInFormData } from '@/types/auth';
 
 function SignInForm({ closeDialog }: CloseDialogType) {
+  const queryClient = useQueryClient();
+
   const [forgotPasswordOpen, setForgotPasswordOpen] = useState(false);
   const [errors, setErrors] = useState<SignInError | null>(null);
 
@@ -33,6 +35,7 @@ function SignInForm({ closeDialog }: CloseDialogType) {
   const mutation = useMutation({
     mutationFn: signin,
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['authAndUser'] });
       setErrors(null);
       closeDialog();
     },

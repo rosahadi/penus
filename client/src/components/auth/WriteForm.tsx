@@ -13,10 +13,12 @@ import { buttonStyles } from '@/utils/buttonStyles';
 import { CloseDialogType } from '@/types';
 import { useState } from 'react';
 import { SignupError, SignupFormData } from '@/types/auth';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { signup } from '@/api/auth';
 
 function WriteForm({ closeDialog }: CloseDialogType) {
+  const queryClient = useQueryClient();
+
   const [errors, setErrors] = useState<SignupError | null>(null);
 
   const form = useForm({
@@ -31,6 +33,7 @@ function WriteForm({ closeDialog }: CloseDialogType) {
   const mutation = useMutation({
     mutationFn: signup,
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['authAndUser'] });
       setErrors(null);
       closeDialog();
     },
