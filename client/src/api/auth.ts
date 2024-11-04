@@ -1,5 +1,6 @@
 import {
   ForgotPasswordFormData,
+  ResetPasswordFormData,
   SignInFormData,
   SignupFormData,
 } from '@/types/auth';
@@ -54,6 +55,33 @@ export const forgotPassword = async (userData: ForgotPasswordFormData) => {
     if (axios.isAxiosError(error)) {
       const errorData = error.response?.data?.message;
       throw errorData;
+    } else {
+      throw { message: 'An unexpected error occurred.' };
+    }
+  }
+};
+
+export const resetPassword = async ({
+  token,
+  formData,
+}: {
+  token: string | undefined;
+  formData: ResetPasswordFormData;
+}) => {
+  try {
+    const res = await axios.patch(
+      `/api/users/resetPassword/${token}`,
+      formData,
+      {
+        withCredentials: true,
+      }
+    );
+    return res.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorData = error.response?.data?.message;
+      const validationError = JSON.parse(errorData);
+      throw validationError;
     } else {
       throw { message: 'An unexpected error occurred.' };
     }

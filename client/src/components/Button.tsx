@@ -56,6 +56,10 @@ const btnVariants = {
   // Width
   'btn-w-auto': 'w-auto',
   'btn-w-full': 'w-full',
+
+  // hidden
+  'hidden-660': 'max-[660px]:hidden',
+  'hidden-510': 'max-[510px]:hidden',
 };
 
 export interface ButtonProps

@@ -33,13 +33,12 @@ function ForgotPasswordForm({
   const mutation = useMutation({
     mutationFn: forgotPassword,
     onSuccess: () => {
-      // Display a success message or close dialog on success
       setSuccessMessage('Check your email for reset instructions.');
       setError(null);
       setTimeout(() => {
         closeDialog();
-        onSubmit(); // Call onSubmit to handle further actions if needed
-      }, 2000); // Close after 2 seconds to give time to read message
+        onSubmit();
+      }, 2000);
     },
     onError: (error: string) => {
       setError(error);

@@ -33,6 +33,7 @@ function SignInForm({ closeDialog }: CloseDialogType) {
   const mutation = useMutation({
     mutationFn: signin,
     onSuccess: () => {
+      setErrors(null);
       closeDialog();
     },
     onError: (error: SignInError) => {

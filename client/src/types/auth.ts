@@ -26,3 +26,13 @@ export interface ForgotPasswordFormData {
 export interface ForgotPasswordError {
   email?: string;
 }
+
+export interface ResetPasswordFormData {
+  password: string;
+  passwordConfirm: string;
+}
+export interface ResetPasswordError {
+  password?: string;
+  passwordConfirm?: string;
+  token?: string;
+}

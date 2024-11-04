@@ -98,6 +98,12 @@
     scrollbar-gutter: stable;
   }
 
+  @media (max-width: 600px) {
+    html {
+      font-size: 9px;
+    }
+  }
+
   body {
     font-family: 'Noto Sans Georgian', sans-serif;
     line-height: 1.6;
@@ -172,5 +178,11 @@
   body[data-scroll-locked='1']::-webkit-scrollbar {
     width: 0px;
     z-index: 0;
+  }
+}
+
+@layer utilities {
+  .h-full-minus-86 {
+    height: calc(100vh - 86.2px);
   }
 }

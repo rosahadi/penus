@@ -31,6 +31,7 @@ function WriteForm({ closeDialog }: CloseDialogType) {
   const mutation = useMutation({
     mutationFn: signup,
     onSuccess: () => {
+      setErrors(null);
       closeDialog();
     },
     onError: (error: SignupError) => {
