@@ -7,7 +7,15 @@ import {
   MenubarItem,
 } from '@/components/ui/menubar';
 import { Link } from 'react-router-dom';
-import { Bell, PenSquare } from 'lucide-react';
+import {
+  Bell,
+  PenSquare,
+  User,
+  Library,
+  BookOpen,
+  BarChart2,
+  Settings,
+} from 'lucide-react';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { useUser } from '@/context/AuthContext';
 import profileImage from '@/assets/profile.jpg';
@@ -29,9 +37,12 @@ const NavAuth = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const menuItemClasses =
+    'flex items-center gap-4 px-6 py-4 text-2xl hover:text-textTertiary';
+
   return (
     <div className="flex items-center gap-12">
-      {/* Write Link */}
+      {/* Write Link - Desktop */}
       <Link
         to="/write"
         className="hidden md:flex items-center gap-2 text-textSecondary hover:text-textTertiary transition-colors"
@@ -59,19 +70,68 @@ const NavAuth = () => {
               <AvatarImage src={user?.image || profileImage} alt={user?.name} />
             </Avatar>
           </MenubarTrigger>
-          <MenubarContent align="end" className="w-48">
-            <MenubarItem>
-              <Link to="/profile" className="w-full">
+          <MenubarContent align="end" className="w-[250px] bg-bgCard p-4">
+            {/* Mobile Write Link */}
+            <MenubarItem className="md:hidden p-0">
+              <Link to="/write" className={menuItemClasses}>
+                <PenSquare className="w-8 h-8" />
+                Write
+              </Link>
+            </MenubarItem>
+
+            <MenubarItem className="p-0">
+              <Link to="/profile" className={menuItemClasses}>
+                <User className="w-8 h-8" />
                 Profile
               </Link>
             </MenubarItem>
-            <MenubarItem>
-              <Link to="/settings" className="w-full">
+
+            <MenubarItem className="p-0">
+              <Link to="/library" className={menuItemClasses}>
+                <Library className="w-8 h-8" />
+                Library
+              </Link>
+            </MenubarItem>
+
+            <MenubarItem className="p-0">
+              <Link to="/stories" className={menuItemClasses}>
+                <BookOpen className="w-8 h-8" />
+                Stories
+              </Link>
+            </MenubarItem>
+
+            <MenubarItem className="p-0">
+              <Link to="/stats" className={menuItemClasses}>
+                <BarChart2 className="w-8 h-8" />
+                Stats
+              </Link>
+            </MenubarItem>
+
+            <MenubarItem className="p-0">
+              <Link to="/settings" className={menuItemClasses}>
+                <Settings className="w-8 h-8" />
                 Settings
               </Link>
             </MenubarItem>
-            <MenubarItem>
-              <button className="w-full text-left text-red-600">
+
+            <MenubarItem className="p-0">
+              <button
+                className={`${menuItemClasses} text-error hover:text-red-600`}
+              >
+                <svg
+                  className="w-8 h-8"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                  <polyline points="16 17 21 12 16 7" />
+                  <line x1="21" y1="12" x2="9" y2="12" />
+                </svg>
                 Sign out
               </button>
             </MenubarItem>

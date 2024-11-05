@@ -105,9 +105,15 @@
     scrollbar-gutter: stable;
   }
 
+  @media (max-width: 730px) {
+    html {
+      font-size: 58.125%; /* 9.3px based on 16px default */
+    }
+  }
+
   @media (max-width: 600px) {
     html {
-      font-size: 9px;
+      font-size: 55%; /* 8.8px based on 16px default */
     }
   }
 
