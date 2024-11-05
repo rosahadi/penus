@@ -55,7 +55,7 @@ const NavAuth = () => {
       >
         <MenubarMenu>
           <MenubarTrigger className="cursor-pointer p-0 focus:bg-transparent hover:bg-transparent data-[state=open]:bg-transparent">
-            <Avatar className="w-14 h-14">
+            <Avatar className="w-14 h-14 shadow-md shadow-shadowDark">
               <AvatarImage src={user?.image || profileImage} alt={user?.name} />
             </Avatar>
           </MenubarTrigger>
