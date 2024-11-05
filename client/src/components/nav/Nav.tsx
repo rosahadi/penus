@@ -22,9 +22,9 @@ function Nav() {
 
   return (
     <>
-      <div className="h-[86.2px]" />
+      <div className="h-[86.2px] max-[730px]:h-[80.16px] max-[600px]:h-[75.84px]" />
       <nav
-        className={`fixed top-0 left-0 right-0 w-full bg-[var(--bg-main)] transition-shadow duration-200 z-50 ${
+        className={`fixed top-0 left-0 right-0 w-full bg-[var(--bg-main)] transition-shadow duration-200 z-50 pl-[6px] ${
           isScrolled ? 'shadow-lg shadow-[var(--shadow-light)]' : ''
         }`}
       >

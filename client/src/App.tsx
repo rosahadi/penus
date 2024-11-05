@@ -8,7 +8,7 @@ function App() {
     <>
       <Nav />
 
-      <main className="max-w-[1200px] w-[90%] mx-auto">
+      <main className="max-w-[1200px] w-[90%] mx-auto ">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />

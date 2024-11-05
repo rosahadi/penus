@@ -175,10 +175,14 @@
     border-spacing: 0;
   }
 
-  body:hover ::-webkit-scrollbar,
-  body:active ::-webkit-scrollbar {
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  html:hover ::-webkit-scrollbar,
+  html:active ::-webkit-scrollbar {
     display: block;
-    width: 1rem;
+    width: 6px !important;
   }
 
   ::-webkit-scrollbar-thumb {
