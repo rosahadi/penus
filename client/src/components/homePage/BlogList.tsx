@@ -30,8 +30,6 @@ function BlogItem({ blog }: { blog: BlogDocument }) {
   const title = getBlogTitle(blog.title);
   const formattedDate = formattedBlogDate(blog);
 
-  console.log(blog);
-
   return (
     <div className="max-w-[100rem] w-[95%] mx-auto border-b border-solid border-borderMedium last:border-b-0">
       <article className="py-12 ">

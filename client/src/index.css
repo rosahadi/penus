@@ -103,6 +103,8 @@
     font-size: 62.5%;
     scroll-behavior: smooth;
     scrollbar-gutter: stable;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
   @media (max-width: 730px) {
@@ -125,8 +127,7 @@
     width: 100vw;
     margin-inline: auto;
     background-color: var(--bg-main);
-    overflow-y: auto;
-    overflow-x: hidden;
+
     /* scrollbar-width: none; */
   }
 

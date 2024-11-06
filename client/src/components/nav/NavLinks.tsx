@@ -33,7 +33,7 @@ function NavLinks() {
               'btn-px-lg',
               'btn-py-md',
               'btn-px-none',
-              'hidden-660'
+              'hidden-710'
             )}
           >
             Write
@@ -68,7 +68,7 @@ function NavLinks() {
             className={buttonStyles(
               'btn-ghost',
               'btn-1.7',
-              'btn-px-lg',
+              'btn-px-md',
               'btn-py-md',
               'hidden-510'
             )}

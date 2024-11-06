@@ -24,6 +24,7 @@ const btnVariants = {
   'btn-xl': 'text-xl',
   'btn-2xl': 'text-2xl',
   'btn-1.7': 'text-[1.7rem]',
+  'btn-1.6': 'text-[1.6rem]',
 
   // Padding X
   'btn-px-none': 'px-0',
@@ -58,7 +59,7 @@ const btnVariants = {
   'btn-w-full': 'w-full',
 
   // hidden
-  'hidden-660': 'max-[660px]:hidden',
+  'hidden-710': 'max-[710px]:hidden',
   'hidden-510': 'max-[510px]:hidden',
 };
 
