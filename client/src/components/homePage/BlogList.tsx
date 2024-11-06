@@ -35,16 +35,16 @@ function BlogItem({ blog }: { blog: BlogDocument }) {
   return (
     <div className="max-w-[100rem] w-[95%] mx-auto border-b border-solid border-borderMedium last:border-b-0">
       <article className="py-12 ">
-        <Link to={`/blog/${blog._id}`} className="flex flex-col gap-5">
+        <Link
+          to={`/blog/${blog._id}`}
+          className="flex flex-col gap-5 max-[600px]:gap-8"
+        >
           <div className="flex items-center gap-5">
             <Avatar className="w-14 h-14 shadow-sm shadow-shadowDark rounded-full overflow-hidden">
-              <AvatarImage
-                src={blog.user?.image || profileImage}
-                alt={blog.user?.name}
-              />
+              <AvatarImage src={profileImage} alt={blog.user?.name} />
             </Avatar>
 
-            <p className="text-lg">
+            <p className="text-[1.4rem]">
               {blog.user && blog.user.name ? blog.user.name : 'unknown'}
             </p>
           </div>
@@ -59,7 +59,7 @@ function BlogItem({ blog }: { blog: BlogDocument }) {
                 dangerouslySetInnerHTML={{
                   __html: DOMPurify.sanitize(preview),
                 }}
-                className="text-2xl mt-5 mb-4"
+                className="text-[1.6rem] mt-5 mb-4 text-textSecondary"
               />
 
               <div className="min-[600px]:pt-16 pt-6 self-start flex items-center gap-8 text-lg text-textTertiary">

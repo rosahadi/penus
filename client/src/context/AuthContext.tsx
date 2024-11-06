@@ -11,10 +11,12 @@ import {
 
 interface AuthContextType {
   isAuthenticated: boolean;
+  setIsAuthenticated: (value: boolean) => void;
 }
 
 interface UserContextType {
   user: UserType | null;
+  setUser: (user: UserType | null) => void;
   isLoading: boolean;
   error: unknown;
   refetch: () => void;
@@ -22,10 +24,12 @@ interface UserContextType {
 
 const AuthContext = createContext<AuthContextType>({
   isAuthenticated: false,
+  setIsAuthenticated: () => {},
 });
 
 const UserContext = createContext<UserContextType>({
   user: null,
+  setUser: () => {},
   isLoading: true,
   error: null,
   refetch: () => {},
@@ -65,12 +69,28 @@ export function AuthAndUserProvider({ children }: AuthAndUserProviderProps) {
     }
   }, [authQuery.data]);
 
+  const handleSetUser = (newUser: UserType | null) => {
+    setUser(newUser);
+    if (newUser) {
+      localStorage.setItem('currentUser', JSON.stringify(newUser));
+    } else {
+      localStorage.removeItem('currentUser');
+    }
+  };
+
+  const handleSetIsAuthenticated = (value: boolean) => {
+    setIsAuthenticated(value);
+    localStorage.setItem('isAuthenticated', JSON.stringify(value));
+  };
+
   const authValue: AuthContextType = {
     isAuthenticated,
+    setIsAuthenticated: handleSetIsAuthenticated,
   };
 
   const userValue: UserContextType = {
     user,
+    setUser: handleSetUser,
     isLoading: authQuery.isLoading,
     error: authQuery.error,
     refetch: authQuery.refetch,

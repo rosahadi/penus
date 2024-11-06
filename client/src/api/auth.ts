@@ -92,3 +92,16 @@ export const resetPassword = async ({
     }
   }
 };
+
+export const logout = async () => {
+  try {
+    const res = await axios.get('/api/users/logout');
+    return res.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw error.response?.data.message;
+    } else {
+      throw { message: 'An unexpected error occurred.' };
+    }
+  }
+};

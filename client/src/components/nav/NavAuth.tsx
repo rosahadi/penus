@@ -6,7 +6,7 @@ import {
   MenubarContent,
   MenubarItem,
 } from '@/components/ui/menubar';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Bell,
   PenSquare,
@@ -17,12 +17,29 @@ import {
   Settings,
 } from 'lucide-react';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
-import { useUser } from '@/context/AuthContext';
+import { useAuth, useUser } from '@/context/AuthContext';
 import profileImage from '@/assets/profile.jpg';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { logout } from '@/api/auth';
 
 const NavAuth = () => {
-  const { user } = useUser();
+  const { user, setUser } = useUser();
+  const { setIsAuthenticated } = useAuth();
   const menuRef = React.useRef(null);
+
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  const logoutMutation = useMutation({
+    mutationFn: logout,
+    onSuccess: () => {
+      setIsAuthenticated(false);
+      setUser(null);
+      queryClient.clear();
+      queryClient.invalidateQueries({ queryKey: ['authAndUser'] });
+      navigate('/', { replace: true });
+    },
+  });
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -116,6 +133,7 @@ const NavAuth = () => {
 
             <MenubarItem className="p-0">
               <button
+                onClick={() => logoutMutation.mutate()}
                 className={`${menuItemClasses} text-error hover:text-red-600`}
               >
                 <svg
