@@ -47,7 +47,9 @@ function Blog() {
 
   return (
     <div className="mb-28 mt-16 max-w-[70rem] mx-auto">
-      <h2 className="text-7xl font-bold mb-10 mt-14">{blog?.title}</h2>
+      <h2 className="text-7xl max-md:text-6xl font-bold mb-10 mt-14">
+        {blog?.title}
+      </h2>
 
       <div className="grid grid-cols-[auto_1fr] gap-4 items-center  mb-4">
         {/* Avatar Column */}
@@ -83,7 +85,7 @@ function Blog() {
         </div>
       </div>
 
-      <div className="border-t border-b py-4 mt-8 flex justify-between items-center">
+      <div className="text-textSecondary border-solid border-t border-b border-borderMedium py-4 mt-8 flex justify-between items-center">
         <div className="flex items-center gap-12">
           <div className="flex items-center gap-2">
             <Button className={buttonStyles('btn-ghost')} onClick={handleLike}>
@@ -122,10 +124,11 @@ function Blog() {
           </div>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-10 text-textSecondary">
           <Button className={buttonStyles('btn-ghost')}>
             <FaShareAlt size={20} />
           </Button>
+
           <Button className={buttonStyles('btn-ghost')} onClick={handleSave}>
             {isSaved ? (
               <MdOutlineBookmark size={25} />
@@ -139,7 +142,7 @@ function Blog() {
       <img
         src={image}
         alt={blog?.title}
-        className="w-full h-[50rem] my-8 rounded-sm object-cover"
+        className="w-full max-h-[40rem]  aspect-[4/3] my-8 rounded-sm object-cover"
       />
 
       <article
