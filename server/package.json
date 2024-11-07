@@ -4,7 +4,7 @@
   "main": "src/server.js",
   "scripts": {
     "dev": "nodemon src/server.ts",
-    "start:prod": "NODE_ENV=production node dist/server.js",
+    "start:prod": "NODE_ENV=production node build/server.js",
     "install:all": "(cd ../client && npm install) && npm install",
     "build:frontend": "cd ../client && npm run build",
     "build:server": "tsc",
