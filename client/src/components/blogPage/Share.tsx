@@ -23,7 +23,7 @@ function Share({ url }: { url: string }) {
     <Popover>
       <PopoverTrigger asChild>
         <Button className={buttonStyles('btn-ghost')}>
-          <FaShareAlt size={20} className="mr-2" />
+          <FaShareAlt className="mr-2 w-7  h-7" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="p-8 bg-bgCard text-textSecondary flex flex-col items-start gap-5">

@@ -15,9 +15,10 @@ import {
   DrawerTrigger,
 } from '@/components/ui/drawer';
 import { MdOutlineBookmark, MdOutlineBookmarkAdd } from 'react-icons/md';
-import { FaRegComment, FaRegHeart } from 'react-icons/fa';
+import { FaRegHeart } from 'react-icons/fa';
 import Share from '@/components/blogPage/Share';
 import { buttonStyles } from '@/utils/buttonStyles';
+import Comment from '@/components/blogPage/Comment';
 
 function Blog() {
   const { blogId } = useParams();
@@ -25,7 +26,6 @@ function Blog() {
   const [isSaved, setIsSaved] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
   const [likeCount, setLikeCount] = useState(1);
-  const [commentCount, setCommentCount] = useState(1);
 
   const { data: blog } = useQuery({
     queryKey: ['blog', blogId],
@@ -81,11 +81,13 @@ function Blog() {
         <div className="flex items-center gap-12">
           <div className="flex items-center gap-2">
             <Button className="btn btn-ghost" onClick={handleLike}>
-              <FaRegHeart size={20} />
+              <FaRegHeart className="w-8 h-8" />
             </Button>
             <Drawer>
               <DrawerTrigger asChild>
-                <Button className="btn btn-ghost">{likeCount}</Button>
+                <Button className={buttonStyles('btn-ghost')}>
+                  {likeCount}
+                </Button>
               </DrawerTrigger>
               <DrawerContent>
                 <DrawerHeader>
@@ -95,21 +97,8 @@ function Blog() {
             </Drawer>
           </div>
 
-          <div className="flex items-center gap-2">
-            <Drawer>
-              <DrawerTrigger asChild>
-                <Button className="btn btn-ghost">
-                  <FaRegComment size={20} />
-                  <span className="ml-1">{commentCount}</span>
-                </Button>
-              </DrawerTrigger>
-              <DrawerContent>
-                <DrawerHeader>
-                  <DrawerTitle>Comments</DrawerTitle>
-                </DrawerHeader>
-              </DrawerContent>
-            </Drawer>
-          </div>
+          {/* Comment Button and Drawer*/}
+          <Comment />
         </div>
 
         <div className="flex items-center gap-10">
@@ -117,9 +106,9 @@ function Blog() {
 
           <Button className={buttonStyles('btn-ghost')} onClick={handleSave}>
             {isSaved ? (
-              <MdOutlineBookmark size={25} className="mr-2" />
+              <MdOutlineBookmark className="mr-2 w-10 h-10" />
             ) : (
-              <MdOutlineBookmarkAdd size={25} className="mr-2" />
+              <MdOutlineBookmarkAdd className="mr-2 w-10 h-10" />
             )}
           </Button>
         </div>
