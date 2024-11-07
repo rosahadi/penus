@@ -7,7 +7,7 @@ import * as factory from './handlerFactory';
 import { UserDocument } from '../types';
 
 export const getAllBlogs = factory.getAll(Blog);
-export const getBlogById = factory.getOne(Blog, { path: 'reviews' });
+export const getBlogById = factory.getOne(Blog, { path: 'comments' });
 export const updateBlog = factory.updateOne(Blog);
 export const createBlog = factory.createOne(Blog);
 export const deleteBlog = factory.deleteOne(Blog);
@@ -74,7 +74,7 @@ export const getPublicBlogs = catchAsync(async (req, res, next) => {
 // Get Public blog
 export const getPublicBlogById = catchAsync(async (req, res, next) => {
   const blog = await Blog.findById(req.params.id)
-    .populate({ path: 'reviews' })
+    .populate({ path: 'comments' })
     .lean({ virtuals: true });
 
   // Restrict access to hidden blogs

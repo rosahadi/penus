@@ -3,7 +3,7 @@ export interface CloseDialogType {
 }
 
 export interface UserDocument {
-  _id: string;
+  id: string;
   name: string;
   email: string;
   role: string;
@@ -17,7 +17,7 @@ export interface UserDocument {
 }
 
 export interface BlogDocument {
-  _id: string;
+  id: string;
   createdAt: Date;
   updatedAt: Date;
   title: string;
@@ -26,15 +26,17 @@ export interface BlogDocument {
   slug?: string | null;
   image?: string | null;
   user?: UserDocument;
-  reviews?: ReviewDocument[];
+  comments?: CommentDocument[];
 }
 
-export interface ReviewDocument {
-  _id: string;
-  review: string;
-  rating: number;
+export interface CommentDocument {
+  id: string;
+  comment: string;
   blog: string;
-  user: string;
+  user: UserDocument;
   createdAt: Date;
   updatedAt: Date;
+}
+export interface CommentFormDataType {
+  comment?: string;
 }

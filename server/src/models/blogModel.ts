@@ -37,8 +37,8 @@ const BlogSchema = new mongoose.Schema<BlogDocument>(
   },
 );
 
-BlogSchema.virtual('reviews', {
-  ref: 'Review',
+BlogSchema.virtual('comments', {
+  ref: 'Comment',
   foreignField: 'blog',
   localField: '_id',
 });

@@ -98,7 +98,7 @@ function Blog() {
           </div>
 
           {/* Comment Button and Drawer*/}
-          <Comment />
+          <Comment blogId={blogId} />
         </div>
 
         <div className="flex items-center gap-10">

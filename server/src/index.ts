@@ -10,7 +10,7 @@ import hpp from 'hpp';
 import { JSDOM } from 'jsdom';
 import DOMPurify from 'dompurify';
 import blogRouter from './routes/blogRouter';
-import reviewRouter from './routes/reviewRouter';
+import commentRouter from './routes/commentRouter';
 import AppError from './utils/appError';
 import globalErrorHandler from './controllers/errorController';
 
@@ -64,7 +64,7 @@ app.use(
 // Define API routes
 app.use('/api/users', userRouter);
 app.use('/api/blogs', blogRouter);
-app.use('/api/reviews', reviewRouter);
+app.use('/api/comments', commentRouter);
 
 // Handle undefined routes for API
 app.all('/api/*', (req, res, next) => {

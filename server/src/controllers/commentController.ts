@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import * as factory from './handlerFactory';
-import Review from '../models/reviewModel';
+import Comment from '../models/commentModel';
 import AppError from '../utils/appError';
 import { UserDocument } from '../types';
 
@@ -19,8 +19,8 @@ export const setBlogUserIds = (
   next();
 };
 
-export const getAllReviews = factory.getAll(Review);
-export const getReview = factory.getOne(Review);
-export const createReview = factory.createOne(Review);
-export const updateReview = factory.updateOne(Review);
-export const deleteReview = factory.deleteOne(Review);
+export const getAllComments = factory.getAll(Comment);
+export const getComment = factory.getOne(Comment);
+export const createComment = factory.createOne(Comment);
+export const updateComment = factory.updateOne(Comment);
+export const deleteComment = factory.deleteOne(Comment);

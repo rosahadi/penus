@@ -1,26 +1,21 @@
 import mongoose, { Model } from 'mongoose';
-import { ReviewDocument, UserDocument } from '../types';
+import { CommentDocument, UserDocument } from '../types';
 
-const reviewSchema = new mongoose.Schema<ReviewDocument>(
+const commentSchema = new mongoose.Schema<CommentDocument>(
   {
-    review: {
+    comment: {
       type: String,
-      required: [true, 'Review can not be empty!'],
-    },
-    rating: {
-      type: Number,
-      min: 1,
-      max: 5,
+      required: [true, 'Comment can not be empty!'],
     },
     blog: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Blog',
-      required: [true, 'Review must belong to a blog.'],
+      required: [true, 'Comment must belong to a blog.'],
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      required: [true, 'Review must belong to a user'],
+      required: [true, 'Comment must belong to a user'],
     },
   },
   {
@@ -30,7 +25,7 @@ const reviewSchema = new mongoose.Schema<ReviewDocument>(
   },
 );
 
-reviewSchema.pre(
+commentSchema.pre(
   /^find/,
   function (
     this: mongoose.Query<UserDocument[] | UserDocument | null, UserDocument>,
@@ -44,9 +39,9 @@ reviewSchema.pre(
   },
 );
 
-const Review: Model<ReviewDocument> = mongoose.model<ReviewDocument>(
-  'Review',
-  reviewSchema,
+const Comment: Model<CommentDocument> = mongoose.model<CommentDocument>(
+  'Comment',
+  commentSchema,
 );
 
-export default Review;
+export default Comment;

@@ -80,7 +80,6 @@ export const getOne = <T extends Document>(
 export const getAll = <T extends Document>(Model: MongooseModel<T>) =>
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   catchAsync(async (req, res, next) => {
-    // To allow for nested GET reviews on a blog
     let filter = {};
 
     if (req.params.id) filter = { blog: req.params.id };

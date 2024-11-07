@@ -48,6 +48,10 @@ export default {
         overlayMedium: 'var(--overlay-medium)',
         overlayDark: 'var(--overlay-dark)',
       },
+      boxShadow: {
+        'shadow-comment':
+          '0 4px 6px rgba(158, 158, 158, 0.114), 0 -4px 6px rgba(158, 158, 158, 0.114), 4px 0 6px rgba(158, 158, 158, 0.114), -4px 0 6px rgba(158, 158, 158, 0.114)',
+      },
     },
   },
   plugins: [],

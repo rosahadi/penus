@@ -27,13 +27,12 @@ export interface BlogDocument extends mongoose.Document {
   slug?: string | null;
   image?: string | null;
   user?: Types.ObjectId | UserDocument;
-  reviews?: ReviewDocument[];
+  comments?: CommentDocument[];
 }
 
-export interface ReviewDocument extends mongoose.Document {
+export interface CommentDocument extends mongoose.Document {
   _id: mongoose.Types.ObjectId;
-  review: string;
-  rating: number;
+  comment: string;
   blog: mongoose.Types.ObjectId;
   user: mongoose.Types.ObjectId;
   createdAt: Date;

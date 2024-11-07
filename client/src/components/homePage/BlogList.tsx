@@ -11,7 +11,7 @@ function BlogList({ blogs }: { blogs: BlogDocument[] }) {
   return (
     <div>
       {blogs.map((blog) => (
-        <BlogItem blog={blog} key={blog._id} />
+        <BlogItem blog={blog} key={blog.id} />
       ))}
     </div>
   );
@@ -34,7 +34,7 @@ function BlogItem({ blog }: { blog: BlogDocument }) {
     <div className="max-w-[100rem] w-[95%] mx-auto border-b border-solid border-borderMedium last:border-b-0">
       <article className="py-12 ">
         <Link
-          to={`/blog/${blog._id}`}
+          to={`/blog/${blog.id}`}
           className="flex flex-col gap-5 max-[600px]:gap-8"
         >
           <div className="flex items-center gap-5">
