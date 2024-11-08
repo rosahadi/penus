@@ -11,7 +11,7 @@
     "start:backend": "npm run dev --prefix ../server",
     "start:backendProd": "npm run start:prod --prefix ../server",
     "dev:start": "concurrently \"npm run start:backend\" \"npm run dev\"",
-    "prod:start": "concurrently \"npm run start:backendProd\" \"npm run dev\""
+    "prod:start": "concurrently \"npm run start:backendProd\" \"npm run preview\""
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
