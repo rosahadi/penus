@@ -55,34 +55,38 @@ function Comment({ blogId }: { blogId: string | undefined }) {
         </SheetTrigger>
         <SheetContent
           side="right"
-          className="p-12 h-full max-w-[50rem] w-full max-[630px]:max-w-full bg-bgMain"
+          className="overflow-y-auto p-0 h-full max-w-[50rem] w-full max-[630px]:max-w-full bg-bgMain flex flex-col"
         >
-          <div className="flex justify-between items-center mb-4">
-            <SheetHeader>
-              <SheetTitle className="text-text-primary text-3xl">
-                Comments
-              </SheetTitle>
-            </SheetHeader>
+          <div className="p-12 pb-6 ">
+            <div className="flex justify-between items-center mb-4">
+              <SheetHeader>
+                <SheetTitle className="text-text-primary text-3xl">
+                  Comments
+                </SheetTitle>
+              </SheetHeader>
 
-            <SheetClose asChild>
-              <Button className={`${btnVariants['btn-ghost']} text-primary`}>
-                <X className="h-8 w-8" />
-              </Button>
-            </SheetClose>
+              <SheetClose asChild>
+                <Button className={`${btnVariants['btn-ghost']} text-primary`}>
+                  <X className="h-8 w-8" />
+                </Button>
+              </SheetClose>
+            </div>
+
+            <CommentForm
+              onSubmit={onSubmit}
+              isPending={createCommentMutation.isPending}
+              textAreaHeight="h-32"
+            />
           </div>
 
-          <CommentForm
-            onSubmit={onSubmit}
-            isPending={createCommentMutation.isPending}
-            textAreaHeight="h-32"
-          />
-
-          <CommentList
-            blogId={blogId}
-            comments={getAllCommentsQuery.data || []}
-            isLoading={getAllCommentsQuery.isLoading}
-            error={getAllCommentsQuery.error}
-          />
+          <div className="flex-1  px-12 pb-12">
+            <CommentList
+              blogId={blogId}
+              comments={getAllCommentsQuery.data || []}
+              isLoading={getAllCommentsQuery.isLoading}
+              error={getAllCommentsQuery.error}
+            />
+          </div>
         </SheetContent>
       </Sheet>
     </div>
