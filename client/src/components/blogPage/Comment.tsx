@@ -9,25 +9,17 @@ import {
 import { FaRegComment } from 'react-icons/fa';
 import { X } from 'lucide-react';
 import { Button, btnVariants } from '@/components/Button';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { createComment, getAllComments } from '@/api/comment';
-import { CommentFormDataType, CommentDocument } from '@/types';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { createComment } from '@/api/comment';
+import { CommentFormDataType } from '@/types';
 import CommentList from './CommentList';
 import CommentForm from './CommentForm';
+import { useComments } from '@/hooks/useComments';
 
 function Comment({ blogId }: { blogId: string | undefined }) {
   const queryClient = useQueryClient();
 
-  const getAllCommentsQuery = useQuery({
-    queryKey: ['comment', blogId],
-    queryFn: () => getAllComments(blogId),
-    select: (data) => {
-      return data.sort(
-        (a: CommentDocument, b: CommentDocument) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      );
-    },
-  });
+  const { data: comments, isLoading, error } = useComments(blogId);
 
   const createCommentMutation = useMutation({
     mutationFn: createComment,
@@ -48,9 +40,7 @@ function Comment({ blogId }: { blogId: string | undefined }) {
             className={`${btnVariants['btn-ghost']} flex items-center gap-1`}
           >
             <FaRegComment className="w-8 h-8" />
-            <span className="ml-1">
-              {getAllCommentsQuery.data?.length || 0}
-            </span>
+            <span className="ml-1">{comments?.length || 0}</span>
           </Button>
         </SheetTrigger>
         <SheetContent
@@ -64,27 +54,24 @@ function Comment({ blogId }: { blogId: string | undefined }) {
                   Comments
                 </SheetTitle>
               </SheetHeader>
-
               <SheetClose asChild>
                 <Button className={`${btnVariants['btn-ghost']} text-primary`}>
                   <X className="h-8 w-8" />
                 </Button>
               </SheetClose>
             </div>
-
             <CommentForm
               onSubmit={onSubmit}
               isPending={createCommentMutation.isPending}
               textAreaHeight="h-32"
             />
           </div>
-
-          <div className="flex-1  px-12 pb-12">
+          <div className="flex-1 px-12 pb-12">
             <CommentList
               blogId={blogId}
-              comments={getAllCommentsQuery.data || []}
-              isLoading={getAllCommentsQuery.isLoading}
-              error={getAllCommentsQuery.error}
+              comments={comments || []}
+              isLoading={isLoading}
+              error={error}
             />
           </div>
         </SheetContent>

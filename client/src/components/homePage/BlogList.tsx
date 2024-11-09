@@ -6,6 +6,7 @@ import profileImage from '@/assets/profile.jpg';
 import { BlogDocument } from '@/types';
 import { FaHeart, FaComment } from 'react-icons/fa';
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar';
+import { useComments } from '@/hooks/useComments';
 
 function BlogList({ blogs }: { blogs: BlogDocument[] }) {
   return (
@@ -29,6 +30,7 @@ function BlogItem({ blog }: { blog: BlogDocument }) {
   const preview = shortenContent(blog.content);
   const title = getBlogTitle(blog.title);
   const formattedDate = formattedBlogDate(blog);
+  const { data: comments } = useComments(blog.id);
 
   return (
     <div className="max-w-[100rem] w-[95%] mx-auto border-b border-solid border-borderMedium last:border-b-0">
@@ -70,7 +72,7 @@ function BlogItem({ blog }: { blog: BlogDocument }) {
 
                 <div className="flex items-center gap-2">
                   <FaComment />
-                  <span>3</span>
+                  <span>{comments?.length || 0}</span>
                 </div>
               </div>
             </div>
