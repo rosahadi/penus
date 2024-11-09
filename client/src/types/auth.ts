@@ -43,3 +43,7 @@ export interface UserType {
   role: string;
   image: string;
 }
+
+export interface CurrentUser {
+  email: string;
+}

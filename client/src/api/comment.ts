@@ -59,7 +59,7 @@ export const updateComment = async ({
 }) => {
   try {
     const res = await axios.patch(`/api/comments/${blogId}`, {
-      formData,
+      comment: formData.comment,
     });
     return res.data;
   } catch (error) {

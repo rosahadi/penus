@@ -33,7 +33,7 @@ commentSchema.pre(
   ) {
     this.populate({
       path: 'user',
-      select: 'name role image',
+      select: 'name role image email',
     });
     next();
   },
