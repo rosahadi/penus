@@ -3,6 +3,7 @@ import Nav from './components/nav/Nav';
 import Home from './pages/Home';
 import ResetPassword from './pages/ResetPassword';
 import Blog from './pages/Blog';
+import Write from './pages/Write';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/reset-password/:token" element={<ResetPassword />} />
 
           <Route path="/blog/:blogId" element={<Blog />} />
+          <Route path="/write" element={<Write />} />
         </Routes>
       </main>
     </>

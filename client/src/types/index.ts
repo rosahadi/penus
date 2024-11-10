@@ -40,3 +40,9 @@ export interface CommentDocument {
 export interface CommentFormDataType {
   comment?: string;
 }
+
+export interface BlogDataType {
+  title: string;
+  content: string;
+  image: File | null;
+}
