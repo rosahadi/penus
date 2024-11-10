@@ -24,7 +24,7 @@ export interface BlogDocument {
   content: string;
   status: 'publish' | 'hide';
   slug?: string | null;
-  image?: string | null;
+  image: string;
   user?: UserDocument;
   comments?: CommentDocument[];
 }

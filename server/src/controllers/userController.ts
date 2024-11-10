@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import User from '../models/userModel';
 import { UserDocument } from '../types';
-import catchAsync from '../utils/catchAsync';
+import catchAsync from '../middleware/catchAsync';
 import filterObj from '../utils/filterObj';
 import { deleteOne, getAll, getOne, updateOne } from './handlerFactory';
 import AppError from '../utils/appError';

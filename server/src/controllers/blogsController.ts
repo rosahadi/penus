@@ -2,7 +2,7 @@ import { Request } from 'express';
 import Blog from '../models/blogModel';
 import APIFeatures from '../utils/apiFeatures';
 import AppError from '../utils/appError';
-import catchAsync from '../utils/catchAsync';
+import catchAsync from '../middleware/catchAsync';
 import * as factory from './handlerFactory';
 import { UserDocument } from '../types';
 

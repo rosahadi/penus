@@ -79,7 +79,7 @@ function BlogItem({ blog }: { blog: BlogDocument }) {
 
             <div className="relative w-[25%] max-w-[18rem] aspect-[4/3]">
               <img
-                src={profileImage}
+                src={blog?.image}
                 alt={blog.title}
                 className="absolute inset-0 w-full h-full object-cover"
               />

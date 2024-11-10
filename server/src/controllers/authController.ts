@@ -4,7 +4,7 @@ import crypto from 'crypto';
 import User from '../models/userModel';
 import { ErrorType, UserDocument } from '../types';
 import AppError from '../utils/appError';
-import catchAsync from '../utils/catchAsync';
+import catchAsync from '../middleware/catchAsync';
 import createSendToken from '../utils/createSendToken';
 import {
   validateEmail,

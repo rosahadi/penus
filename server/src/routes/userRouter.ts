@@ -2,6 +2,11 @@ import express from 'express';
 
 import * as userController from '../controllers/userController';
 import * as authController from '../controllers/authController';
+import {
+  createProfileUploadMiddleware,
+  handleProfileImageUpload,
+  uploadErrorHandler,
+} from '../middleware/imageUpload';
 
 const userRouter = express.Router();
 
@@ -19,7 +24,13 @@ userRouter.use(authController.protect);
 userRouter.get('/logout', authController.logout);
 
 userRouter.patch('/updateMyPassword', authController.updatePassword);
-userRouter.patch('/updateMe', userController.updateMe);
+userRouter.patch(
+  '/updateMe',
+  createProfileUploadMiddleware('image'),
+  handleProfileImageUpload,
+  uploadErrorHandler,
+  userController.updateMe,
+);
 userRouter.delete('/deleteMe', userController.deleteMe);
 
 userRouter.route('/').get(userController.getAllUsers);

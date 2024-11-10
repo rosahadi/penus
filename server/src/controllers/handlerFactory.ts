@@ -1,6 +1,7 @@
 import { Model as MongooseModel, Document } from 'mongoose';
 import AppError from '../utils/appError';
-import catchAsync from '../utils/catchAsync';
+import catchAsync from '../middleware/catchAsync';
+import currentUser from '../utils/currentUser';
 
 export const deleteOne = <T extends Document>(Model: MongooseModel<T>) =>
   catchAsync(async (req, res, next) => {
@@ -40,6 +41,10 @@ export const updateOne = <T extends Document>(Model: MongooseModel<T>) =>
 export const createOne = <T extends Document>(Model: MongooseModel<T>) =>
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   catchAsync(async (req, res, next) => {
+    const user = await currentUser(req);
+
+    req.body.user = user;
+
     const doc = await Model.create(req.body);
 
     res.status(201).json({
