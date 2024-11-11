@@ -43,6 +43,12 @@ BlogSchema.virtual('comments', {
   localField: '_id',
 });
 
+BlogSchema.virtual('likes', {
+  ref: 'LikedBlog',
+  foreignField: 'blog',
+  localField: '_id',
+});
+
 BlogSchema.pre('save', function (next) {
   this.slug = slugify(this.title, { lower: true });
   next();

@@ -2,6 +2,7 @@ import express from 'express';
 
 import * as commentController from '../controllers/commentController';
 import * as authController from '../controllers/authController';
+import setBlogUserIds from '../middleware/setBlogUserIds';
 
 const commentRouter = express.Router();
 
@@ -13,7 +14,7 @@ commentRouter
   .route('/')
   .post(
     authController.restrictTo('user', 'admin'),
-    commentController.setBlogUserIds,
+    setBlogUserIds,
     commentController.createComment,
   );
 

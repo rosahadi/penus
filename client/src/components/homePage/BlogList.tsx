@@ -7,6 +7,7 @@ import { BlogDocument } from '@/types';
 import { FaHeart, FaComment } from 'react-icons/fa';
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar';
 import { useComments } from '@/hooks/useComments';
+import useLikes from '@/hooks/useLikes';
 
 function BlogList({ blogs }: { blogs: BlogDocument[] }) {
   return (
@@ -31,6 +32,8 @@ function BlogItem({ blog }: { blog: BlogDocument }) {
   const title = getBlogTitle(blog.title);
   const formattedDate = formattedBlogDate(blog);
   const { data: comments } = useComments(blog.id);
+
+  const { data: likes } = useLikes(blog.id);
 
   return (
     <div className="max-w-[100rem] w-[95%] mx-auto border-b border-solid border-borderMedium last:border-b-0">
@@ -67,7 +70,7 @@ function BlogItem({ blog }: { blog: BlogDocument }) {
 
                 <div className="flex items-center gap-2 ">
                   <FaHeart />
-                  <span>4</span>
+                  <span>{likes?.length || 0}</span>
                 </div>
 
                 <div className="flex items-center gap-2">

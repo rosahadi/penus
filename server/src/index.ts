@@ -13,6 +13,7 @@ import blogRouter from './routes/blogRouter';
 import commentRouter from './routes/commentRouter';
 import AppError from './utils/appError';
 import globalErrorHandler from './controllers/errorController';
+import LikeRouter from './routes/likeRouter';
 
 const app = express();
 
@@ -65,6 +66,7 @@ app.use(
 app.use('/api/users', userRouter);
 app.use('/api/blogs', blogRouter);
 app.use('/api/comments', commentRouter);
+app.use('/api/likes', LikeRouter);
 
 // Handle undefined routes for API
 app.all('/api/*', (req, res, next) => {

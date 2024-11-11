@@ -65,7 +65,7 @@ const CommentItem = ({
   };
 
   const handleEditSubmit = (formData: CommentFormDataType) => {
-    updateMutation.mutate({ blogId: commentId, formData });
+    updateMutation.mutate({ commentId, formData });
   };
 
   const handleDeleteClick = () => {

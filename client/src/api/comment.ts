@@ -51,14 +51,14 @@ export const deleteComments = async (id: string | undefined) => {
 };
 
 export const updateComment = async ({
-  blogId,
+  commentId,
   formData,
 }: {
-  blogId: string | undefined;
+  commentId: string | undefined;
   formData: CommentFormDataType;
 }) => {
   try {
-    const res = await axios.patch(`/api/comments/${blogId}`, {
+    const res = await axios.patch(`/api/comments/${commentId}`, {
       comment: formData.comment,
     });
     return res.data;

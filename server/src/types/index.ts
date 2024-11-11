@@ -39,6 +39,14 @@ export interface CommentDocument extends mongoose.Document {
   updatedAt: Date;
 }
 
+export interface LikeDocument extends mongoose.Document {
+  _id: mongoose.Types.ObjectId;
+  blog: mongoose.Types.ObjectId;
+  user: mongoose.Types.ObjectId;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface ErrorType {
   name?: string;
   email?: string;

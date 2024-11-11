@@ -7,35 +7,22 @@ import image from '@/assets/profile.jpg';
 import DOMPurify from 'dompurify';
 import { Button } from '@/components/Button';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
-import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from '@/components/ui/drawer';
+
 import { MdOutlineBookmark, MdOutlineBookmarkAdd } from 'react-icons/md';
-import { FaRegHeart } from 'react-icons/fa';
 import Share from '@/components/blogPage/Share';
 import { buttonStyles } from '@/utils/buttonStyles';
 import Comment from '@/components/blogPage/Comment';
+import LikeButton from '@/components/blogPage/Like';
 
 function Blog() {
   const { blogId } = useParams();
-  const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
-  const [likeCount, setLikeCount] = useState(1);
 
   const { data: blog } = useQuery({
     queryKey: ['blog', blogId],
     queryFn: () => getPublicBlog(blogId),
   });
-
-  const handleLike = () => {
-    setIsLiked(!isLiked);
-    setLikeCount((prev) => (isLiked ? prev - 1 : prev + 1));
-  };
 
   const handleSave = () => {
     setIsSaved(!isSaved);
@@ -80,21 +67,7 @@ function Blog() {
       <div className="text-textTertiary border-solid border-t border-b border-borderMedium py-4 mt-8 flex justify-between items-center">
         <div className="flex items-center gap-12">
           <div className="flex items-center gap-2">
-            <Button className="btn btn-ghost" onClick={handleLike}>
-              <FaRegHeart className="w-8 h-8" />
-            </Button>
-            <Drawer>
-              <DrawerTrigger asChild>
-                <Button className={buttonStyles('btn-ghost')}>
-                  {likeCount}
-                </Button>
-              </DrawerTrigger>
-              <DrawerContent>
-                <DrawerHeader>
-                  <DrawerTitle>People who liked this post</DrawerTitle>
-                </DrawerHeader>
-              </DrawerContent>
-            </Drawer>
+            <LikeButton blogId={blogId} />
           </div>
 
           {/* Comment Button and Drawer*/}
