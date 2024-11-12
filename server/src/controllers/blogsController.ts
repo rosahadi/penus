@@ -89,3 +89,36 @@ export const getPublicBlogById = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+// Search controller
+export const searchBlogs = catchAsync(async (req, res) => {
+  const { query } = req.query;
+
+  if (!query) {
+    return res.status(200).json({
+      status: 'success',
+      results: 0,
+      data: {
+        blogs: [],
+      },
+    });
+  }
+
+  const searchRegex = new RegExp(String(query), 'i');
+
+  // Base query that ensures we only search public blogs
+  const blogs = await Blog.find({
+    status: 'publish',
+    title: searchRegex,
+  }).lean();
+
+  console.log(blogs);
+
+  res.status(200).json({
+    status: 'success',
+    results: blogs.length,
+    data: {
+      blogs,
+    },
+  });
+});

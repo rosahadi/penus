@@ -66,9 +66,7 @@ export const deleteMe = catchAsync(
 
 // Search for users
 export const searchUsers = catchAsync(async (req, res) => {
-  const query = req.query.query;
-
-  console.log(req.query);
+  const { query } = req.query;
 
   if (!query) {
     return res.status(200).json({

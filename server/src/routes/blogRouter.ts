@@ -13,6 +13,8 @@ const blogRouter = express.Router();
 blogRouter.get('/public', blogsController.getPublicBlogs);
 blogRouter.get('/public/:id', blogsController.getPublicBlogById);
 
+blogRouter.get('/search', blogsController.searchBlogs);
+
 // Protect all routes after this middleware
 blogRouter.use(authController.protect);
 
