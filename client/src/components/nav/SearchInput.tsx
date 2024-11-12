@@ -1,22 +1,52 @@
 import { Search } from 'lucide-react';
-import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+
+type SearchFormData = {
+  search: string;
+};
 
 function SearchInput() {
-  const [searchQuery, setSearchQuery] = useState('');
+  const searchForm = useForm<SearchFormData>({
+    defaultValues: {
+      search: '',
+    },
+  });
+
+  // Real-time search handler
+  const onSearchChange = (value: string) => {
+    console.log('Search query:', value);
+  };
 
   return (
-    <div className="relative w-[25rem] bg-bgSecondary border border-solid border-bgTertiary py-4 px-6 flex items-center justify-between gap-2 rounded-full">
-      <input
-        type="text"
-        className="w-full rounded-lg text-xl"
-        placeholder="Search..."
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-      />
-      <span className=" flex items-center pointer-events-none">
-        <Search className="w-[2rem] h-[2rem] text-textSecondary" />
-      </span>
-    </div>
+    <Form {...searchForm}>
+      <form className="relative w-[26rem] bg-bgSecondary border border-solid border-bgTertiary  px-6 flex items-center justify-between gap-3 rounded-full">
+        <FormField
+          control={searchForm.control}
+          name="search"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormControl>
+                <Input
+                  {...field}
+                  type="text"
+                  className="w-full border-none bg-transparent text-xl shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 p-0"
+                  placeholder="Search..."
+                  onChange={(e) => {
+                    field.onChange(e);
+                    onSearchChange(e.target.value);
+                  }}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <span className="flex items-center pointer-events-none">
+          <Search className="w-[1.8rem] h-[1.8rem] text-textSecondary" />
+        </span>
+      </form>
+    </Form>
   );
 }
 

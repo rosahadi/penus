@@ -201,10 +201,6 @@
     width: 0px;
     z-index: 0;
   }
-
-  .rich-text-editor {
-    direction: ltr; /* Ensure left-to-right direction */
-  }
 }
 
 @layer utilities {
