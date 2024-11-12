@@ -63,3 +63,34 @@ export const deleteMe = catchAsync(
     });
   },
 );
+
+// Search for users
+export const searchUsers = catchAsync(async (req, res) => {
+  const query = req.query.query;
+
+  console.log(req.query);
+
+  if (!query) {
+    return res.status(200).json({
+      status: 'success',
+      data: {
+        users: [],
+      },
+    });
+  }
+
+  // Search regex that is case-insensitive
+  const searchRegex = new RegExp(String(query), 'i');
+
+  const users = await User.find({
+    name: searchRegex,
+    active: { $ne: false },
+  }).select('name image');
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      users,
+    },
+  });
+});

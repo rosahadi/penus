@@ -18,6 +18,8 @@ userRouter.get('/checkAuthAndGetUser', authController.checkAuthAndGetUser);
 userRouter.post('/forgotPassword', authController.forgotPassword);
 userRouter.patch('/resetPassword/:token', authController.resetPassword);
 
+userRouter.get('/search', userController.searchUsers);
+
 // Protect all routes after this middleware
 userRouter.use(authController.protect);
 
