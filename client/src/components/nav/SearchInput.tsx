@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { Search } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
@@ -33,18 +33,26 @@ const SearchInput = () => {
     queryFn: () => searchBlog(searchForm.watch('search')),
   });
 
-  const handleSearch = useCallback(
-    debounce((query: string) => {
-      searchForm.setValue('search', query);
-    }, 300),
+  const debouncedSetValue = useMemo(
+    () =>
+      debounce((query: string) => {
+        searchForm.setValue('search', query);
+      }, 300),
     [searchForm]
+  );
+
+  const handleSearch = useCallback(
+    (query: string) => {
+      debouncedSetValue(query);
+    },
+    [debouncedSetValue]
   );
 
   useEffect(() => {
     return () => {
-      handleSearch.cancel();
+      debouncedSetValue.cancel();
     };
-  }, [handleSearch]);
+  }, [debouncedSetValue]);
 
   return (
     <div className="relative">
