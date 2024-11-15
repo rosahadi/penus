@@ -18,6 +18,7 @@ export interface UserDocument {
 
 export interface BlogDocument {
   id: string;
+  _id: string;
   createdAt: Date;
   updatedAt: Date;
   title: string;
