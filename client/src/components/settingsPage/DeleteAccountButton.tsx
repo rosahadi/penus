@@ -11,8 +11,31 @@ import {
 } from '@/components/ui/alert-dialog';
 import { buttonStyles } from '@/utils/buttonStyles';
 import { Button } from '../Button';
+import { deleteMe } from '@/api/user';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router';
 
 export function DeleteAccountButton() {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  const { mutate: deleteMeMutate } = useMutation({
+    mutationFn: deleteMe,
+
+    onSuccess: () => {
+      localStorage.removeItem('isAuthenticated');
+      localStorage.removeItem('currentUser');
+
+      queryClient.clear();
+      navigate('/', { replace: true });
+    },
+  });
+
+  // Handlers
+  const handleDelete = () => {
+    deleteMeMutate();
+  };
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -46,7 +69,10 @@ export function DeleteAccountButton() {
             Cancel
           </AlertDialogCancel>
 
-          <AlertDialogAction className="text-2xl h-12 w-32 rounded-md bg-[var(--error)] text-white hover:bg-[var(--error)]/90 transition-colors">
+          <AlertDialogAction
+            onClick={handleDelete}
+            className="text-2xl h-12 w-32 rounded-md bg-[var(--error)] text-white hover:bg-[var(--error)]/90 transition-colors"
+          >
             Delete
           </AlertDialogAction>
         </AlertDialogFooter>

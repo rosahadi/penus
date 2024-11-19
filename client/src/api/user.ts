@@ -14,3 +14,16 @@ export const searchUser = async (query: string) => {
     }
   }
 };
+
+export const deleteMe = async () => {
+  try {
+    const res = await axios.delete(`/api/users/deleteMe`);
+    return res.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw error.response?.data.message;
+    } else {
+      throw { message: 'An unexpected error occurred.' };
+    }
+  }
+};

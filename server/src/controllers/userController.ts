@@ -5,6 +5,9 @@ import catchAsync from '../middleware/catchAsync';
 import filterObj from '../utils/filterObj';
 import { deleteOne, getAll, getOne, updateOne } from './handlerFactory';
 import AppError from '../utils/appError';
+import LikedBlog from '../models/likedBlogsModel';
+import Blog from '../models/blogModel';
+import Comment from '../models/commentModel';
 
 export const getUser = getOne(User);
 
@@ -50,12 +53,22 @@ export const deleteMe = catchAsync(
       return next(new AppError('User is not authenticated', 401));
     }
 
-    // Update the user to set 'active' to false when they delete themselves
-    const user = await User.findByIdAndDelete(req.user.id);
+    // Delete all likes associated with the user
+    await LikedBlog.deleteMany({ user: req.user._id });
 
-    if (!user) {
-      return next(new AppError('User not found', 404));
-    }
+    // Find all blogs by the user
+    const userBlogs = await Blog.find({ user: req.user._id });
+
+    // Delete all comments on user's blogs
+    await Comment.deleteMany({
+      blog: { $in: userBlogs.map((blog) => blog._id) },
+    });
+
+    // Delete all user's blogs
+    await Blog.deleteMany({ user: req.user._id });
+
+    // Soft delete the user or permanently delete based on your requirements
+    await User.findByIdAndDelete(req.user._id);
 
     res.status(204).json({
       status: 'success',
