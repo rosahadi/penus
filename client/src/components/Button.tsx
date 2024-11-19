@@ -16,6 +16,7 @@ const btnVariants = {
   'btn-ghost': '',
   'btn-outline': 'border border-gray-200 hover:bg-gray-50',
   'btn-link': 'underline-offset-4 hover:underline',
+  'btn-delete': 'border border-solid border-error text-error',
 
   // Sizes
   'btn-sm': 'text-sm',

@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import ResetPassword from './pages/ResetPassword';
 import Blog from './pages/Blog';
 import Write from './pages/Write';
+import Settings from './pages/Settings';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
 
           <Route path="/blog/:blogId" element={<Blog />} />
           <Route path="/write" element={<Write />} />
+          <Route path="/settings" element={<Settings />} />
         </Routes>
       </main>
     </>
