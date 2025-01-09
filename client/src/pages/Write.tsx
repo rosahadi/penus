@@ -48,7 +48,7 @@ function Write() {
     mutationFn: createBlog,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['blogs'] });
-      navigate('/blog-manager');
+      navigate('/stories');
     },
   });
 
