@@ -85,3 +85,23 @@ export const searchBlog = async (query: string) => {
     }
   }
 };
+
+export const getMyBlogs = async (page = 1, limit = 15) => {
+  try {
+    const res = await axios.get('/api/blogs/myBlogs', {
+      params: {
+        page,
+        limit,
+      },
+    });
+
+    return res.data.data.blogs;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorData = error.response?.data;
+      throw errorData;
+    } else {
+      throw { message: 'An unexpected error occurred.' };
+    }
+  }
+};
