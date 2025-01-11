@@ -2,6 +2,19 @@ import { Link } from 'react-router-dom';
 import { BsPencilSquare } from 'react-icons/bs';
 import { FaRegTrashCan } from 'react-icons/fa6';
 
+interface BlogPost {
+  id: string;
+  title: string;
+  date: string;
+  image: string;
+  isPublished: boolean;
+}
+
+interface ToggleSwitchProps {
+  isPublished: boolean;
+  onChange: () => void;
+}
+
 const BlogTable = () => {
   return (
     <div className="w-full rounded-lg">
@@ -73,7 +86,10 @@ const TableHead = () => {
   );
 };
 
-const ToggleSwitch = ({ isPublished, onChange }) => {
+const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
+  isPublished,
+  onChange,
+}) => {
   return (
     <div className="flex items-center space-x-2">
       <button
@@ -96,17 +112,19 @@ const ToggleSwitch = ({ isPublished, onChange }) => {
   );
 };
 
-const TableRow = ({ id, title, date, image, isPublished }) => {
+const TableRow: React.FC<BlogPost> = ({
+  id,
+  title,
+  date,
+  image,
+  isPublished,
+}) => {
   return (
     <tr className="hover:bg-bgSecondary transition-colors duration-150 ease-in-out">
       <td className="px-4 py-6 text-[1.6rem] text-textSecondary">{id}</td>
       <td className="px-4 py-6">
         <div className="flex items-center space-x-3">
-          <img
-            src={image}
-            alt={title}
-            className="w-16 h-12 object-cover rounded"
-          />
+          <img src={image} alt={title} className="w-16 h-12 object-cover" />
           <span className="text-[1.65rem] text-textPrimary font-medium">
             {title}
           </span>
@@ -137,14 +155,14 @@ const TableRow = ({ id, title, date, image, isPublished }) => {
   );
 };
 
-const Card = ({ id, title, date, image, isPublished }) => {
+const Card: React.FC<BlogPost> = ({ id, title, date, image, isPublished }) => {
   return (
-    <div className="p-4 bg-bgCard border rounded-sm shadow-lg transition-transform hover:scale-[1.02] hover:shadow-xl">
+    <div className="p-4 bg-bgCard border rounded-md shadow-lg transition-transform hover:scale-[1.02] hover:shadow-xl">
       <div className="flex items-start space-x-4">
         <img
           src={image}
           alt={title}
-          className="w-24 h-16 object-cover rounded shadow-sm"
+          className="w-24 h-16 object-cover shadow-sm"
         />
         <div className="flex-1">
           <h3 className="text-[1.6rem] text-textPrimary font-medium">
