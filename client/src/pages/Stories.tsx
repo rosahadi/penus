@@ -1,5 +1,6 @@
 import BlogTable from '@/components/storiesPage/BlogTable';
 import PageSizeSelect from '@/components/storiesPage/PageSizeSelect';
+import Pagination from '@/components/storiesPage/Pagination';
 import SearchForm from '@/components/storiesPage/SearchForm';
 
 function Stories() {
@@ -15,6 +16,8 @@ function Stories() {
       </div>
 
       <BlogTable />
+
+      <Pagination />
     </div>
   );
 }

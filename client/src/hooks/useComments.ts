@@ -1,4 +1,3 @@
-// src/hooks/useComments.js
 import { useQuery } from '@tanstack/react-query';
 import { getAllComments } from '@/api/comment';
 import { CommentDocument } from '@/types';
