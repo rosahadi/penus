@@ -1,4 +1,5 @@
 import BlogTable from '@/components/storiesPage/BlogTable';
+import SearchForm from '@/components/storiesPage/SearchForm';
 
 function Stories() {
   return (
@@ -6,6 +7,10 @@ function Stories() {
       <h1 className="text-textPrimary text-4xl font-bold mb-12">
         Your stories
       </h1>
+
+      <div className="mb-8 flex justify-between">
+        <SearchForm />
+      </div>
 
       <BlogTable />
     </div>

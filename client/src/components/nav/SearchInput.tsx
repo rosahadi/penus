@@ -10,11 +10,7 @@ import { searchUser } from '@/api/user';
 import { Link } from 'react-router-dom';
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar';
 import profileImage from '@/assets/profile.jpg';
-import { BlogDocument, UserDocument } from '@/types';
-
-type SearchFormData = {
-  search: string;
-};
+import { BlogDocument, SearchFormData, UserDocument } from '@/types';
 
 const SearchInput = () => {
   const searchForm = useForm<SearchFormData>({

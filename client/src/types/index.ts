@@ -47,3 +47,7 @@ export interface BlogDataType {
   content: string;
   image: File | null;
 }
+
+export interface SearchFormData {
+  search: string;
+}
