@@ -1,4 +1,5 @@
 import BlogTable from '@/components/storiesPage/BlogTable';
+import PageSizeSelect from '@/components/storiesPage/PageSizeSelect';
 import SearchForm from '@/components/storiesPage/SearchForm';
 
 function Stories() {
@@ -8,8 +9,9 @@ function Stories() {
         Your stories
       </h1>
 
-      <div className="mb-8 flex justify-between">
+      <div className="mb-8 flex max-sm:flex-col gap-4 justify-between">
         <SearchForm />
+        <PageSizeSelect pageSize="10" onPageSizeChange={() => {}} />
       </div>
 
       <BlogTable />
