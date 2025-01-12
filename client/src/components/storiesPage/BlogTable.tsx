@@ -1,13 +1,23 @@
 import { Link } from 'react-router-dom';
 import { BsPencilSquare } from 'react-icons/bs';
 import { FaRegTrashCan } from 'react-icons/fa6';
+import { UserDocument } from '@/types';
+import { format } from 'date-fns';
 
-interface BlogPost {
+export interface BlogDocument {
   id: string;
+  _id: string;
+  createdAt: Date;
+  updatedAt: Date;
   title: string;
-  date: string;
+  status: 'publish' | 'hide';
+  slug?: string;
   image: string;
-  isPublished: boolean;
+  user?: UserDocument;
+}
+
+interface BlogTableProps {
+  blogs: BlogDocument[];
 }
 
 interface ToggleSwitchProps {
@@ -15,7 +25,12 @@ interface ToggleSwitchProps {
   onChange: () => void;
 }
 
-const BlogTable = () => {
+interface TableRowAndCardProps extends BlogDocument {
+  index: number;
+  isPublished: boolean;
+}
+
+const BlogTable: React.FC<BlogTableProps> = ({ blogs }) => {
   return (
     <div className="w-full rounded-lg">
       {/* Table layout for larger screens */}
@@ -23,40 +38,28 @@ const BlogTable = () => {
         <table className="w-full">
           <TableHead />
           <tbody className="divide-y divide-borderLight">
-            <TableRow
-              id="1"
-              title="Getting Started with React"
-              date="January 9, 2024"
-              image="/api/placeholder/120/80"
-              isPublished={false}
-            />
-            <TableRow
-              id="2"
-              title="Understanding CSS Grid"
-              date="January 8, 2024"
-              image="/api/placeholder/120/80"
-              isPublished={true}
-            />
+            {blogs.map((blog, index) => (
+              <TableRow
+                key={blog._id}
+                index={index + 1}
+                {...blog}
+                isPublished={blog.status === 'publish'}
+              />
+            ))}
           </tbody>
         </table>
       </div>
 
       {/* Card layout for smaller screens */}
       <div className="block md:hidden space-y-4">
-        <Card
-          id="1"
-          title="Getting Started with React"
-          date="January 9, 2024"
-          image="/api/placeholder/120/80"
-          isPublished={false}
-        />
-        <Card
-          id="2"
-          title="Understanding CSS Grid"
-          date="January 8, 2024"
-          image="/api/placeholder/120/80"
-          isPublished={true}
-        />
+        {blogs.map((blog, index) => (
+          <Card
+            key={blog._id}
+            index={index + 1}
+            {...blog}
+            isPublished={blog.status === 'publish'}
+          />
+        ))}
       </div>
     </div>
   );
@@ -112,16 +115,17 @@ const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
   );
 };
 
-const TableRow: React.FC<BlogPost> = ({
+const TableRow: React.FC<TableRowAndCardProps> = ({
+  index,
   id,
   title,
-  date,
+  createdAt,
   image,
   isPublished,
 }) => {
   return (
     <tr className="hover:bg-bgSecondary transition-colors duration-150 ease-in-out">
-      <td className="px-4 py-6 text-[1.6rem] text-textSecondary">{id}</td>
+      <td className="px-4 py-6 text-[1.6rem] text-textSecondary">{index}</td>
       <td className="px-4 py-6">
         <div className="flex items-center space-x-3">
           <img src={image} alt={title} className="w-16 h-12 object-cover" />
@@ -131,7 +135,9 @@ const TableRow: React.FC<BlogPost> = ({
         </div>
       </td>
       <td className="px-4 py-6">
-        <span className="text-[1.6rem] text-textSecondary">{date}</span>
+        <span className="text-[1.6rem] text-textSecondary">
+          {format(new Date(createdAt), 'MMM d, yyyy')}
+        </span>
       </td>
       <td className="px-4 py-6">
         <div className="flex items-center space-x-2">
@@ -155,7 +161,13 @@ const TableRow: React.FC<BlogPost> = ({
   );
 };
 
-const Card: React.FC<BlogPost> = ({ id, title, date, image, isPublished }) => {
+const Card: React.FC<TableRowAndCardProps> = ({
+  id,
+  title,
+  createdAt,
+  image,
+  isPublished,
+}) => {
   return (
     <div className="p-4 bg-bgCard border rounded-md shadow-lg transition-transform hover:scale-[1.02] hover:shadow-xl">
       <div className="flex items-start space-x-4">
@@ -168,7 +180,9 @@ const Card: React.FC<BlogPost> = ({ id, title, date, image, isPublished }) => {
           <h3 className="text-[1.6rem] text-textPrimary font-medium">
             {title}
           </h3>
-          <p className="text-[1.4rem] text-textSecondary">{date}</p>
+          <p className="text-[1.4rem] text-textSecondary">
+            {format(new Date(createdAt), 'MMM d, yyyy')}
+          </p>
         </div>
       </div>
       <div className="flex items-center justify-between mt-4">
