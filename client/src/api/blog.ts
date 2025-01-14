@@ -105,3 +105,18 @@ export const getMyBlogs = async (page = 1, limit = 10) => {
     }
   }
 };
+
+export const deleteMyBlog = async (id: string | undefined) => {
+  try {
+    const res = await axios.delete(`/api/blogs/${id}`);
+
+    return res.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorData = error.response?.data;
+      throw errorData;
+    } else {
+      throw { message: 'An unexpected error occurred.' };
+    }
+  }
+};
