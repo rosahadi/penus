@@ -1,10 +1,10 @@
-import { getMyBlogs } from '@/api/blog';
+import { deleteMyBlog, getMyBlogs } from '@/api/blog';
 import BlogTable from '@/components/storiesPage/BlogTable';
 import PageSizeSelect from '@/components/storiesPage/PageSizeSelect';
 import Pagination from '@/components/storiesPage/Pagination';
 import SearchForm from '@/components/storiesPage/SearchForm';
 import usePagination from '@/hooks/usePagination';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ChangeEvent, useCallback, useState } from 'react';
 import { useNavigate } from 'react-router';
 
@@ -20,6 +20,15 @@ function Stories() {
   const blogQuery = useQuery({
     queryKey: ['myBlogs', currentPage, pageSize, searchTerm],
     queryFn: () => getMyBlogs(currentPage, pageSize),
+  });
+
+  // Delete blog mutation
+  const deleteBlogMutation = useMutation({
+    mutationFn: deleteMyBlog,
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: ['myBlogs', currentPage, pageSize, searchTerm],
+      }),
   });
 
   const handleSearch = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +49,10 @@ function Stories() {
         />
       </div>
 
-      <BlogTable blogs={blogQuery?.data?.data?.blogs || []} />
+      <BlogTable
+        blogs={blogQuery?.data?.data?.blogs || []}
+        deleteBlog={(id) => deleteBlogMutation.mutate(id)}
+      />
 
       <Pagination
         currentPage={currentPage}

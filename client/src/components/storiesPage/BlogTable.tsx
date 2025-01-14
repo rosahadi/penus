@@ -18,6 +18,7 @@ export interface BlogDocument {
 
 interface BlogTableProps {
   blogs: BlogDocument[];
+  deleteBlog: (id: string) => void;
 }
 
 interface ToggleSwitchProps {
@@ -28,9 +29,10 @@ interface ToggleSwitchProps {
 interface TableRowAndCardProps extends BlogDocument {
   index: number;
   isPublished: boolean;
+  deleteBlog: (id: string) => void;
 }
 
-const BlogTable: React.FC<BlogTableProps> = ({ blogs }) => {
+const BlogTable: React.FC<BlogTableProps> = ({ blogs, deleteBlog }) => {
   return (
     <div className="w-full rounded-lg">
       {/* Table layout for larger screens */}
@@ -44,6 +46,7 @@ const BlogTable: React.FC<BlogTableProps> = ({ blogs }) => {
                 index={index + 1}
                 {...blog}
                 isPublished={blog.status === 'publish'}
+                deleteBlog={deleteBlog}
               />
             ))}
           </tbody>
@@ -58,6 +61,7 @@ const BlogTable: React.FC<BlogTableProps> = ({ blogs }) => {
             index={index + 1}
             {...blog}
             isPublished={blog.status === 'publish'}
+            deleteBlog={deleteBlog}
           />
         ))}
       </div>
@@ -122,6 +126,7 @@ const TableRow: React.FC<TableRowAndCardProps> = ({
   createdAt,
   image,
   isPublished,
+  deleteBlog,
 }) => {
   return (
     <tr className="hover:bg-bgSecondary transition-colors duration-150 ease-in-out">
@@ -152,7 +157,7 @@ const TableRow: React.FC<TableRowAndCardProps> = ({
           <Link to={`/edit-blog/${id}`} className="text-info">
             <BsPencilSquare className="w-[1.6rem] h-[1.6rem]" />
           </Link>
-          <button className="text-error">
+          <button className="text-error" onClick={() => deleteBlog(id)}>
             <FaRegTrashCan className="w-[1.6rem] h-[1.6rem]" />
           </button>
         </div>
@@ -167,6 +172,7 @@ const Card: React.FC<TableRowAndCardProps> = ({
   createdAt,
   image,
   isPublished,
+  deleteBlog,
 }) => {
   return (
     <div className="p-4 bg-bgCard border rounded-md shadow-lg transition-transform hover:scale-[1.02] hover:shadow-xl">
@@ -194,7 +200,7 @@ const Card: React.FC<TableRowAndCardProps> = ({
           <Link to={`/edit-blog/${id}`} className="text-info">
             <BsPencilSquare className="w-[1.6rem] h-[1.6rem]" />
           </Link>
-          <button className="text-error">
+          <button className="text-error" onClick={() => deleteBlog(id)}>
             <FaRegTrashCan className="w-[1.6rem] h-[1.6rem]" />
           </button>
         </div>
