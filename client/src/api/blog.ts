@@ -86,7 +86,7 @@ export const searchBlog = async (query: string) => {
   }
 };
 
-export const getMyBlogs = async (page = 1, limit = 15) => {
+export const getMyBlogs = async (page = 1, limit = 10) => {
   try {
     const res = await axios.get('/api/blogs/myBlogs', {
       params: {
@@ -95,7 +95,7 @@ export const getMyBlogs = async (page = 1, limit = 15) => {
       },
     });
 
-    return res.data.data.blogs;
+    return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const errorData = error.response?.data;

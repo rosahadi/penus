@@ -22,9 +22,6 @@ function Stories() {
     queryFn: () => getMyBlogs(currentPage, pageSize),
   });
 
-  console.log(pageSize, pageSize);
-  console.log(blogQuery.data);
-
   const handleSearch = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   }, []);
@@ -40,9 +37,14 @@ function Stories() {
         <PageSizeSelect pageSize="10" onPageSizeChange={() => {}} />
       </div>
 
-      <BlogTable blogs={blogQuery?.data || []} />
+      <BlogTable blogs={blogQuery?.data?.data?.blogs || []} />
 
-      <Pagination />
+      <Pagination
+        currentPage={currentPage}
+        pageSize={pageSize}
+        totalBlogs={blogQuery.data?.totalBlogs}
+        handlePageChange={handlePageChange}
+      />
     </div>
   );
 }

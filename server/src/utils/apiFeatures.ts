@@ -16,7 +16,7 @@ class APIFeatures<T> {
 
   paginate(): this {
     const page = parseInt(this.queryString.page!) || 1;
-    const limit = parseInt(this.queryString.limit!) || 8;
+    const limit = parseInt(this.queryString.limit!) || 10;
     const skip = (page - 1) * limit;
 
     this.query = this.query.skip(skip).limit(limit);
