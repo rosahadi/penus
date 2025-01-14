@@ -1,4 +1,4 @@
-import { useState, useEffect, ChangeEvent } from 'react';
+import { useState, useEffect } from 'react';
 
 function usePagination(initialPage = 1, initialPageSize = 10) {
   const [currentPage, setCurrentPage] = useState(() => {
@@ -20,9 +20,9 @@ function usePagination(initialPage = 1, initialPageSize = 10) {
     setCurrentPage(newPage);
   };
 
-  const handlePageSizeChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const newPageSize = parseInt(e.target.value, 10);
-    setPageSize(newPageSize);
+  const handlePageSizeChange = (newPageSize: string) => {
+    const size = parseInt(newPageSize, 10);
+    setPageSize(size);
     setCurrentPage(1);
   };
 

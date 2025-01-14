@@ -9,7 +9,7 @@ import {
 
 interface PageSizeSelectProps {
   pageSize: string;
-  onPageSizeChange: () => void;
+  onPageSizeChange: (value: string) => void;
 }
 
 const PageSizeSelect: React.FC<PageSizeSelectProps> = ({

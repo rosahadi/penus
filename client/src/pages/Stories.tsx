@@ -34,7 +34,10 @@ function Stories() {
 
       <div className="mb-8 flex max-sm:flex-col gap-4 justify-between">
         <SearchForm />
-        <PageSizeSelect pageSize="10" onPageSizeChange={() => {}} />
+        <PageSizeSelect
+          pageSize={pageSize.toString()}
+          onPageSizeChange={handlePageSizeChange}
+        />
       </div>
 
       <BlogTable blogs={blogQuery?.data?.data?.blogs || []} />
