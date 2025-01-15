@@ -1,16 +1,15 @@
-import { deleteMyBlog, getMyBlogs } from '@/api/blog';
+import { deleteMyBlog, getMyBlogs, updateMyBlog } from '@/api/blog';
 import BlogTable from '@/components/storiesPage/BlogTable';
 import PageSizeSelect from '@/components/storiesPage/PageSizeSelect';
 import Pagination from '@/components/storiesPage/Pagination';
 import SearchForm from '@/components/storiesPage/SearchForm';
 import usePagination from '@/hooks/usePagination';
+import { BlogDataType } from '@/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ChangeEvent, useCallback, useState } from 'react';
-import { useNavigate } from 'react-router';
 
 function Stories() {
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
 
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -30,6 +29,23 @@ function Stories() {
         queryKey: ['myBlogs', currentPage, pageSize, searchTerm],
       }),
   });
+
+  const toggleStatusMutation = useMutation({
+    mutationFn: ({ id, status }: { id: string; status: 'publish' | 'hide' }) =>
+      updateMyBlog(id, { status } as BlogDataType),
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: ['myBlogs'],
+      }),
+  });
+
+  const handleToggleStatus = (
+    id: string,
+    currentStatus: 'publish' | 'hide'
+  ) => {
+    const newStatus = currentStatus === 'publish' ? 'hide' : 'publish';
+    toggleStatusMutation.mutate({ id, status: newStatus });
+  };
 
   const handleSearch = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -52,6 +68,8 @@ function Stories() {
       <BlogTable
         blogs={blogQuery?.data?.data?.blogs || []}
         deleteBlog={(id) => deleteBlogMutation.mutate(id)}
+        onToggleStatus={handleToggleStatus}
+        disabled={toggleStatusMutation.isPending}
       />
 
       <Pagination

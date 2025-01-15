@@ -46,6 +46,7 @@ export interface BlogDataType {
   title: string;
   content: string;
   image: File | null;
+  status?: 'publish' | 'hide';
 }
 
 export interface SearchFormData {
