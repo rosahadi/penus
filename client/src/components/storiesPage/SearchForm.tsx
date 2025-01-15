@@ -3,8 +3,13 @@ import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useForm } from 'react-hook-form';
 import { SearchFormData } from '@/types';
+import { ChangeEvent } from 'react';
 
-function SearchForm() {
+function SearchForm({
+  handleSearch,
+}: {
+  handleSearch: (e: ChangeEvent<HTMLInputElement>) => void;
+}) {
   const searchForm = useForm<SearchFormData>({
     defaultValues: {
       search: '',
@@ -27,7 +32,7 @@ function SearchForm() {
                   placeholder="Search..."
                   onChange={(e) => {
                     field.onChange(e);
-                    // handleSearch(e.target.value);
+                    handleSearch(e);
                   }}
                 />
               </FormControl>

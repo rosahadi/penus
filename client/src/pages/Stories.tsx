@@ -39,17 +39,22 @@ function Stories() {
       }),
   });
 
-  const handleToggleStatus = (
-    id: string,
-    currentStatus: 'publish' | 'hide'
-  ) => {
-    const newStatus = currentStatus === 'publish' ? 'hide' : 'publish';
-    toggleStatusMutation.mutate({ id, status: newStatus });
-  };
+  const handleToggleStatus = useCallback(
+    (id: string, currentStatus: 'publish' | 'hide') => {
+      const newStatus = currentStatus === 'publish' ? 'hide' : 'publish';
+      toggleStatusMutation.mutate({ id, status: newStatus });
+    },
+    [toggleStatusMutation]
+  );
 
   const handleSearch = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   }, []);
+
+  const filteredBlogs =
+    blogQuery?.data?.data?.blogs.filter((blog: BlogDataType) =>
+      blog.title.toLowerCase().includes(searchTerm.toLowerCase())
+    ) || [];
 
   return (
     <div className="container mx-auto max-sm:p-2 p-8  bg-background min-h-fit text-2xl my-12">
@@ -58,7 +63,7 @@ function Stories() {
       </h1>
 
       <div className="mb-8 flex max-sm:flex-col gap-4 justify-between">
-        <SearchForm />
+        <SearchForm handleSearch={handleSearch} />
         <PageSizeSelect
           pageSize={pageSize.toString()}
           onPageSizeChange={handlePageSizeChange}
@@ -66,7 +71,7 @@ function Stories() {
       </div>
 
       <BlogTable
-        blogs={blogQuery?.data?.data?.blogs || []}
+        blogs={filteredBlogs}
         deleteBlog={(id) => deleteBlogMutation.mutate(id)}
         onToggleStatus={handleToggleStatus}
         disabled={toggleStatusMutation.isPending}
