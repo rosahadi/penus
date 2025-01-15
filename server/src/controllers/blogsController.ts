@@ -112,8 +112,6 @@ export const searchBlogs = catchAsync(async (req, res) => {
     title: searchRegex,
   }).lean();
 
-  console.log(blogs);
-
   res.status(200).json({
     status: 'success',
     results: blogs.length,

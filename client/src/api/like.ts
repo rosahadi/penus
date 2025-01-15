@@ -21,7 +21,6 @@ export const createLike = async (blogId: string | undefined) => {
     return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.log(error);
       throw error.response?.data.message;
     } else {
       throw { message: 'An unexpected error occurred.' };
@@ -35,7 +34,6 @@ export const deleteLike = async (likeId: string | null) => {
     return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.log(error);
       throw error.response?.data.message;
     } else {
       throw { message: 'An unexpected error occurred.' };

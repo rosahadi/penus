@@ -29,7 +29,6 @@ export const createComment = async ({
     return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.log(error);
       throw error.response?.data.message.message;
     } else {
       throw { message: 'An unexpected error occurred.' };

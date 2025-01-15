@@ -27,7 +27,6 @@ export const getPublicBlog = async (id: string | undefined) => {
     return res.data.data.blog;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.log(error);
       throw error.response;
     } else {
       throw { message: 'An unexpected error occurred.' };
@@ -45,7 +44,6 @@ export const createBlog = async (formData: FormData) => {
     return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.log(error);
       throw error.response?.data.message.message;
     } else {
       throw { message: 'An unexpected error occurred.' };
@@ -74,7 +72,6 @@ export const updateMyBlog = async (id: string, data: BlogDataType) => {
 export const searchBlog = async (query: string) => {
   try {
     const res = await axios.get(`/api/blogs/search?query=${query}`);
-    console.log(res);
     return res.data.data.blogs;
   } catch (error) {
     if (axios.isAxiosError(error)) {

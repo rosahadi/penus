@@ -31,8 +31,6 @@ const CommentItem = ({
     : null;
   const isCommentOwner = currentUser?.email === userEmail;
 
-  console.log(userEmail);
-
   const [showMenu, setShowMenu] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
