@@ -53,7 +53,7 @@ const MobileSearch = () => {
   const showLoading = isLoading && searchQuery.length > 0;
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
+    <div className="w-full max-w-4xl mx-auto py-16">
       {/* Search Input */}
       <div className="flex items-center gap-2 border-b-2 border-solid border-bgTertiary py-2 mb-4">
         <Search className="w-8 h-8 text-textSecondary" />
