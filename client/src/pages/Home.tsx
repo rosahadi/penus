@@ -1,8 +1,8 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useCallback, useEffect, useRef } from 'react';
 import { getAllPublicBlogs } from '@/api/blog';
-import BlogList from '@/components/homePage/BlogList';
-import SkeletonBlogList from '@/components/homePage/Skeleton';
+import BlogList from '@/components/BlogList';
+import SkeletonBlogList from '@/components/Skeleton';
 import { BlogDocument } from '@/types';
 import Loader from '@/components/Loader';
 

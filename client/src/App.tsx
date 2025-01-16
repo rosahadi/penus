@@ -6,6 +6,7 @@ import Blog from './pages/Blog';
 import Write from './pages/Write';
 import Settings from './pages/Settings';
 import Stories from './pages/Stories';
+import MobileSearch from './pages/MobileSearch';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/write" element={<Write />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/stories" element={<Stories />} />
+          <Route path="/search" element={<MobileSearch />} />
         </Routes>
       </main>
     </>

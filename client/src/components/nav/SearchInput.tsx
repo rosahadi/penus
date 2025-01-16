@@ -8,9 +8,8 @@ import { useQuery } from '@tanstack/react-query';
 import { searchBlog } from '@/api/blog';
 import { searchUser } from '@/api/user';
 import { Link } from 'react-router-dom';
-import { Avatar, AvatarImage } from '@radix-ui/react-avatar';
-import profileImage from '@/assets/profile.jpg';
-import { BlogDocument, SearchFormData, UserDocument } from '@/types';
+
+import { BlogDocument, SearchFormData } from '@/types';
 
 const SearchInput = () => {
   const searchForm = useForm<SearchFormData>({
@@ -83,7 +82,7 @@ const SearchInput = () => {
         {(userResults.length > 0 || blogResults.length > 0) && (
           <div className="absolute z-50 w-full p-4 bg-bgSecondary border border-bgTertiary rounded-xl shadow-lg overflow-hidden">
             {/* People Section */}
-            {userResults.length > 0 && (
+            {/* {userResults.length > 0 && (
               <div className="p-2">
                 <h3 className="text-lg font-semibold text-textTertiary px-2 pb-2">
                   People
@@ -112,12 +111,12 @@ const SearchInput = () => {
                   ))}
                 </ul>
               </div>
-            )}
+            )} */}
 
             {/* Divider */}
-            {userResults.length > 0 && blogResults.length > 0 && (
+            {/* {userResults.length > 0 && blogResults.length > 0 && (
               <div className="h-px bg-bgTertiary mx-2" />
-            )}
+            )} */}
 
             {/* Blogs Section */}
             {blogResults.length > 0 && (
