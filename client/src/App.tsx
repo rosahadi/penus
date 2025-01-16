@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router';
+import { Navigate, Route, Routes } from 'react-router';
 import Nav from './components/nav/Nav';
 import Home from './pages/Home';
 import ResetPassword from './pages/ResetPassword';
@@ -7,8 +7,12 @@ import Write from './pages/Write';
 import Settings from './pages/Settings';
 import Stories from './pages/Stories';
 import MobileSearch from './pages/MobileSearch';
+import { useMediaQuery } from 'react-responsive';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
+  const isMobile = useMediaQuery({ maxWidth: 600 });
+
   return (
     <>
       <Nav />
@@ -19,10 +23,40 @@ function App() {
           <Route path="/reset-password/:token" element={<ResetPassword />} />
 
           <Route path="/blog/:blogId" element={<Blog />} />
-          <Route path="/write" element={<Write />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/stories" element={<Stories />} />
-          <Route path="/search" element={<MobileSearch />} />
+
+          <Route
+            path="/search"
+            element={isMobile ? <MobileSearch /> : <Navigate to="/" />}
+          />
+
+          {/* Protected Routes */}
+          <Route
+            path="/write"
+            element={
+              <ProtectedRoute>
+                <Write />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <Settings />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/stories"
+            element={
+              <ProtectedRoute>
+                <Stories />
+              </ProtectedRoute>
+            }
+          />
+          {/* */}
+
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </main>
     </>
