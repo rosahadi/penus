@@ -46,7 +46,9 @@ const MobileSearch = () => {
     };
   }, [debouncedSetValue]);
 
-  const showNoResults = !isLoading && blogResults.length === 0;
+  const showInitialState = !searchQuery;
+  const showNoResults =
+    !isLoading && blogResults.length === 0 && !showInitialState;
   const showResults = !isLoading && blogResults.length > 0;
   const showLoading = isLoading && searchQuery.length > 0;
 

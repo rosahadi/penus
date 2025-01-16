@@ -7,15 +7,7 @@ import {
   MenubarItem,
 } from '@/components/ui/menubar';
 import { Link, useNavigate } from 'react-router-dom';
-import {
-  Bell,
-  PenSquare,
-  User,
-  Library,
-  BookOpen,
-  BarChart2,
-  Settings,
-} from 'lucide-react';
+import { PenSquare, User, Library, BookOpen, Settings } from 'lucide-react';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { useAuth, useUser } from '@/context/AuthContext';
 import profileImage from '@/assets/profile.jpg';
@@ -69,12 +61,12 @@ const NavAuth = () => {
       </Link>
 
       {/* Notifications Link */}
-      <Link
+      {/* <Link
         to="/notifications"
         className="text-textSecondary hover:text-textTertiary transition-colors relative"
       >
         <Bell className="w-[2.35rem] h-[2.35rem]" />
-      </Link>
+      </Link> */}
 
       {/* User Avatar with Menu */}
       <Menubar
@@ -117,12 +109,12 @@ const NavAuth = () => {
               </Link>
             </MenubarItem>
 
-            <MenubarItem className="p-0">
+            {/* <MenubarItem className="p-0">
               <Link to="/stats" className={menuItemClasses}>
                 <BarChart2 className="w-8 h-8" />
                 Stats
               </Link>
-            </MenubarItem>
+            </MenubarItem> */}
 
             <MenubarItem className="p-0">
               <Link to="/settings" className={menuItemClasses}>
