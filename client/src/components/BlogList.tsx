@@ -44,7 +44,10 @@ function BlogItem({ blog }: { blog: BlogDocument }) {
         >
           <div className="flex items-center gap-5">
             <Avatar className="w-14 h-14 shadow-sm shadow-shadowDark rounded-full overflow-hidden">
-              <AvatarImage src={profileImage} alt={blog.user?.name} />
+              <AvatarImage
+                src={blog.user?.image || profileImage}
+                alt={blog.user?.name}
+              />
             </Avatar>
 
             <p className="text-[1.4rem]">

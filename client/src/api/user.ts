@@ -1,4 +1,3 @@
-import { UserDocument } from '@/types';
 import axios from 'axios';
 
 export const searchUser = async (query: string) => {
@@ -28,7 +27,7 @@ export const deleteMe = async () => {
   }
 };
 
-export const updateMe = async (data: UserDocument) => {
+export const updateMe = async (data: FormData) => {
   try {
     const res = await axios.patch(`/api/users/updateMe`, data, {
       headers: {

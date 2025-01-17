@@ -5,8 +5,11 @@ import { ProfileModal } from '@/components/settingsPage/ProfileModal';
 import { PasswordModal } from '@/components/settingsPage/PasswordModal';
 import { DeleteAccountButton } from '@/components/settingsPage/DeleteAccountButton';
 import profileImage from '@/assets/profile.jpg';
+import { useUser } from '@/context/AuthContext';
 
 export default function Profile() {
+  const { user } = useUser();
+
   return (
     <div className="max-w-[50rem] mx-auto py-16 px-4">
       <h1 className="text-3xl font-bold mb-8 text-[var(--text-primary)]">
@@ -23,7 +26,7 @@ export default function Profile() {
                   Email address
                 </span>
                 <span className="text-[var(--text-primary)]">
-                  rosa@gmail.com
+                  {user?.email}
                 </span>
               </div>
             </div>
@@ -41,9 +44,11 @@ export default function Profile() {
                 </span>
                 <div className="flex items-center gap-3">
                   <Avatar className="h-10 w-10">
-                    <AvatarImage src={profileImage} />
+                    <AvatarImage src={user?.image || profileImage} />
                   </Avatar>
-                  <span className="text-[var(--text-primary)]">rosa</span>
+                  <span className="text-[var(--text-primary)]">
+                    {user?.name}
+                  </span>
                 </div>
               </div>
             </div>

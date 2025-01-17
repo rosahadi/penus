@@ -7,7 +7,7 @@ import {
   MenubarItem,
 } from '@/components/ui/menubar';
 import { Link, useNavigate } from 'react-router-dom';
-import { PenSquare, User, Library, BookOpen, Settings } from 'lucide-react';
+import { PenSquare, Library, BookOpen, Settings } from 'lucide-react';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { useAuth, useUser } from '@/context/AuthContext';
 import profileImage from '@/assets/profile.jpg';
@@ -88,12 +88,12 @@ const NavAuth = () => {
               </Link>
             </MenubarItem>
 
-            <MenubarItem className="p-0">
+            {/* <MenubarItem className="p-0">
               <Link to="/profile" className={menuItemClasses}>
                 <User className="w-8 h-8" />
                 Profile
               </Link>
-            </MenubarItem>
+            </MenubarItem> */}
 
             <MenubarItem className="p-0">
               <Link to="/library" className={menuItemClasses}>

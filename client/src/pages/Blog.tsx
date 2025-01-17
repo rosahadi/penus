@@ -17,7 +17,7 @@ import LikeButton from '@/components/blogPage/Like';
 function Blog() {
   const { blogId } = useParams();
   const [isSaved, setIsSaved] = useState(false);
-  const [isFollowing, setIsFollowing] = useState(false);
+  // const [isFollowing, setIsFollowing] = useState(false);
 
   const { data: blog } = useQuery({
     queryKey: ['blog', blogId],
@@ -28,9 +28,9 @@ function Blog() {
     setIsSaved(!isSaved);
   };
 
-  const handleFollow = () => {
-    setIsFollowing(!isFollowing);
-  };
+  // const handleFollow = () => {
+  //   setIsFollowing(!isFollowing);
+  // };
 
   const shareUrl = window.location.href;
 
@@ -42,21 +42,24 @@ function Blog() {
 
       <div className="grid grid-cols-[auto_1fr] gap-4 items-center mb-4">
         <Avatar className="w-16 h-16 shadow-sm shadow-shadowDark rounded-full overflow-hidden">
-          <AvatarImage src={image} alt={blog?.user?.name} />
+          <AvatarImage
+            src={blog?.user?.image || image}
+            alt={blog?.user?.name}
+          />
         </Avatar>
         <div className="flex flex-col justify-center">
           <div className="flex items-center gap-4">
             <span className="font-medium text-[1.6rem]">
               {blog?.user?.name || 'unknown'}
             </span>
-            <Button
+            {/* <Button
               className={`btn btn-ghost btn-px-md btn-py-sm btn-1.6 ${
                 isFollowing ? 'text-success' : 'text-textSecondary'
               }`}
               onClick={handleFollow}
             >
               {isFollowing ? 'Following' : 'Follow'}
-            </Button>
+            </Button> */}
           </div>
           <span className="text-gray-400 text-xl">
             {formattedBlogDate(blog)}
@@ -88,7 +91,7 @@ function Blog() {
       </div>
 
       <img
-        src={image}
+        src={blog?.image}
         alt={blog?.title}
         className="w-full max-h-[40rem] aspect-[4/3] my-8 rounded-sm object-cover"
       />
