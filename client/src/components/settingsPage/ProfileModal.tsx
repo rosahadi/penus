@@ -11,7 +11,7 @@ import profileImage from '@/assets/profile.jpg';
 import { Button } from '../Button';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useUser } from '@/context/AuthContext';
-import { updateMe } from '@/api/user';
+import { updateNameAndImage } from '@/api/user';
 
 export function ProfileModal() {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -24,13 +24,13 @@ export function ProfileModal() {
   const [error, setError] = useState('');
 
   const { mutate, isPending } = useMutation({
-    mutationFn: updateMe,
+    mutationFn: updateNameAndImage,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['authAndUser'] });
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (err: any) => {
-      setError(err.message || 'An error occurred.');
+      setError(err.message);
     },
   });
 
