@@ -57,7 +57,7 @@ function Stories() {
     ) || [];
 
   return (
-    <div className="container mx-auto max-sm:p-2 p-8  bg-background min-h-fit text-2xl my-12">
+    <div className="max-w-[98rem] mx-auto max-sm:p-2 p-8  bg-background min-h-fit text-2xl mb-28 mt-16">
       <h1 className="text-textPrimary text-4xl font-bold mb-12">
         Your stories
       </h1>

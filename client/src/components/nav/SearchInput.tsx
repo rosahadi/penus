@@ -7,11 +7,13 @@ import debounce from 'lodash/debounce';
 import { useQuery } from '@tanstack/react-query';
 import { searchBlog } from '@/api/blog';
 import { searchUser } from '@/api/user';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { BlogDocument, SearchFormData } from '@/types';
 
 const SearchInput = () => {
+  const navigate = useNavigate();
+
   const searchForm = useForm<SearchFormData>({
     defaultValues: {
       search: '',
@@ -43,6 +45,14 @@ const SearchInput = () => {
     [debouncedSetValue]
   );
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const searchValue = searchForm.getValues('search');
+    if (searchValue.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchValue.trim())}`);
+    }
+  };
+
   useEffect(() => {
     return () => {
       debouncedSetValue.cancel();
@@ -52,7 +62,11 @@ const SearchInput = () => {
   return (
     <div className="relative">
       <Form {...searchForm}>
-        <form className="relative w-[26rem] bg-bgSecondary border border-solid border-bgTertiary px-6 flex items-center justify-between gap-3 rounded-full">
+        <form
+          className="relative w-[26rem] bg-bgSecondary border border-solid border-bgTertiary 
+        px-6 flex items-center justify-between gap-3 rounded-full"
+          onSubmit={handleSubmit}
+        >
           <FormField
             control={searchForm.control}
             name="search"

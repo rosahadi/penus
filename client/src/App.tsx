@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from 'react-router';
+import { Route, Routes } from 'react-router';
 import Nav from './components/nav/Nav';
 import Home from './pages/Home';
 import ResetPassword from './pages/ResetPassword';
@@ -9,6 +9,7 @@ import Stories from './pages/Stories';
 import MobileSearch from './pages/MobileSearch';
 import { useMediaQuery } from 'react-responsive';
 import ProtectedRoute from './components/ProtectedRoute';
+import DesktopSearch from './pages/DesktopSearch';
 
 function App() {
   const isMobile = useMediaQuery({ maxWidth: 600 });
@@ -26,7 +27,7 @@ function App() {
 
           <Route
             path="/search"
-            element={isMobile ? <MobileSearch /> : <Navigate to="/" />}
+            element={isMobile ? <MobileSearch /> : <DesktopSearch />}
           />
 
           {/* Protected Routes */}
@@ -56,7 +57,7 @@ function App() {
           />
           {/* */}
 
-          <Route path="*" element={<Navigate to="/" />} />
+          {/* <Route path="*" element={<Navigate to="/" />} /> */}
         </Routes>
       </main>
     </>
