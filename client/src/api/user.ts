@@ -28,7 +28,7 @@ export const deleteMe = async () => {
   }
 };
 
-export const updateMe = async (data: FormData) => {
+export const updateNameAndImage = async (data: FormData) => {
   try {
     const res = await axios.patch(`/api/users/updateMe`, data, {
       headers: {
@@ -36,6 +36,25 @@ export const updateMe = async (data: FormData) => {
       },
       withCredentials: true,
     });
+    return res.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw error.response?.data.message;
+    } else {
+      throw { message: 'An unexpected error occurred.' };
+    }
+  }
+};
+
+export const updateEmail = async (email: string) => {
+  try {
+    const res = await axios.patch(
+      `/api/users/updateMe`,
+      { email },
+      {
+        withCredentials: true,
+      }
+    );
     return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
