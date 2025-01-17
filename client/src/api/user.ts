@@ -1,3 +1,4 @@
+import { UpdatePasswordFormData } from '@/types';
 import axios from 'axios';
 
 export const searchUser = async (query: string) => {
@@ -39,6 +40,24 @@ export const updateMe = async (data: FormData) => {
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw error.response?.data.message;
+    } else {
+      throw { message: 'An unexpected error occurred.' };
+    }
+  }
+};
+
+export const updateCurrentPassword = async (data: UpdatePasswordFormData) => {
+  try {
+    const res = await axios.patch(`/api/users/updateMyPassword`, data, {
+      withCredentials: true,
+    });
+
+    return res.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorData = error.response?.data?.message;
+      const validationError = JSON.parse(errorData);
+      throw validationError;
     } else {
       throw { message: 'An unexpected error occurred.' };
     }

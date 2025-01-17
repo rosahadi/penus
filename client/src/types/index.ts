@@ -52,3 +52,15 @@ export interface BlogDataType {
 export interface SearchFormData {
   search: string;
 }
+
+export interface UpdatePasswordFormData {
+  password: string;
+  passwordCurrent: string;
+  passwordConfirm: string;
+}
+
+export interface UpdatePasswordFormError {
+  password: string;
+  passwordCurrent: string;
+  passwordConfirm: string;
+}
