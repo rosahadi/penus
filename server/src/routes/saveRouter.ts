@@ -9,9 +9,8 @@ saveRouter.use(authController.protect);
 
 saveRouter
   .route('/')
-  .patch(saveBlogController.saveBlog)
-  .get(saveBlogController.getSavedBlogs);
-
-saveRouter.route('/:id').delete(saveBlogController.deleteSavedBlog);
+  .post(saveBlogController.saveBlog)
+  .get(saveBlogController.getSavedBlogs)
+  .delete(saveBlogController.deleteSavedBlog);
 
 export default saveRouter;

@@ -24,7 +24,7 @@ export const getAllPublicBlogs = async (page = 1, limit = 15) => {
 export const getPublicBlog = async (id: string | undefined) => {
   try {
     const res = await axios.get(`/api/blogs/public/${id}`);
-    return res.data.data.blog;
+    return res.data.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw error.response;
