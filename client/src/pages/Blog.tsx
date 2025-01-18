@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getPublicBlog } from '@/api/blog';
 import formattedBlogDate from '@/utils/formattedDate';
 import { useQuery } from '@tanstack/react-query';
@@ -13,19 +13,38 @@ import Share from '@/components/blogPage/Share';
 import { buttonStyles } from '@/utils/buttonStyles';
 import Comment from '@/components/blogPage/Comment';
 import LikeButton from '@/components/blogPage/Like';
+import { useSavedBlogs } from '@/hooks/useSaveBlog';
 
 function Blog() {
   const { blogId } = useParams();
   const [isSaved, setIsSaved] = useState(false);
   // const [isFollowing, setIsFollowing] = useState(false);
 
+  const { saveBlog, deleteSavedBlog, isSaving, isDeleting } = useSavedBlogs();
+
   const { data: blog } = useQuery({
     queryKey: ['blog', blogId],
     queryFn: () => getPublicBlog(blogId),
   });
 
+  useEffect(() => {
+    if (blog) {
+      setIsSaved(blog.isSaved);
+    }
+  }, [blog]);
+
   const handleSave = () => {
-    setIsSaved(!isSaved);
+    try {
+      if (!isSaved) {
+        saveBlog(blogId);
+      } else {
+        deleteSavedBlog(blogId);
+      }
+      setIsSaved(!isSaved);
+    } catch (error) {
+      console.error('Error saving blog:', error);
+      setIsSaved(false);
+    }
   };
 
   // const handleFollow = () => {
@@ -80,7 +99,11 @@ function Blog() {
         <div className="flex items-center gap-10">
           <Share url={shareUrl} />
 
-          <Button className={buttonStyles('btn-ghost')} onClick={handleSave}>
+          <Button
+            className={buttonStyles('btn-ghost')}
+            onClick={handleSave}
+            disabled={isSaving || isDeleting}
+          >
             {isSaved ? (
               <MdOutlineBookmark className="mr-2 w-10 h-10" />
             ) : (
