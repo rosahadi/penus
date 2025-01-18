@@ -55,3 +55,11 @@ export interface ErrorType {
   token?: string;
   passwordCurrent?: string;
 }
+
+export interface SaveBlogDocument extends mongoose.Document {
+  _id: mongoose.Types.ObjectId;
+  blog: mongoose.Types.ObjectId;
+  user: mongoose.Types.ObjectId;
+  createdAt: Date;
+  updatedAt: Date;
+}

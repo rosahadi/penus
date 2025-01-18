@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
+import { SaveBlogDocument } from '../types';
 
-const savedBlogSchema = new mongoose.Schema(
+const savedBlogSchema = new mongoose.Schema<SaveBlogDocument>(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -18,6 +19,8 @@ const savedBlogSchema = new mongoose.Schema(
   },
 );
 
-const savedBlog = mongoose.model('savedBlog', savedBlogSchema);
+savedBlogSchema.index({ user: 1, blog: 1 }, { unique: true });
 
-export default savedBlog;
+const SavedBlog = mongoose.model('SavedBlog', savedBlogSchema);
+
+export default SavedBlog;
