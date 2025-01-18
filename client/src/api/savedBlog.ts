@@ -27,9 +27,11 @@ export const saveBlog = async (blogId: string | undefined) => {
   }
 };
 
-export const deleteSavedBlog = async (id: string | undefined) => {
+export const deleteSavedBlog = async (blogId: string | undefined) => {
   try {
-    const res = await axios.delete(`/api/saveBlogs/${id}`);
+    const res = await axios.delete('/api/saveBlogs', {
+      data: { blog: blogId },
+    });
     return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
