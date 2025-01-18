@@ -5,6 +5,8 @@ import AppError from '../utils/appError';
 import catchAsync from '../middleware/catchAsync';
 import * as factory from './handlerFactory';
 import { UserDocument } from '../types';
+import currentUser from '../utils/currentUser';
+import SavedBlog from '../models/saveBlogModel';
 
 export const getAllBlogs = factory.getAll(Blog);
 export const getBlogById = factory.getOne(Blog, { path: 'comments' });
@@ -73,20 +75,36 @@ export const getPublicBlogs = catchAsync(async (req, res, next) => {
 
 // Get Public blog
 export const getPublicBlogById = catchAsync(async (req, res, next) => {
+  const user = await currentUser(req);
+
   const blog = await Blog.findById(req.params.id)
-    .populate({ path: 'comments' })
+    .populate('comments')
     .lean({ virtuals: true });
 
-  // Restrict access to hidden blogs
-  if (!blog || blog.status === 'hide') {
-    return next(new AppError('No blog found with that ID', 404));
+  // Check if blog exists and is public
+  if (!blog) {
+    return next(new AppError('Blog not found', 404));
   }
+  if (blog.status === 'hide') {
+    return next(new AppError('This blog is not available', 403));
+  }
+
+  // Check save status if user is authenticated
+  const isSaved = user
+    ? (await SavedBlog.exists({
+        blog: blog._id,
+        user: user._id,
+      })) !== null
+    : false;
+
+  const sanitizedBlog = {
+    ...blog,
+    isSaved,
+  };
 
   res.status(200).json({
     status: 'success',
-    data: {
-      blog,
-    },
+    data: sanitizedBlog,
   });
 });
 
