@@ -38,36 +38,45 @@ const UserContext = createContext<UserContextType>({
 interface AuthAndUserProviderProps {
   children: ReactNode;
 }
-
 export function AuthAndUserProvider({ children }: AuthAndUserProviderProps) {
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    () => localStorage.getItem('isAuthenticated') === 'true'
-  );
-  const [user, setUser] = useState(() => {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(() => {
+    const storedAuth = localStorage.getItem('isAuthenticated');
+    return storedAuth === 'true';
+  });
+
+  const [user, setUser] = useState<UserType | null>(() => {
     const storedUser = localStorage.getItem('currentUser');
     return storedUser ? JSON.parse(storedUser) : null;
   });
 
+  // Ensure the query only runs if we don't have the initial state in localStorage
   const authQuery = useQuery({
     queryKey: ['authAndUser'],
     queryFn: checkAuthAndGetUser,
+    refetchOnWindowFocus: false,
+    retry: 2,
+    enabled: isAuthenticated === null,
   });
 
   useEffect(() => {
-    const isValid = authQuery.data?.isValid ?? false;
-    const userData = authQuery.data?.user ?? null;
+    if (authQuery.isFetched) {
+      const isValid = authQuery.data?.isValid ?? false;
+      const userData = authQuery.data?.user ?? null;
 
-    setIsAuthenticated(isValid);
-    localStorage.setItem('isAuthenticated', JSON.stringify(isValid));
-
-    if (userData) {
+      setIsAuthenticated(isValid);
       setUser(userData);
-      localStorage.setItem('currentUser', JSON.stringify(userData));
-    } else {
-      setUser(null);
-      localStorage.removeItem('currentUser');
+
+      if (isValid) {
+        localStorage.setItem('isAuthenticated', JSON.stringify(isValid));
+        if (userData) {
+          localStorage.setItem('currentUser', JSON.stringify(userData));
+        }
+      } else {
+        localStorage.removeItem('isAuthenticated');
+        localStorage.removeItem('currentUser');
+      }
     }
-  }, [authQuery.data]);
+  }, [authQuery.data, authQuery.isFetched]);
 
   const handleSetUser = (newUser: UserType | null) => {
     setUser(newUser);
@@ -84,14 +93,14 @@ export function AuthAndUserProvider({ children }: AuthAndUserProviderProps) {
   };
 
   const authValue: AuthContextType = {
-    isAuthenticated,
+    isAuthenticated: !!isAuthenticated,
     setIsAuthenticated: handleSetIsAuthenticated,
   };
 
   const userValue: UserContextType = {
     user,
     setUser: handleSetUser,
-    isLoading: authQuery.isLoading,
+    isLoading: authQuery.isLoading || isAuthenticated === null,
     error: authQuery.error,
     refetch: authQuery.refetch,
   };
