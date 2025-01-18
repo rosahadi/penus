@@ -36,7 +36,7 @@ function BlogItem({ blog }: { blog: BlogDocument }) {
   const { data: likes } = useLikes(blog.id);
 
   return (
-    <div className="max-w-[100rem] w-[95%] mx-auto border-b border-solid border-borderMedium last:border-b-0">
+    <div className=" border-b border-solid border-borderMedium last:border-b-0">
       <article className="py-12 ">
         <Link
           to={`/blog/${blog.id}`}

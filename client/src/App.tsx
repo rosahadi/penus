@@ -10,6 +10,7 @@ import MobileSearch from './pages/MobileSearch';
 import { useMediaQuery } from 'react-responsive';
 import ProtectedRoute from './components/ProtectedRoute';
 import DesktopSearch from './pages/DesktopSearch';
+import Library from './pages/Library';
 
 function App() {
   const isMobile = useMediaQuery({ maxWidth: 600 });
@@ -52,6 +53,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Stories />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/library"
+            element={
+              <ProtectedRoute>
+                <Library />
               </ProtectedRoute>
             }
           />

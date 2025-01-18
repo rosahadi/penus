@@ -67,7 +67,7 @@ function Home() {
   const blogs = data?.pages.flat() || [];
 
   return (
-    <>
+    <div className="max-w-[100rem] w-[95%] mx-auto">
       {isLoading ? (
         <Loader />
       ) : (
@@ -79,7 +79,7 @@ function Home() {
           <div ref={observerTarget}></div>
         </>
       )}
-    </>
+    </div>
   );
 }
 
