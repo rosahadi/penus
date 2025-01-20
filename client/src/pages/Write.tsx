@@ -44,14 +44,28 @@ function Write() {
   });
 
   // Mutation for creating blogs
+
   const createBlogMutation = useMutation({
     mutationFn: createBlog,
+    onError: (error) => {
+      console.error('Blog Creation Error:', {
+        error,
+        formData: form.getValues(),
+        fileInfo:
+          form.getValues().image instanceof File
+            ? {
+                name: form?.getValues()?.image?.name,
+                size: form?.getValues()?.image?.size,
+                type: form?.getValues()?.image?.type,
+              }
+            : 'No file',
+      });
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['blogs'] });
       navigate('/stories');
     },
   });
-
   const onSubmit = (values: BlogDataType) => {
     const formData = new FormData();
     formData.append('title', values.title);

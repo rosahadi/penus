@@ -43,6 +43,8 @@ export const createBlog = async (formData: FormData) => {
     });
     return res.data;
   } catch (error) {
+    console.log(error);
+
     if (axios.isAxiosError(error)) {
       throw error.response?.data.message.message;
     } else {

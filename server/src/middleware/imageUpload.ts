@@ -81,6 +81,13 @@ const uploadToCloudinary = async (
         },
         (error, result) => {
           if (error) {
+            console.error('Cloudinary Upload Error Details:', {
+              error: error.message,
+              errorObject: error,
+              folder,
+              bufferSize: buffer.length,
+            });
+
             reject(
               new UploadError(
                 `Cloudinary upload failed: ${error.message}`,
@@ -88,6 +95,12 @@ const uploadToCloudinary = async (
               ),
             );
           } else if (!result?.secure_url) {
+            console.error('Cloudinary Missing URL Error:', {
+              result,
+              folder,
+              bufferSize: buffer.length,
+            });
+
             reject(
               new UploadError(
                 'Cloudinary upload failed - no secure URL received',
@@ -110,7 +123,13 @@ const uploadToCloudinary = async (
       readableStream.pipe(uploadStream);
     });
   } catch (error) {
-    console.error('Cloudinary Upload Error:', error);
+    console.error('Cloudinary Upload Error:', {
+      error,
+      folder,
+      bufferSize: buffer.length,
+      stack: error instanceof Error ? error.stack : undefined,
+    });
+
     if (error instanceof Error) {
       throw new UploadError(`Cloudinary upload failed: ${error.message}`, 500);
     }
@@ -145,13 +164,30 @@ const handleBlogImageUpload = async (
 ): Promise<void> => {
   try {
     if (!req.file) {
+      console.log('No file provided for blog image upload');
       return next();
     }
+
+    console.log('Blog Image Upload Details:', {
+      filename: req.file.originalname,
+      size: req.file.size,
+      mimetype: req.file.mimetype,
+    });
 
     const imageUrl = await uploadToCloudinary(req.file.buffer, 'blog-images');
     req.body.image = imageUrl;
     next();
   } catch (error) {
+    console.error('Blog Image Upload Error:', {
+      error,
+      file: req.file
+        ? {
+            size: req.file.size,
+            mimetype: req.file.mimetype,
+            originalname: req.file.originalname,
+          }
+        : 'No file',
+    });
     next(error);
   }
 };
@@ -164,13 +200,30 @@ const uploadErrorHandler = (
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   next: NextFunction,
 ): void => {
-  console.error('Upload Error:', err);
+  console.error('Upload Error Handler:', {
+    error: err,
+    stack: err.stack,
+    file: req.file
+      ? {
+          size: req.file.size,
+          mimetype: req.file.mimetype,
+          originalname: req.file.originalname,
+        }
+      : 'No file',
+    multerError: err instanceof multer.MulterError,
+  });
 
   if (err instanceof multer.MulterError) {
     if (err.code === 'LIMIT_FILE_SIZE') {
+      const limit = err.field === 'profileImage' ? '5MB' : '10MB';
       res.status(400).json({
         status: 'error',
-        message: 'File size exceeds limit',
+        message: `File size exceeds limit of ${limit}`,
+        details: {
+          code: err.code,
+          field: err.field,
+          fileSize: req.file?.size,
+        },
       });
       return;
     }
@@ -180,6 +233,13 @@ const uploadErrorHandler = (
   res.status(statusCode).json({
     status: 'error',
     message: err.message || 'An unexpected error occurred during upload',
+    details:
+      process.env.NODE_ENV === 'development'
+        ? {
+            error: err,
+            stack: err.stack,
+          }
+        : undefined,
   });
 };
 
