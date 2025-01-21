@@ -1,4 +1,7 @@
 import { useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@/components/ui/input';
 import {
   DialogContent,
@@ -12,16 +15,29 @@ import { Button } from '../Button';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useUser } from '@/context/AuthContext';
 import { updateNameAndImage } from '@/api/user';
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormControl,
+  FormMessage,
+} from '@/components/ui/form';
+
+// Validation schema
+const ProfileSchema = z.object({
+  name: z.string().min(1, 'Name is required'),
+  image: z.null(),
+});
+
+type ProfileFormValues = z.infer<typeof ProfileSchema>;
 
 export function ProfileModal() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { user } = useUser();
 
   const queryClient = useQueryClient();
-  const [name, setName] = useState(user?.name || '');
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [userImage, setUserImage] = useState<File | null>(null);
-  const [error, setError] = useState('');
 
   const { mutate, isPending } = useMutation({
     mutationFn: updateNameAndImage,
@@ -30,7 +46,15 @@ export function ProfileModal() {
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (err: any) => {
-      setError(err.message);
+      console.error(err.message);
+    },
+  });
+
+  const form = useForm<ProfileFormValues>({
+    resolver: zodResolver(ProfileSchema),
+    defaultValues: {
+      name: user?.name || '',
+      image: null,
     },
   });
 
@@ -51,16 +75,9 @@ export function ProfileModal() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (!name.trim()) {
-      setError('Name cannot be empty.');
-      return;
-    }
-
+  const onSubmit = (data: ProfileFormValues) => {
     const formData = new FormData();
-    formData.append('name', name);
+    formData.append('name', data.name);
     if (userImage) formData.append('image', userImage);
 
     mutate(formData);
@@ -71,68 +88,71 @@ export function ProfileModal() {
       <DialogHeader>
         <DialogTitle>Edit Profile</DialogTitle>
       </DialogHeader>
+      <Form {...form}>
+        <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="flex items-center space-x-4">
+            <Avatar className="h-24 w-24 mr-5">
+              <AvatarImage src={previewImage || user?.image || profileImage} />
+            </Avatar>
 
-      <form className="space-y-8" onSubmit={handleSubmit}>
-        <div className="flex items-center space-x-4">
-          <Avatar className="h-24 w-24 mr-5">
-            <AvatarImage src={previewImage || user?.image || profileImage} />
-          </Avatar>
+            <div className="flex justify-center items-center gap-6">
+              <div>
+                <Input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  ref={fileInputRef}
+                  id="profile-image"
+                  onChange={handleImageChange}
+                />
+                <Button
+                  className={buttonStyles('btn-ghost') + ' text-info'}
+                  type="button"
+                  onClick={handleUpdateAvatarClick}
+                >
+                  Update
+                </Button>
+              </div>
 
-          <div className="flex justify-center items-center gap-6">
-            <div>
-              <input
-                type="file"
-                accept="image/*"
-                className="hidden"
-                ref={fileInputRef}
-                id="profile-image"
-                onChange={handleImageChange}
-              />
               <Button
-                className={buttonStyles('btn-ghost') + ' text-info'}
+                className={buttonStyles('btn-ghost') + ' text-error'}
                 type="button"
-                onClick={handleUpdateAvatarClick}
+                onClick={() => {
+                  setUserImage(null);
+                  setPreviewImage(null);
+                }}
               >
-                Update
+                Remove
               </Button>
             </div>
-
-            <Button
-              className={buttonStyles('btn-ghost') + ' text-error'}
-              type="button"
-              onClick={() => {
-                setUserImage(null);
-                setPreviewImage(null);
-              }}
-            >
-              Remove
-            </Button>
           </div>
-        </div>
-
-        <Input
-          type="text"
-          placeholder="Your name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-
-        {error && <p className="text-error">{error}</p>}
-
-        <Button
-          className={buttonStyles(
-            'btn-solid',
-            'btn-w-full',
-            'btn-px-lg',
-            'btn-py-md',
-            'btn-rounded-md'
-          )}
-          type="submit"
-          disabled={isPending}
-        >
-          {isPending ? 'Saving...' : 'Save changes'}
-        </Button>
-      </form>
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input type="text" placeholder="Your name" {...field} />
+                </FormControl>
+                <FormMessage className="text-error mt-1" />
+              </FormItem>
+            )}
+          />
+          <Button
+            className={buttonStyles(
+              'btn-solid',
+              'btn-w-full',
+              'btn-px-lg',
+              'btn-py-md',
+              'btn-rounded-md'
+            )}
+            type="submit"
+            disabled={isPending}
+          >
+            {isPending ? 'Saving...' : 'Save changes'}
+          </Button>
+        </form>
+      </Form>
     </DialogContent>
   );
 }

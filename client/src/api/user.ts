@@ -38,6 +38,7 @@ export const updateNameAndImage = async (data: FormData) => {
     });
     return res.data;
   } catch (error) {
+    console.log(error);
     if (axios.isAxiosError(error)) {
       throw error.response?.data.message;
     } else {
