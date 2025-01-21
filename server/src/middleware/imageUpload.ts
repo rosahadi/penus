@@ -215,7 +215,7 @@ const uploadErrorHandler = (
 
   if (err instanceof multer.MulterError) {
     if (err.code === 'LIMIT_FILE_SIZE') {
-      const limit = err.field === 'profileImage' ? '5MB' : '10MB';
+      const limit = err.field === 'image' ? '5MB' : '10MB';
       res.status(400).json({
         status: 'error',
         message: `File size exceeds limit of ${limit}`,

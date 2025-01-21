@@ -30,12 +30,12 @@ const createSendToken = (
     10,
   );
 
-  const cookieOptions: { expires: Date; httpOnly: boolean; secure?: boolean } =
-    {
-      expires: new Date(Date.now() + cookieExpiresInDays * 24 * 60 * 60 * 1000),
-      httpOnly: true,
-    };
-  if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+  const cookieOptions = {
+    expires: new Date(Date.now() + cookieExpiresInDays * 24 * 60 * 60 * 1000),
+    httpOnly: true,
+    sameSite: 'strict' as const,
+    secure: process.env.NODE_ENV === 'production',
+  };
 
   // Set the cookie with the token ( for postman )
   res.cookie('jwt', token, cookieOptions);
