@@ -40,6 +40,10 @@ export const updateNameAndImage = async (data: FormData) => {
   } catch (error) {
     console.log(error);
     if (axios.isAxiosError(error)) {
+      if (error.response?.status === 413) {
+        throw 'Image size is too large. Maximum size allowed is 5MB.';
+      }
+
       throw error.response?.data.message;
     } else {
       throw { message: 'An unexpected error occurred.' };
