@@ -79,6 +79,29 @@ userSchema.pre('save', function (next) {
   next();
 });
 
+userSchema.pre('findOneAndDelete', async function (next) {
+  const query = this.getQuery();
+  const userId = query._id;
+
+  if (!userId) {
+    return next(new Error('User ID not found in query'));
+  }
+
+  // Delete all blogs created by the user
+  await mongoose.model('Blog').deleteMany({ user: userId });
+
+  // Delete all comments made by the user
+  await mongoose.model('Comment').deleteMany({ user: userId });
+
+  // Delete all likes by the user
+  await mongoose.model('LikedBlog').deleteMany({ user: userId });
+
+  // Delete all saved blogs by the user
+  await mongoose.model('SavedBlog').deleteMany({ user: userId });
+
+  next();
+});
+
 // Method to compare passwords
 userSchema.methods.correctPassword = async function (
   candidatePassword: string,
