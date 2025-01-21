@@ -17,22 +17,29 @@ import { Button } from '@/components/ui/button';
 import RichTextEditor from '@/components/writeBlogPage/RichTextEditor';
 import { createBlog } from '@/api/blog';
 import { BlogDataType } from '@/types';
+import { useState } from 'react';
 
 // Zod schema for validation
 const blogSchema = z.object({
   title: z.string().min(1, { message: 'Title is required' }),
   content: z.string().min(1, { message: 'Content is required' }),
-  image: z
-    .any()
-    .refine((val) => val instanceof File, {
-      message: 'Image is required and must be a valid file',
-    })
-    .optional(),
+  image: z.any().refine((val) => val instanceof File, {
+    message: 'Image is required',
+  }),
 });
+
+interface FormErrors {
+  content?: string;
+  image?: string;
+  imageError?: string;
+}
 
 function Write() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+
+  const [error, setError] = useState<FormErrors>({});
+  const errors: FormErrors = {};
 
   const form = useForm<BlogDataType>({
     resolver: zodResolver(blogSchema),
@@ -44,29 +51,42 @@ function Write() {
   });
 
   // Mutation for creating blogs
-
   const createBlogMutation = useMutation({
     mutationFn: createBlog,
-    onError: (error) => {
-      console.error('Blog Creation Error:', {
-        error,
-        formData: form.getValues(),
-        fileInfo:
-          form.getValues().image instanceof File
-            ? {
-                name: form?.getValues()?.image?.name,
-                size: form?.getValues()?.image?.size,
-                type: form?.getValues()?.image?.type,
-              }
-            : 'No file',
-      });
+    onError: (error: string) => {
+      errors.imageError = error;
+      setError(errors);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['blogs'] });
       navigate('/stories');
     },
   });
+
+  const validateContent = (content: string): boolean => {
+    // Remove HTML tags and whitespace to check if there's actual content
+    const plainText = content.replace(/<[^>]*>/g, '').trim();
+    return plainText.length > 0;
+  };
+
   const onSubmit = (values: BlogDataType) => {
+    setError({});
+
+    // Validate content
+    if (!validateContent(values.content)) {
+      errors.content = 'Content cannot be empty';
+    }
+
+    // Check file size
+    if (values.image instanceof File && values.image.size > 10 * 1024 * 1024) {
+      errors.image = 'Image size is too large. Maximum size allowed is 10MB.';
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setError(errors);
+      return;
+    }
+
     const formData = new FormData();
     formData.append('title', values.title);
     formData.append('content', values.content);
@@ -132,7 +152,9 @@ function Write() {
                   </div>
                 </div>
               </FormControl>
-              <FormMessage />
+              {((error?.image || error?.imageError) && (
+                <FormMessage>{error.image || error.imageError}</FormMessage>
+              )) || <FormMessage />}
             </FormItem>
           )}
         />
@@ -152,7 +174,12 @@ function Write() {
                   }}
                 />
               </FormControl>
-              <FormMessage />
+
+              {error ? (
+                <FormMessage>{error.content}</FormMessage>
+              ) : (
+                <FormMessage />
+              )}
             </FormItem>
           )}
         />
