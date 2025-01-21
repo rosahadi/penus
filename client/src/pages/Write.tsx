@@ -54,7 +54,9 @@ function Write() {
   const createBlogMutation = useMutation({
     mutationFn: createBlog,
     onError: (error: string) => {
-      errors.imageError = error;
+      console.log('Error occurred during mutation:', error);
+
+      errors.imageError = error || 'An unexpected error occurred';
       setError(errors);
     },
     onSuccess: () => {
@@ -78,9 +80,9 @@ function Write() {
     }
 
     // Check file size
-    if (values.image instanceof File && values.image.size > 10 * 1024 * 1024) {
-      errors.image = 'Image size is too large. Maximum size allowed is 10MB.';
-    }
+    // if (values.image instanceof File && values.image.size > 10 * 1024 * 1024) {
+    //   errors.image = 'Image size is too large. Maximum size allowed is 10MB.';
+    // }
 
     if (Object.keys(errors).length > 0) {
       setError(errors);
@@ -152,9 +154,11 @@ function Write() {
                   </div>
                 </div>
               </FormControl>
-              {((error?.image || error?.imageError) && (
+              {error?.image || error?.imageError ? (
                 <FormMessage>{error.image || error.imageError}</FormMessage>
-              )) || <FormMessage />}
+              ) : (
+                <FormMessage />
+              )}
             </FormItem>
           )}
         />
