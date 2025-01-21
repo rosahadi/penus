@@ -25,10 +25,8 @@ function SignInForm({ closeDialog }: CloseDialogType) {
 
   const form = useForm({
     defaultValues: {
-      name: '',
       email: '',
       password: '',
-      confirmPassword: '',
     },
   });
 

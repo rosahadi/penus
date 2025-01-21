@@ -55,7 +55,6 @@ export function AuthAndUserProvider({ children }: AuthAndUserProviderProps) {
     queryFn: checkAuthAndGetUser,
     refetchOnWindowFocus: false,
     retry: 2,
-    enabled: isAuthenticated === null,
   });
 
   useEffect(() => {
