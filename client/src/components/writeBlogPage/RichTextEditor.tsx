@@ -171,9 +171,12 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
     selection: Selection
   ) => {
     const list = document.createElement(value === 'ordered' ? 'ol' : 'ul');
+    list.style.listStyleType = value === 'ordered' ? 'decimal' : 'disc';
     const listItem = document.createElement('li');
+    listItem.textContent = range.toString();
     list.appendChild(listItem);
-    range.surroundContents(listItem);
+    range.deleteContents();
+    range.insertNode(list);
     selection.removeAllRanges();
     selection.addRange(range);
   };
@@ -342,8 +345,8 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
 
           .rich-text-editor h2 { font-size: 1.4em; font-weight: bold; margin: 0.83em 0; }
           .rich-text-editor h3 { font-size: 1.1em; font-weight: bold; margin: 1em 0; }
-          .rich-text-editor ul { list-style-type: disc; margin: 1em 0; padding-left: 40px; }
-          .rich-text-editor ol { list-style-type: decimal; margin: 1em 0; padding-left: 40px; }
+          .rich-text-editor ul { list-style-type: disc; margin: 1rem 0; padding-left: 40px; }
+          .rich-text-editor ol { list-style-type: decimal; margin: 1rem 0; padding-left: 40px; }
           .rich-text-editor a { color: #2563eb; text-decoration: underline; }
         `}
       </style>
