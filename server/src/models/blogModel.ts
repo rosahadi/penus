@@ -68,6 +68,21 @@ BlogSchema.pre(
   },
 );
 
+BlogSchema.pre('findOneAndDelete', async function (next) {
+  const blogId = this.getQuery()._id;
+
+  // Delete all associated comments
+  await mongoose.model('Comment').deleteMany({ blog: blogId });
+
+  // Delete all associated likes
+  await mongoose.model('LikedBlog').deleteMany({ blog: blogId });
+
+  // Delete all associated saved blogs
+  await mongoose.model('SavedBlog').deleteMany({ blog: blogId });
+
+  next();
+});
+
 const Blog: Model<BlogDocument> = mongoose.model<BlogDocument>(
   'Blog',
   BlogSchema,
