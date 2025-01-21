@@ -23,9 +23,22 @@ import { useState } from 'react';
 const blogSchema = z.object({
   title: z.string().min(1, { message: 'Title is required' }),
   content: z.string().min(1, { message: 'Content is required' }),
-  image: z.any().refine((val) => val instanceof File, {
-    message: 'Image is required',
-  }),
+  image: z
+    .any()
+    .refine((val) => val instanceof File, {
+      message: 'Image is required',
+    })
+    .refine(
+      (val) => {
+        if (val instanceof File) {
+          return val.size <= 10 * 1024 * 1024;
+        }
+        return true;
+      },
+      {
+        message: 'Image size is too large. Maximum size allowed is 10MB.',
+      }
+    ),
 });
 
 interface FormErrors {
@@ -54,11 +67,7 @@ function Write() {
   const createBlogMutation = useMutation({
     mutationFn: createBlog,
     onError: (error: string) => {
-      console.log('Error occurred during mutation:', error);
-
       errors.imageError = error || 'An unexpected error occurred';
-      setError(errors);
-
       setError(errors);
     },
     onSuccess: () => {
@@ -80,11 +89,6 @@ function Write() {
     if (!validateContent(values.content)) {
       errors.content = 'Content cannot be empty';
     }
-
-    // Check file size
-    // if (values.image instanceof File && values.image.size > 10 * 1024 * 1024) {
-    //   errors.image = 'Image size is too large. Maximum size allowed is 10MB.';
-    // }
 
     if (Object.keys(errors).length > 0) {
       setError(errors);

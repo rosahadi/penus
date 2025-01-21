@@ -43,7 +43,6 @@ export const createBlog = async (formData: FormData) => {
     });
     return res.data;
   } catch (error) {
-    console.log(error);
     if (axios.isAxiosError(error)) {
       if (error.response?.status === 413) {
         throw 'Image size is too large. Maximum size allowed is 10MB.';
