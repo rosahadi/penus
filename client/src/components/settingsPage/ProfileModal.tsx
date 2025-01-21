@@ -38,15 +38,15 @@ export function ProfileModal() {
   const queryClient = useQueryClient();
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [userImage, setUserImage] = useState<File | null>(null);
+  const [error, setError] = useState('');
 
   const { mutate, isPending } = useMutation({
     mutationFn: updateNameAndImage,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['authAndUser'] });
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    onError: (err: any) => {
-      console.error(err.message);
+    onError: (error: string) => {
+      setError(error || 'An unexpected error occurred');
     },
   });
 
@@ -138,6 +138,9 @@ export function ProfileModal() {
               </FormItem>
             )}
           />
+
+          {error && <p className="text-2xl text-error mt-2">{error}</p>}
+
           <Button
             className={buttonStyles(
               'btn-solid',
