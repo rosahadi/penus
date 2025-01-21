@@ -1,8 +1,9 @@
-import { useNavigate } from 'react-router-dom';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { useEffect, useState } from 'react';
 
 import {
   Form,
@@ -15,9 +16,8 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import RichTextEditor from '@/components/RichTextEditor';
-import { createBlog } from '@/api/blog';
+import { updateMyBlog, getBlogById } from '@/api/blog';
 import { BlogDataType } from '@/types';
-import { useState } from 'react';
 
 // Zod schema for validation
 const blogSchema = z.object({
@@ -25,9 +25,7 @@ const blogSchema = z.object({
   content: z.string().min(1, { message: 'Content is required' }),
   image: z
     .any()
-    .refine((val) => val instanceof File, {
-      message: 'Image is required',
-    })
+    .optional()
     .refine(
       (val) => {
         if (val instanceof File) {
@@ -47,12 +45,11 @@ interface FormErrors {
   imageError?: string;
 }
 
-function Write() {
+function EditBlog() {
+  const { blogId } = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-
   const [error, setError] = useState<FormErrors>({});
-  const errors: FormErrors = {};
 
   const form = useForm<BlogDataType>({
     resolver: zodResolver(blogSchema),
@@ -63,29 +60,45 @@ function Write() {
     },
   });
 
-  // Mutation for creating blogs
-  const createBlogMutation = useMutation({
-    mutationFn: createBlog,
+  // Fetch existing blog data
+  const { data: blog, isLoading } = useQuery({
+    queryKey: ['blog', blogId],
+    queryFn: () => getBlogById(blogId as string),
+    enabled: !!blogId,
+  });
+
+  // Set form values when blog data is loaded
+  useEffect(() => {
+    if (blog) {
+      form.reset({
+        title: blog.title,
+        content: blog.content,
+        image: blog.image,
+      });
+    }
+  }, [blog, form]);
+
+  // Mutation for updating blog
+  const updateBlogMutation = useMutation({
+    mutationFn: (data: BlogDataType) => updateMyBlog(blogId as string, data),
     onError: (error: string) => {
-      errors.imageError = error || 'An unexpected error occurred';
-      setError(errors);
+      setError({ imageError: error || 'An unexpected error occurred' });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['blogs'] });
+      queryClient.invalidateQueries({ queryKey: ['blogs', 'blog'] });
       navigate('/stories');
     },
   });
 
   const validateContent = (content: string): boolean => {
-    // Remove HTML tags and whitespace to check if there's actual content
     const plainText = content.replace(/<[^>]*>/g, '').trim();
     return plainText.length > 0;
   };
 
   const onSubmit = (values: BlogDataType) => {
     setError({});
+    const errors: FormErrors = {};
 
-    // Validate content
     if (!validateContent(values.content)) {
       errors.content = 'Content cannot be empty';
     }
@@ -95,16 +108,18 @@ function Write() {
       return;
     }
 
-    const formData = new FormData();
-    formData.append('title', values.title);
-    formData.append('content', values.content);
+    const blogData: BlogDataType = {
+      title: values.title,
+      content: values.content,
+      image: values.image instanceof File ? values.image : null,
+    };
 
-    if (values.image) {
-      formData.append('image', values.image);
-    }
-
-    createBlogMutation.mutate(formData);
+    updateBlogMutation.mutate(blogData);
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Form {...form}>
@@ -156,7 +171,7 @@ function Write() {
                       fileInput?.click();
                     }}
                   >
-                    {value instanceof File ? value.name : 'Choose an image'}
+                    {value instanceof File ? value.name : 'Choose a new image'}
                   </div>
                 </div>
               </FormControl>
@@ -184,8 +199,7 @@ function Write() {
                   }}
                 />
               </FormControl>
-
-              {error ? (
+              {error?.content ? (
                 <FormMessage>{error.content}</FormMessage>
               ) : (
                 <FormMessage />
@@ -197,13 +211,13 @@ function Write() {
         <Button
           type="submit"
           className="mt-14 w-80 h-20 text-lg uppercase"
-          disabled={createBlogMutation.isPending}
+          disabled={updateBlogMutation.isPending}
         >
-          {createBlogMutation.isPending ? 'Submitting...' : 'Post Blog'}
+          {updateBlogMutation.isPending ? 'Updating...' : 'Update Blog'}
         </Button>
       </form>
     </Form>
   );
 }
 
-export default Write;
+export default EditBlog;

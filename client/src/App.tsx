@@ -11,6 +11,7 @@ import { useMediaQuery } from 'react-responsive';
 import ProtectedRoute from './components/ProtectedRoute';
 import DesktopSearch from './pages/DesktopSearch';
 import Library from './pages/Library';
+import EditBlog from './pages/EditBlog';
 
 function App() {
   const isMobile = useMediaQuery({ maxWidth: 600 });
@@ -61,6 +62,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Library />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/edit-blog/:blogId"
+            element={
+              <ProtectedRoute>
+                <EditBlog />
               </ProtectedRoute>
             }
           />
