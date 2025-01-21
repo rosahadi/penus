@@ -56,7 +56,10 @@ function Write() {
     onError: (error: string) => {
       console.log('Error occurred during mutation:', error);
 
-      errors.imageError = error || 'An unexpected error occurred';
+      const errorMessage =
+        typeof error === 'string' ? error : 'An unexpected error occurred';
+      setError({ imageError: errorMessage });
+
       setError(errors);
     },
     onSuccess: () => {
