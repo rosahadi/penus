@@ -75,13 +75,13 @@ export const getPublicBlogs = catchAsync(async (req, res, next) => {
 
 // Get Public blog
 export const getPublicBlogById = catchAsync(async (req, res, next) => {
-  const user = await currentUser(req);
+  // Makes user retrieval optional
+  const user = await currentUser(req).catch(() => null);
 
   const blog = await Blog.findById(req.params.id)
     .populate('comments')
     .lean({ virtuals: true });
 
-  // Check if blog exists and is public
   if (!blog) {
     return next(new AppError('Blog not found', 404));
   }
@@ -89,7 +89,7 @@ export const getPublicBlogById = catchAsync(async (req, res, next) => {
     return next(new AppError('This blog is not available', 403));
   }
 
-  // Check save status if user is authenticated
+  // Handle isSaved only if user exists
   const isSaved = user
     ? (await SavedBlog.exists({
         blog: blog._id,

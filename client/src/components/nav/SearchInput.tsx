@@ -6,7 +6,6 @@ import { Input } from '@/components/ui/input';
 import debounce from 'lodash/debounce';
 import { useQuery } from '@tanstack/react-query';
 import { searchBlog } from '@/api/blog';
-import { searchUser } from '@/api/user';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { BlogDocument, SearchFormData } from '@/types';
@@ -20,10 +19,10 @@ const SearchInput = () => {
     },
   });
 
-  const { data: userResults = [], isLoading: isUserLoading } = useQuery({
-    queryKey: ['searchUsers', searchForm.watch('search')],
-    queryFn: () => searchUser(searchForm.watch('search')),
-  });
+  // const { data: userResults = [], isLoading: isUserLoading } = useQuery({
+  //   queryKey: ['searchUsers', searchForm.watch('search')],
+  //   queryFn: () => searchUser(searchForm.watch('search')),
+  // });
 
   const { data: blogResults = [], isLoading: isBlogLoading } = useQuery({
     queryKey: ['searchBlogs', searchForm.watch('search')],
@@ -93,7 +92,7 @@ const SearchInput = () => {
         </form>
 
         {/* Dropdown Results */}
-        {(userResults.length > 0 || blogResults.length > 0) && (
+        {blogResults.length > 0 && (
           <div className="absolute z-50 w-full p-4 bg-bgSecondary border border-bgTertiary rounded-xl shadow-lg overflow-hidden">
             {/* People Section */}
             {/* {userResults.length > 0 && (
@@ -154,7 +153,7 @@ const SearchInput = () => {
             )}
 
             {/* Loading States */}
-            {(isUserLoading || isBlogLoading) && (
+            {isBlogLoading && (
               <div className="p-4 text-center text-textSecondary">
                 <p>Loading results...</p>
               </div>

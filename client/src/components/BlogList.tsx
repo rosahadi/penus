@@ -39,7 +39,7 @@ function BlogItem({ blog }: { blog: BlogDocument }) {
     <div className=" border-b border-solid border-borderMedium last:border-b-0">
       <article className="py-12 ">
         <Link
-          to={`/blog/${blog.id}`}
+          to={`/blog/${blog.id || blog._id}`}
           className="flex flex-col gap-5 max-[600px]:gap-8"
         >
           <div className="flex items-center gap-5">
