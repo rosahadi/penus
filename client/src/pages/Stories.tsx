@@ -75,6 +75,7 @@ function Stories() {
         deleteBlog={(id) => deleteBlogMutation.mutate(id)}
         onToggleStatus={handleToggleStatus}
         disabled={toggleStatusMutation.isPending}
+        startIndex={(currentPage - 1) * pageSize + 1}
       />
 
       <Pagination

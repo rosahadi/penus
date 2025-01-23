@@ -21,6 +21,7 @@ interface BlogTableProps {
   deleteBlog: (id: string) => void;
   onToggleStatus: (id: string, currentStatus: 'publish' | 'hide') => void;
   disabled?: boolean;
+  startIndex?: number;
 }
 
 interface ToggleSwitchProps {
@@ -44,6 +45,7 @@ const BlogTable: React.FC<BlogTableProps> = ({
   deleteBlog,
   onToggleStatus,
   disabled,
+  startIndex = 1,
 }) => {
   const navigate = useNavigate();
 
@@ -57,7 +59,7 @@ const BlogTable: React.FC<BlogTableProps> = ({
             {blogs.map((blog, index) => (
               <TableRow
                 key={blog._id}
-                index={index + 1}
+                index={startIndex + index}
                 {...blog}
                 isPublished={blog.status === 'publish'}
                 deleteBlog={deleteBlog}
