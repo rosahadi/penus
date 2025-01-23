@@ -3,6 +3,7 @@ import { Query } from 'mongoose';
 interface QueryString {
   page?: string;
   limit?: string;
+  sort?: string;
 }
 
 class APIFeatures<T> {
@@ -20,6 +21,17 @@ class APIFeatures<T> {
     const skip = (page - 1) * limit;
 
     this.query = this.query.skip(skip).limit(limit);
+    return this;
+  }
+
+  sort(): this {
+    if (this.queryString.sort) {
+      const sortBy = this.queryString.sort.split(',').join(' ');
+      this.query = this.query.sort(sortBy);
+    } else {
+      this.query = this.query.sort('-createdAt');
+    }
+
     return this;
   }
 }

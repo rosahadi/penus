@@ -29,7 +29,7 @@ export const getMyBlogs = catchAsync(
     const totalBlogs = await baseQuery.clone().countDocuments();
 
     // Apply pagination to the query
-    const features = new APIFeatures(baseQuery, req.query).paginate();
+    const features = new APIFeatures(baseQuery, req.query).paginate().sort();
 
     const blogs = await features.query;
 
@@ -55,7 +55,7 @@ export const getPublicBlogs = catchAsync(async (req, res, next) => {
   const totalBlogs = await baseQuery.clone().countDocuments();
 
   // Apply pagination to the query
-  const features = new APIFeatures(baseQuery, req.query).paginate();
+  const features = new APIFeatures(baseQuery, req.query).paginate().sort();
 
   const publicBlogs = await features.query;
 
