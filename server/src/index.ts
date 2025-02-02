@@ -22,8 +22,6 @@ const app = express();
 const { window } = new JSDOM('');
 const purify = DOMPurify(window);
 
-app.use('/public', express.static(path.join(__dirname, 'public')));
-
 app.use(cors());
 
 // Development logging
@@ -74,6 +72,16 @@ app.use('/api/saveBlogs', saveRouter);
 app.all('/api/*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
 });
+
+if (process.env.NODE_ENV === 'production') {
+  // Serve the static files from the "dist" directory
+  app.use(express.static(path.join(__dirname, '/client/dist')));
+
+  // Handle React routing, return all requests to React app
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '/client/dist', 'index.html'));
+  });
+}
 
 app.use(globalErrorHandler);
 
