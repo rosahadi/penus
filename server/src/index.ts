@@ -22,9 +22,6 @@ const app = express();
 const { window } = new JSDOM('');
 const purify = DOMPurify(window);
 
-// Serve static files from the React app build directory
-app.use(express.static(path.join(__dirname, 'client/build')));
-
 app.use(cors());
 
 // Development logging
@@ -76,10 +73,18 @@ app.all('/api/*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
 });
 
-// Serve the React app for all other routes
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-});
+if (process.env.NODE_ENV === 'production') {
+  console.log(
+    'Starting production mode, serving build directory: /client/dist',
+  );
+  // Serve the static files from the "dist" directory
+  app.use(express.static(path.join(__dirname, '../../client/dist')));
+
+  // Handle React routing, return all requests to React app
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../client/dist', 'index.html'));
+  });
+}
 
 app.use(globalErrorHandler);
 
