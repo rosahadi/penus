@@ -43,7 +43,10 @@ function BlogItem({ blog }: { blog: BlogDocument }) {
           className="flex flex-col gap-5 max-[600px]:gap-8"
         >
           <div className="flex items-center gap-5">
-            <Avatar className="w-14 h-14 shadow-sm shadow-shadowDark rounded-full overflow-hidden">
+            <Avatar
+              className="w-14 h-14 shadow-sm shadow-shadowDark 
+                                rounded-full overflow-hidden"
+            >
               <AvatarImage
                 src={blog.user?.image || profileImage}
                 alt={blog.user?.name}
@@ -68,7 +71,10 @@ function BlogItem({ blog }: { blog: BlogDocument }) {
                 className="text-[1.6rem] mt-5 mb-4 text-textSecondary"
               />
 
-              <div className="min-[600px]:pt-16 pt-6 self-start flex items-center gap-8 text-lg text-textTertiary">
+              <div
+                className="min-[600px]:pt-16 pt-6 self-start flex items-center 
+                              gap-8 text-lg text-textTertiary"
+              >
                 <span>{formattedDate}</span>
 
                 <div className="flex items-center gap-2 ">
@@ -83,7 +89,11 @@ function BlogItem({ blog }: { blog: BlogDocument }) {
               </div>
             </div>
 
-            <div className="relative w-[25%] max-w-[18rem] aspect-[4/3]">
+            <div
+              className="relative max-w-[18rem] w-[25%] 
+                            max-[950px]:w-[50%] max-[750px]:w-[80%] 
+                            max-[550px]:w-[100%] aspect-[4/3]"
+            >
               <img
                 src={blog?.image}
                 alt={blog.title}
