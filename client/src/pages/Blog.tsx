@@ -27,8 +27,6 @@ function Blog() {
     queryFn: () => getPublicBlog(blogId),
   });
 
-  console.log(blog);
-
   useEffect(() => {
     if (blog) {
       setIsSaved(blog.isSaved);
